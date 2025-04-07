@@ -9,10 +9,10 @@ router.get('/AllRequests', async (req, res) => {
       .join('locations', 'requests.location_id', '=', 'locations.id')
       .select(
         'requests.id',
-        'users.first_name',
-        'users.last_name',
-        'users.rank',
-        'users.phone_number',
+        { work_order_first_name: 'users.first_name' },
+        { work_order_last_name: 'users.last_name' },
+        { work_order_rank: 'users.rank' },
+        { work_order_phone_number: 'users.phone_number' },
         'requests.work_order_desc',
         'requests.priority',
         'requests.pending',
@@ -21,8 +21,8 @@ router.get('/AllRequests', async (req, res) => {
         'requests.building_number',
         'requests.room_number',
         'requests.location_desc',
-        'locations.state',
-        'locations.military_base',
+        { work_order_state: 'locations.state' },
+        { work_order_military_base: 'locations.military_base' },
         'requests.date_created'
       )
       .orderBy('requests.date_created', 'desc');
@@ -34,6 +34,7 @@ router.get('/AllRequests', async (req, res) => {
   }
 });
 
+
 router.get('/acceptedRequests', async (req, res) => {
   try {
     const acceptedRequests = await knex('requests')
@@ -42,10 +43,10 @@ router.get('/acceptedRequests', async (req, res) => {
       .where('requests.accepted', true)
       .select(
         'requests.id',
-        'users.first_name',
-        'users.last_name',
-        'users.rank',
-        'users.phone_number',
+        { work_order_first_name: 'users.first_name' },
+        { work_order_last_name: 'users.last_name' },
+        { work_order_rank: 'users.rank' },
+        { work_order_phone_number: 'users.phone_number' },
         'requests.work_order_desc',
         'requests.priority',
         'requests.pending',
@@ -54,8 +55,8 @@ router.get('/acceptedRequests', async (req, res) => {
         'requests.building_number',
         'requests.room_number',
         'requests.location_desc',
-        'locations.state',
-        'locations.military_base',
+        { work_order_state: 'locations.state' },
+        { work_order_military_base: 'locations.military_base' },
         'requests.date_created'
       )
       .orderBy('requests.date_created', 'desc');
@@ -66,6 +67,7 @@ router.get('/acceptedRequests', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch accepted maintenance requests' });
   }
 });
+
 
 
 
