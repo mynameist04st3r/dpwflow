@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const knex = require('knex')(require('../../knexfile')[process.env.NODE_ENV || 'development']);
 
+
 router.get('/AllRequests', async (req, res) => {
   try {
     const requests = await knex('requests')
@@ -69,6 +70,42 @@ router.get('/acceptedRequests', async (req, res) => {
 });
 
 
+router.post('/newRequest', async (req, res) => {
+  try {
+    const {
+      user_id,
+      work_order_desc,
+      location_id,
+      priority = 1,
+      building_number = null,
+      room_number = null,
+      location_desc = null
+    } = req.body;
+
+    if (!user_id || !work_order_desc || !location_id) {
+      return res.status(400).json({
+        error: 'Missing required fields: user_id, work_order_desc, location_id'
+      });
+    }
+
+    const [newRequest] = await knex('requests')
+      .insert({
+        user_id,
+        work_order_desc,
+        location_id,
+        priority,
+        building_number,
+        room_number,
+        location_desc
+      })
+      .returning('*');
+
+    res.status(201).json(newRequest);
+  } catch (err) {
+    console.error('Error creating new request:', err);
+    res.status(500).json({ error: 'Failed to create maintenance request' });
+  }
+});
 
 
 module.exports = router;
