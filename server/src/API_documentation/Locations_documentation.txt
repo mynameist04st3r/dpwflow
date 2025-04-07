@@ -1,0 +1,22 @@
+- Get all locations
+GET http://localhost:8000/locations/allLocations
+returns:
+[
+    {
+        "id": 1,
+        "state": "North Carolina",
+        "military_base": "Fort Liberty"
+    }
+]
+
+- Get all location entries for a given state.
+GET http://localhost:8000/locations/:state
+example: GET http://localhost:8000/locations/North%20Carolina
+returns:
+[
+    {
+        "id": 1,
+        "state": "North Carolina",
+        "military_base": "Fort Liberty"
+    }
+]

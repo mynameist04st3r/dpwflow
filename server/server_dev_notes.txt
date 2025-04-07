@@ -23,3 +23,10 @@ npx knex seed:run
 
 Changed phone_number in users to string
 Changed password to varchar(255) from (50)
+
+*** START API INSTRUCTIONS ***
+run these commands in the terminal:
+cd server/
+npm install
+npm start
+('npm run dev' will run the API with nodemon for development)
