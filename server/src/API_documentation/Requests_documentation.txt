@@ -1,0 +1,23 @@
+- Get all requests with Join users and locations table
+GET http://localhost:8000/requests/AllRequests
+returns:
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "rank": "SPC",
+    "phone_number": "123-456-7890",
+    "work_order_desc": "Leaking sink in latrine",
+    "priority": 2,
+    "pending": true,
+    "accepted": false,
+    "complete": false,
+    "building_number": "B12",
+    "room_number": "203",
+    "location_desc": "East wing",
+    "state": "North Carolina",
+    "military_base": "Fort Liberty",
+    "date_created": "2025-04-07T18:00:00.000Z"
+  }
+]
