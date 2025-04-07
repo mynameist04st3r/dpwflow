@@ -17,6 +17,7 @@ DB_CONNECTION_STRING=postgres://postgres:docker@localhost:5432/work_order_db
 
 3. Follow these commands in the terminal:
 cd server/
+npm install
 npx knex migrate:latest
 npx knex seed:run
 
