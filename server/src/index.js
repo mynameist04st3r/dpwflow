@@ -1,16 +1,26 @@
-const port = 8000;
+require('dotenv').config();
+
+const port = process.env.API_PORT;
 const express = require('express');
 const app = express();
 const knex = require('knex')(require('../knexfile.js')['development']);
-app.get('/', (req, res) => {
-  res.send('Server Operational.');
+const cors = require('cors')
+
+if (!process.env.NODE_ENV) {
+  console.error('Missing NODE_ENV');
+  process.exit(1);
+}
+
+const requestsRoutes = require('./routes/requests');
+
+app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
+app.use('/requests', requestsRoutes);
+
+app.listen(port, (req, res) => {
+  console.log(`Your server is up at http://localhost:${port}/`)
 })
-app.get('/dpwflow', (req, res) => {
-  knex('dpwflow').select('*').then(DATABASE_HEADER => {
-    let VARIABLE = DATABASE_HEADER.map(dpwflow => dpwflow.DATABASE_HEADER)
-    res.json(VARIABLE);
-  })
-});
-app.listen(port, () => {
-  console.log('Server running at http://localhost:' + port);
-});
