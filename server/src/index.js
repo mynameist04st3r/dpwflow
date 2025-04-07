@@ -1,7 +1,7 @@
 const port = 8000;
 const express = require('express');
 const app = express();
-const knex = require('knex')(require('./knexfile.js')['development']);
+const knex = require('knex')(require('../knexfile.js')['development']);
 app.get('/', (req, res) => {
   res.send('Server Operational.');
 })
