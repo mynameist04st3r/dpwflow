@@ -1,0 +1,25 @@
+**** Builds database container ****
+docker run --name work_order_db_container -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=work_order_db -p 5432:5432 -d postgres
+
+*** Connect to Postgres Database ***
+docker exec -it work_order_db_container /bin/bash
+psql -U postgres -d work_order_db
+
+*** Put in your .env file in your server directory ****
+DB_CONNECTION_STRING=postgres://postgres:docker@localhost:5432/work_order_db
+
+
+Commands to create data tables and seed:
+*** Must have Docker Database running ***
+1. Create .env file in the server/ directory
+2. add this line to the .env file:
+DB_CONNECTION_STRING=postgres://postgres:docker@localhost:5432/work_order_db
+
+3. Follow these commands in the terminal:
+cd server/
+npm install
+npx knex migrate:latest
+npx knex seed:run
+
+Changed phone_number in users to string
+Changed password to varchar(255) from (50)
