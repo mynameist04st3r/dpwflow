@@ -1,0 +1,20 @@
+.maint-request-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .maint-request-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .maint-request-form input,
+  .maint-request-form select,
+  .maint-request-form textarea,
+  .maint-request-form button {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+  
