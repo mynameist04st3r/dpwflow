@@ -12,6 +12,7 @@ if (!process.env.NODE_ENV) {
 }
 
 const requestsRoutes = require('./routes/requests');
+const locationsRoutes = require('./routes/locations');
 
 app.use(express.json());
 app.use(cors({
@@ -20,6 +21,7 @@ app.use(cors({
 }));
 
 app.use('/requests', requestsRoutes);
+app.use('/locations', locationsRoutes);
 
 app.listen(port, (req, res) => {
   console.log(`Your server is up at http://localhost:${port}/`)
