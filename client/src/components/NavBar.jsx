@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "./NavBar.css";
+import "../styles/NavBar.css";
 
 function NavBar() {
   return (
@@ -60,9 +60,9 @@ function NavBar() {
 export default NavBar;
 
 // Launch.jsx
-// Maintenance_Request.jsx
+// MaintenanceRequest.jsx
 // Dashboard.jsx
-// Maintenance_Tracker.jsx
-// My_Requests.jsx
+// MaintenanceTracker.jsx
+// MyRequests.jsx
 // Admin.jsx
 // Contact.jsx
