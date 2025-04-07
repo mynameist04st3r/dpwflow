@@ -34,6 +34,38 @@ router.get('/AllRequests', async (req, res) => {
   }
 });
 
+router.get('/acceptedRequests', async (req, res) => {
+  try {
+    const acceptedRequests = await knex('requests')
+      .join('users', 'requests.user_id', '=', 'users.id')
+      .join('locations', 'requests.location_id', '=', 'locations.id')
+      .where('requests.accepted', true)
+      .select(
+        'requests.id',
+        'users.first_name',
+        'users.last_name',
+        'users.rank',
+        'users.phone_number',
+        'requests.work_order_desc',
+        'requests.priority',
+        'requests.pending',
+        'requests.accepted',
+        'requests.complete',
+        'requests.building_number',
+        'requests.room_number',
+        'requests.location_desc',
+        'locations.state',
+        'locations.military_base',
+        'requests.date_created'
+      )
+      .orderBy('requests.date_created', 'desc');
+
+    res.json(acceptedRequests);
+  } catch (err) {
+    console.error('Failed to fetch accepted requests:', err);
+    res.status(500).json({ error: 'Failed to fetch accepted maintenance requests' });
+  }
+});
 
 
 
