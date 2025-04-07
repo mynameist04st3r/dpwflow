@@ -1,7 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./styles/index.css";
 
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import NavBar from "./components/NavBar";
@@ -14,6 +10,12 @@ import "./styles/index.css";
 // import MyRequests from "./components/MyRequests";
 // import Admin from "./components/Admin";
 // import Contact from "./components/Contact";
+
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './styles/App.css'
+import './styles/index.css'
 
 function App() {
   const [count, setCount] = useState(0);
