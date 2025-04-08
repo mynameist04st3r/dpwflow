@@ -29,17 +29,19 @@ const baseMap = {
 
 const MaintenanceRequestPage = () => {
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    state: "",
-    military_base: "",
-    building_number: "",
-    room_number: "",
-    location_desc: "",
-    work_order_desc: "",
+    first_name: '',
+    last_name: '',
+    state: '',
+    military_base: '',
+    building_number: '',
+    room_number: '',
+    location_desc: '',
+    work_order_desc: '',
     priority: 1,
-    phone_number: "",
-    email: "",
+    phone_number: '',
+    email: '',
+    user_id: 999,
+    location_id: 999
   });
 
   const [baseOptions, setBaseOptions] = useState([]);
@@ -48,9 +50,31 @@ const MaintenanceRequestPage = () => {
     setBaseOptions(baseMap[formData.state] || []);
   }, [formData.state]);
 
+  useEffect(() => {
+    const storedUserId = parseInt(localStorage.getItem('user_id'), 10);
+    const storedLocationId = parseInt(localStorage.getItem('location_id'), 10);
+
+    if (!isNaN(storedUserId) && !isNaN(storedLocationId)) {
+      setFormData(prev => ({
+        ...prev,
+        user_id: storedUserId,
+        location_id: storedLocationId
+      }));
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Convert certain fields to numbers
+    const newValue = ['priority'].includes(name)
+      ? parseInt(value, 10)
+      : value;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: newValue
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -62,40 +86,51 @@ const MaintenanceRequestPage = () => {
       'work_order_desc', 'phone_number', 'email'
     ];
 
-    const missing = requiredFields.filter((f) => !formData[f]);
+    const missing = requiredFields.filter((field) => !formData[field]);
     if (missing.length) {
       alert(`Please fill out all required fields: ${missing.join(', ')}`);
       return;
     }
 
+    // Ensure numeric fields are valid
+    const payload = {
+      ...formData,
+      user_id: parseInt(formData.user_id, 10) || 999,
+      location_id: parseInt(formData.location_id, 10) || 999,
+      priority: parseInt(formData.priority, 10) || 1
+    };
+
     try {
       const res = await fetch('http://localhost:8000/requests/newRequest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload)
       });
 
-      if (!res.ok) throw new Error("Network response was not ok");
+      if (!res.ok) throw new Error('Failed to submit request');
 
       const result = await res.json();
-      alert("Request submitted successfully!");
+      alert('Request submitted successfully!');
       console.log(result);
+
       setFormData({
-        first_name: "",
-        last_name: "",
-        state: "",
-        military_base: "",
-        building_number: "",
-        room_number: "",
-        location_desc: "",
-        work_order_desc: "",
+        first_name: '',
+        last_name: '',
+        state: '',
+        military_base: '',
+        building_number: '',
+        room_number: '',
+        location_desc: '',
+        work_order_desc: '',
         priority: 1,
-        phone_number: "",
-        email: "",
+        phone_number: '',
+        email: '',
+        user_id: 999,
+        location_id: 999
       });
     } catch (err) {
-      console.error("Submission error:", err);
-      alert("Failed to submit request.");
+      console.error('Submission error:', err);
+      alert('Failed to submit maintenance request.');
     }
   };
 
@@ -104,27 +139,10 @@ const MaintenanceRequestPage = () => {
       <h2>Submit Maintenance Request</h2>
       <form onSubmit={handleSubmit} className="maint-request-form">
 
-        <input
-          name="first_name"
-          required
-          placeholder="First Name (required)"
-          value={formData.first_name}
-          onChange={handleChange}
-        />
-        <input
-          name="last_name"
-          required
-          placeholder="Last Name (required)"
-          value={formData.last_name}
-          onChange={handleChange}
-        />
+        <input name="first_name" required placeholder="First Name (required)" value={formData.first_name} onChange={handleChange} />
+        <input name="last_name" required placeholder="Last Name (required)" value={formData.last_name} onChange={handleChange} />
 
-        <select
-          name="state"
-          required
-          value={formData.state}
-          onChange={handleChange}
-        >
+        <select name="state" required value={formData.state} onChange={handleChange}>
           <option value="">Select State (required)</option>
           {Object.keys(baseMap).map((abbr) => (
             <option key={abbr} value={abbr}>{abbr}</option>
@@ -134,49 +152,18 @@ const MaintenanceRequestPage = () => {
         <select name="military_base" required value={formData.military_base} onChange={handleChange}>
           <option value="">Select Base (required)</option>
           {baseOptions.map((base, idx) => (
-            <option key={idx} value={base}>
-              {base}
-            </option>
+            <option key={idx} value={base}>{base}</option>
           ))}
         </select>
 
-        <input
-          name="building_number"
-          required
-          placeholder="Building # (required)"
-          value={formData.building_number}
-          onChange={handleChange}
-        />
-        <input
-          name="room_number"
-          required
-          placeholder="Room # (required)"
-          value={formData.room_number}
-          onChange={handleChange}
-        />
-        <input
-          name="location_desc"
-          required
-          placeholder="Location (e.g., Bathroom) (required)"
-          value={formData.location_desc}
-          onChange={handleChange}
-        />
-        <textarea
-          name="work_order_desc"
-          required
-          placeholder="Describe the Problem (required)"
-          value={formData.work_order_desc}
-          onChange={handleChange}
-        ></textarea>
+        <input name="building_number" required placeholder="Building # (required)" value={formData.building_number} onChange={handleChange} />
+        <input name="room_number" required placeholder="Room # (required)" value={formData.room_number} onChange={handleChange} />
+        <input name="location_desc" required placeholder="Location (e.g., Bathroom) (required)" value={formData.location_desc} onChange={handleChange} />
+        <textarea name="work_order_desc" required placeholder="Describe the Problem (required)" value={formData.work_order_desc} onChange={handleChange}></textarea>
 
         <div className="priority-select-wrapper">
           <label htmlFor="priority">Priority</label>
-          <select
-            name="priority"
-            id="priority"
-            value={formData.priority}
-            onChange={handleChange}
-          >
+          <select name="priority" id="priority" value={formData.priority} onChange={handleChange}>
             <option value={1}>1 - High</option>
             <option value={2}>2 - Medium</option>
             <option value={3}>3 - Low</option>
@@ -194,20 +181,12 @@ const MaintenanceRequestPage = () => {
           </div>
         </div>
 
-        <input
-          name="phone_number"
-          required
-          placeholder="Phone Number (required)"
-          value={formData.phone_number}
-          onChange={handleChange}
-        />
-        <input
-          name="email"
-          required
-          placeholder="Email (required)"
-          value={formData.email}
-          onChange={handleChange}
-        />
+        <input name="phone_number" required placeholder="Phone Number (required)" value={formData.phone_number} onChange={handleChange} />
+        <input name="email" required placeholder="Email (required)" value={formData.email} onChange={handleChange} />
+
+        {/* Hidden fields */}
+        <input type="hidden" name="user_id" value={formData.user_id} />
+        <input type="hidden" name="location_id" value={formData.location_id} />
 
         <button type="submit">Submit Request</button>
       </form>
