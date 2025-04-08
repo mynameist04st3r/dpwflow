@@ -1,8 +1,12 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/HomePage.css";
 
-const Homepage = () => {
+const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="home-containter">
+    <div className="home-container">
       <header className="home-header">
         <h1>DPWFlow</h1>
         <p className="subtitle">Digital Work Order Management System</p>
@@ -39,18 +43,27 @@ const Homepage = () => {
             <h3>Efficient Management</h3>
             <p>Streamlined workflow for maintenance teams</p>
           </div>
-          {/* Card 4 */}
-          <div className="feature-card">
-            <i className="features-icon">📊</i>
-            <h3>Efficient Management</h3>
-            <p>Streamlined workflow for maintenance teams</p>
-          </div>
         </div>
 
         <div className="action-buttons">
-          <button className="btn primary">Submit Request</button>
-          <button className="btn secondary">View Active Requests</button>
-          <button className="btn admin-login">Admin</button>
+          <button
+            className="btn primary"
+            onClick={() => navigate("/maintenance-request")}
+          >
+            Submit Request
+          </button>
+          <button
+            className="btn secondary"
+            onClick={() => navigate("/my-requests")}
+          >
+            View My Requests
+          </button>
+          <button
+            className="btn admin-login"
+            onClick={() => navigate("/admin")}
+          >
+            Admin
+          </button>
         </div>
       </section>
 
@@ -62,4 +75,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default HomePage;
