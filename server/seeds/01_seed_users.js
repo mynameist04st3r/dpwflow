@@ -14,7 +14,8 @@ exports.seed = async function(knex) {
       password: 'securepass1',
       username: 'johndoe',
       phone_number: '5551234567',
-      email: 'john.doe@example.mil'
+      email: 'john.doe@example.mil',
+      role: 3
     },
     {
       id: 2,
@@ -24,7 +25,8 @@ exports.seed = async function(knex) {
       password: 'securepass2',
       username: 'janesmith',
       phone_number: '5559876543',
-      email: 'jane.smith@example.mil'
+      email: 'jane.smith@example.mil',
+      role: 2
     },
     {
       id: 3,
@@ -34,7 +36,8 @@ exports.seed = async function(knex) {
       password: 'securepass3',
       username: 'alexbrown',
       phone_number: '5556789012',
-      email: 'alex.brown@example.mil'
+      email: 'alex.brown@example.mil',
+      role: 1
     },
     {
       id: 999,
@@ -44,7 +47,8 @@ exports.seed = async function(knex) {
       password: 'nopassword',
       username: 'anonymoussubmitter',
       phone_number: '',
-      email: ''
+      email: '',
+      role: 1
     }
   ]);
 
