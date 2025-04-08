@@ -30,14 +30,18 @@ function NavBar() {
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
           <NavLink
             to="/"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            className={({ isActive }) =>
+              `nav-link train-one-text ${isActive ? "active" : ""}`
+            }
             onClick={closeMenu}
           >
             Home
           </NavLink>
           <NavLink
             to="/maintenance-request"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            className={({ isActive }) =>
+              `nav-link train-one-text ${isActive ? "active" : ""}`
+            }
             onClick={closeMenu}
           >
             Maintenance Request
