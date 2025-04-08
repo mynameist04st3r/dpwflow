@@ -3,3 +3,27 @@
     padding: 0;
     box-sizing: border-box;
   }
+
+.admin-button-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.admin-buttons {
+  color: #101420;
+  background-color: #8cc5a6;
+  border: 3px solid #426f4d;
+  margin: 0 10px 0 10px;
+  width: 225px;
+}
+
+.admin-buttons:hover {
+  background-color: #426f4d;
+  border-color: #8cc5a6;
+}
+
+.admin-add-installation-data-form {
+  background-color: rgba(16, 20, 32, 0.8);
+  border: 3px solid #8cc5a6;
+}
