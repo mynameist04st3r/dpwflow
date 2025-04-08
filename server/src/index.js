@@ -16,6 +16,7 @@ if (!process.env.NODE_ENV) {
 }
 
 const requestsRoutes = require('./routes/requests');
+const getRequestsRoutes = require('./routes/GetRequests');
 const locationsRoutes = require('./routes/locations');
 
 app.use(express.json());
@@ -40,7 +41,8 @@ app.get('/', (req, res) => {
 
 app.use('/requests', requestsRoutes);
 app.use('/locations', locationsRoutes);
+app.use('/GetRequests', getRequestsRoutes);
 
 app.listen(port, (req, res) => {
   console.log(`Your server is up at http://localhost:${port}/`)
-})
+});

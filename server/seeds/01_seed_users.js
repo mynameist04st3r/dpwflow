@@ -35,6 +35,16 @@ exports.seed = async function(knex) {
       username: 'alexbrown',
       phone_number: '5556789012',
       email: 'alex.brown@example.mil'
+    },
+    {
+      id: 999,
+      first_name: 'Anonymous',
+      last_name: 'Submitter',
+      rank: 'N/A',
+      password: 'nopassword',
+      username: 'anonymoussubmitter',
+      phone_number: '',
+      email: ''
     }
   ]);
 
