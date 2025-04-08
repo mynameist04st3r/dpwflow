@@ -6,7 +6,7 @@ exports.seed = async function(knex) {
   await knex('locations').del();
 
   await knex('locations').insert([
-    { id: 1, state: 'North Carolina', military_base: 'Fort Liberty' },
+    { id: 1, state: 'North Carolina', military_base: 'Fort Bragg' },
     { id: 2, state: 'Virginia', military_base: 'Fort Eustis' },
     { id: 3, state: 'Texas', military_base: 'Fort Cavazos' }
   ]);
