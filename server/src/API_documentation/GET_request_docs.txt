@@ -1,0 +1,47 @@
+- Get all requests with Join users and locations table
+GET http://localhost:8000/requests/AllRequests
+returns:
+[
+    {
+        "id": 1,
+        "work_order_first_name": "John",
+        "work_order_last_name": "Doe",
+        "work_order_rank": "Sergeant",
+        "work_order_phone_number": "5551234567",
+        "work_order_desc": "Leaky faucet in bathroom.",
+        "priority": 2,
+        "pending": true,
+        "accepted": false,
+        "complete": false,
+        "building_number": "123",
+        "room_number": "A101",
+        "location_desc": "South Wing",
+        "work_order_state": "North Carolina",
+        "work_order_military_base": "Fort Liberty",
+        "date_created": "2025-04-07T16:50:12.841Z"
+    }
+]
+
+- Get all requests where accepted:true and Join users and locations table
+GET http://localhost:8000/requests/acceptedRequests
+returns:
+[
+    {
+        "id": 1,
+        "work_order_first_name": "John",
+        "work_order_last_name": "Doe",
+        "work_order_rank": "Sergeant",
+        "work_order_phone_number": "5551234567",
+        "work_order_desc": "Leaky faucet in bathroom.",
+        "priority": 2,
+        "pending": true,
+        "accepted": false,
+        "complete": false,
+        "building_number": "123",
+        "room_number": "A101",
+        "location_desc": "South Wing",
+        "work_order_state": "North Carolina",
+        "work_order_military_base": "Fort Liberty",
+        "date_created": "2025-04-07T16:50:12.841Z"
+    }
+]
