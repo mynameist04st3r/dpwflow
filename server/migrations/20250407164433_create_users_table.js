@@ -12,6 +12,7 @@ exports.up = function(knex) {
     table.string('username', 50).notNullable().unique();
     table.string('phone_number', 50).notNullable();
     table.string('email', 50).notNullable().unique();
+    table.integer('role').notNullable().defaultTo(1); // 1 = user, 2 = admin
   });
 };
 
