@@ -1,5 +1,5 @@
 - Get all requests with Join users and locations table
-GET http://localhost:8000/requests/AllRequests
+GET http://localhost:8000/GetRequests/AllRequests
 returns:
 [
     {
@@ -23,7 +23,7 @@ returns:
 ]
 
 - Get all requests where accepted:true and Join users and locations table
-GET http://localhost:8000/requests/acceptedRequests
+GET http://localhost:8000/GetRequests/acceptedRequests
 returns:
 [
     {
