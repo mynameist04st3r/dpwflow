@@ -4,12 +4,11 @@ const port = process.env.API_PORT;
 const express = require('express');
 const app = express();
 const knex = require('knex')(require('../knexfile.js')['development']);
-const cors = require('cors')
+const cors = require('cors');
 const { hash, compare } = require('@uswriting/bcrypt');
 const uuid = require('uuid');
 const session = require('express-session');
 const secretKey = uuid.v4();
-
 
 if (!process.env.NODE_ENV) {
   console.error('Missing NODE_ENV');
@@ -17,6 +16,7 @@ if (!process.env.NODE_ENV) {
 }
 
 const requestsRoutes = require('./routes/requests');
+const getRequestsRoutes = require('./routes/GetRequests');
 const locationsRoutes = require('./routes/locations');
 
 app.use(express.json());
@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
 
 app.use('/requests', requestsRoutes);
 app.use('/locations', locationsRoutes);
+app.use('/GetRequests', getRequestsRoutes);
 
 app.listen(port, (req, res) => {
   console.log(`Your server is up at http://localhost:${port}/`)

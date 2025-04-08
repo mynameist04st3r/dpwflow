@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import Admin from '../styles/Admin.css';
 
 function Admin() {
   const [states, setStates] = useState([]);
@@ -8,12 +9,14 @@ function Admin() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/locations`);
-    return;
-    <div>
-      <h1>Admin Page</h1>
-    </div>;
-  });
+    fetch(`http://localhost:8000/locations`)
+  })
 }
 
-export default Admin;
+export default function Admin() {
+  return (
+    <div>
+      Admin
+    </div>
+  )
+}
