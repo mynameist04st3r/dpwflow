@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Admin from '../styles/Admin.css';
+import '../styles/Admin.css';
 
-function Admin() {
+export default function Admin() {
   const [states, setStates] = useState([]);
   const [bases, setBases] = useState([]);
   const [buildings, setBuildings] = useState([]);
@@ -10,13 +10,17 @@ function Admin() {
 
   useEffect(() => {
     fetch(`http://localhost:8000/locations`)
-  })
-}
+      .then(res => res.json())
+      .then(data => {
+        console.log('Fetched locations:', data);
+      })
+      .catch(err => setError(err.message));
+  }, []);
 
-export default function Admin() {
   return (
-    <div>
-      Admin
+    <div className="admin-container">
+      <h1>Admin</h1>
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
     </div>
-  )
+  );
 }

@@ -2,13 +2,13 @@
 // import NavBar from "./components/NavBar";
 
 // // Pages (in components folder)
-// import Launch from "./components/Launch";
-// import MaintenanceRequest from "./components/MaintenanceRequest";
-// import Dashboard from "./components/Dashboard";
-// import MaintenanceTracker from "./components/MaintenanceTracker";
-// import MyRequests from "./components/MyRequests";
-// import Admin from "./components/Admin";
-// import Contact from "./components/Contact";
+import HomePage from "./pages/HomePage";
+import MaintenanceRequest from "./pages/MaintenanceRequest";
+import Dashboard from "./pages/Dashboard";
+import MaintenanceTracker from "./pages/MaintenanceTracker";
+import MyRequests from "./pages/MyRequests";
+import Admin from "./pages/Admin";
+import Contact from "./pages/Contact";
 
 //     conflict issue
 // import { useState } from 'react'
@@ -20,10 +20,9 @@
 // Below is good code///////////////
 import { useState } from "react";
 import "./styles/App.css";
-import HomePage from "./components/HomePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import Dashboard from "./components/Dashboard";
+// import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -43,7 +42,13 @@ function App() {
 
         {/* Main routes handled inside Dashboard */}
         <Routes>
-          <Route path="/*" element={<Dashboard />} />
+          <Route path="/*" element={<HomePage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/maintenance-request" element={<MaintenanceRequest />} />
+          <Route path="/my-requests" element={<MyRequests />} />
+          <Route path="/maintenance-tracker" element={<MaintenanceTracker />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
 
         <NavBar />
