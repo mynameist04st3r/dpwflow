@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import NavBar from "./components/NavBar";
+
+// // Pages (in components folder)
+// import Launch from "./components/Launch";
+// import MaintenanceRequest from "./components/MaintenanceRequest";
+// import Dashboard from "./components/Dashboard";
+// import MaintenanceTracker from "./components/MaintenanceTracker";
+// import MyRequests from "./components/MyRequests";
+// import Admin from "./components/Admin";
+// import Contact from "./components/Contact";
+
+//     conflict issue
+// import { useState } from 'react'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
+// import './styles/App.css'
+// import './styles/index.css'
+
+// Below is good code///////////////
+import { useState } from "react";
+import "./styles/App.css";
+import HomePage from "./components/HomePage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Dashboard from "./components/Dashboard";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+      {/* <div className="app">
+        <HomePage />
+      </div> */}
+
+      {/* Router for navigation */}
+      <Router>
+        {/* Test Message */}
+        <p
+          style={{ textAlign: "center", fontWeight: "bold", marginTop: "20px" }}
+        >
+          This is a test message in App.jsx
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+        {/* Main routes handled inside Dashboard */}
+        <Routes>
+          <Route path="/*" element={<Dashboard />} />
+        </Routes>
+
+        <NavBar />
+      </Router>
     </>
-  )
+
+  );
 }
 
-export default App
+export default App;

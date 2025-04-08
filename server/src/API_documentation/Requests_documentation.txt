@@ -1,0 +1,33 @@
+- POST New Request
+POST http://localhost:8000/requests/newRequest
+Body requires three fields:
+{
+  "work_order_desc": "Heater is not working in the barracks.",
+  "location_id": 1
+}
+*** if user_id is not provided, it will default to the anonymous user 999 ***
+Full JSON body with all fields:
+{
+  "user_id": 2,
+  "work_order_desc": "Heater is not working in the barracks.",
+  "location_id": 1,
+  "priority": 3,
+  "building_number": "B5",
+  "room_number": "201",
+  "location_desc": "Back hallway"
+}
+Returns all fields:
+{
+    "id": 4,
+    "user_id": 2,
+    "pending": true,
+    "accepted": false,
+    "complete": false,
+    "priority": 3,
+    "work_order_desc": "Heater is not working in the barracks.",
+    "location_id": 1,
+    "date_created": "2025-04-07T19:26:50.796Z",
+    "building_number": "B5",
+    "room_number": "201",
+    "location_desc": "Back hallway"
+}
