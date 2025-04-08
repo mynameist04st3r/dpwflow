@@ -115,7 +115,10 @@ router.patch('/updateRequest/:id', async (req, res) => {
     accepted,
     complete,
     priority,
-    work_order_desc
+    work_order_desc,
+    building_number,
+    room_number,
+    location_desc
   } = req.body;
 
   const fieldsToUpdate = {};
@@ -125,6 +128,9 @@ router.patch('/updateRequest/:id', async (req, res) => {
   if (complete !== undefined) fieldsToUpdate.complete = complete;
   if (priority !== undefined) fieldsToUpdate.priority = priority;
   if (work_order_desc !== undefined) fieldsToUpdate.work_order_desc = work_order_desc;
+  if (building_number !== undefined) fieldsToUpdate.building_number = building_number;
+  if (room_number !== undefined) fieldsToUpdate.room_number = room_number;
+  if (location_desc !== undefined) fieldsToUpdate.location_desc = location_desc;
 
   if (Object.keys(fieldsToUpdate).length === 0) {
     return res.status(400).json({ error: 'No valid fields provided to update' });
