@@ -8,7 +8,7 @@ const HomePage = () => {
   return (
     <div className="home-container">
       <header className="home-header">
-        <h1>DPWflow</h1>
+        <h1>DPWFlow</h1>
         <p className="subtitle">Digital Work Order Management System</p>
       </header>
 
@@ -23,20 +23,23 @@ const HomePage = () => {
         </div>
 
         <div className="features-grid">
+          {/* Card 1 */}
           <div className="feature-card">
-            <i className="feature-icon">📝</i>
+            <i className="features-icon">📝</i>
             <h3>Easy Submission</h3>
             <p>
               Submit maintenance requests quickly with our user-friendly form
             </p>
           </div>
+          {/* Card 2 */}
           <div className="feature-card">
-            <i className="feature-icon">📱</i>
+            <i className="features-icon">📱</i>
             <h3>Real-time Tracking</h3>
             <p>Monitor the status of your requests in real-time</p>
           </div>
+          {/* Card 3 */}
           <div className="feature-card">
-            <i className="feature-icon">📊</i>
+            <i className="features-icon">📊</i>
             <h3>Efficient Management</h3>
             <p>Streamlined workflow for maintenance teams</p>
           </div>
@@ -56,16 +59,17 @@ const HomePage = () => {
             View My Requests
           </button>
           <button
-            className="btn tertiary"
-            onClick={() => navigate("/dashboard")}
+            className="btn admin-login"
+            onClick={() => navigate("/admin")}
           >
-            Go to Dashboard
+            Admin
           </button>
         </div>
       </section>
 
       <footer className="home-footer">
-        <p>Directorate of Public Works Digital Solutions</p>
+        <p>&copy; 2025 DPWFlow. All rights reserved.</p>
+        <p>Privacy Policy | Terms of Service</p>
       </footer>
     </div>
   );
