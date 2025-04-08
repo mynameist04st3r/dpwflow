@@ -70,4 +70,40 @@ router.get('/acceptedRequests', async (req, res) => {
 });
 
 
+router.get('/byBuilding/:building_number', async (req, res) => {
+  const { building_number } = req.params;
+
+  try {
+    const requests = await knex('requests')
+      .join('users', 'requests.user_id', '=', 'users.id')
+      .join('locations', 'requests.location_id', '=', 'locations.id')
+      .where('requests.building_number', building_number.toUpperCase().replace(/[\s\-]/g, ''))
+      .select(
+        'requests.id',
+        { work_order_first_name: 'users.first_name' },
+        { work_order_last_name: 'users.last_name' },
+        { work_order_rank: 'users.rank' },
+        { work_order_phone_number: 'users.phone_number' },
+        'requests.work_order_desc',
+        'requests.priority',
+        'requests.pending',
+        'requests.accepted',
+        'requests.complete',
+        'requests.building_number',
+        'requests.room_number',
+        'requests.location_desc',
+        { work_order_state: 'locations.state' },
+        { work_order_military_base: 'locations.military_base' },
+        'requests.date_created'
+      )
+      .orderBy('requests.date_created', 'desc');
+
+    res.json(requests);
+  } catch (err) {
+    console.error('Failed to fetch building-based requests:', err);
+    res.status(500).json({ error: 'Failed to fetch building requests' });
+  }
+});
+
+
 module.exports = router;
