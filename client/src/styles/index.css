@@ -1,8 +1,8 @@
 /* color scheme:
-#101420 Dark blue/black - div backgrounds
+#101420 Dark blue/black - div backgrounds, font in buttons
 #426f4d Dark green - font over background color, mouse over buttons
 #8cc5a6 Light green - button background, div outlines
-#961e14 Subdued red - font over background color, errors
+#961e14 Subdued red - font over background color, bottom borders, underlines, errors
 */
 
 :root {
