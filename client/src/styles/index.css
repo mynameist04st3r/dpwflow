@@ -1,7 +1,8 @@
 /* color scheme:
-#101420
-#426f4d
-#8cc5a6
+#101420 Dark blue/black - div backgrounds, font in buttons
+#426f4d Dark green - font over background color, mouse over buttons
+#8cc5a6 Light green - button background, div outlines
+#961e14 Subdued red - font over background color, bottom borders, underlines, errors
 */
 
 :root {
@@ -34,7 +35,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-image: url("../public/topomapbackground.png");
+  background-image: url("../topomapbackground.png");
 }
 
 h1 {
