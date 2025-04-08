@@ -108,4 +108,44 @@ router.post('/newRequest', async (req, res) => {
 });
 
 
+router.patch('/updateRequest/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    pending,
+    accepted,
+    complete,
+    priority,
+    work_order_desc
+  } = req.body;
+
+  const fieldsToUpdate = {};
+
+  if (pending !== undefined) fieldsToUpdate.pending = pending;
+  if (accepted !== undefined) fieldsToUpdate.accepted = accepted;
+  if (complete !== undefined) fieldsToUpdate.complete = complete;
+  if (priority !== undefined) fieldsToUpdate.priority = priority;
+  if (work_order_desc !== undefined) fieldsToUpdate.work_order_desc = work_order_desc;
+
+  if (Object.keys(fieldsToUpdate).length === 0) {
+    return res.status(400).json({ error: 'No valid fields provided to update' });
+  }
+
+  try {
+    const updated = await knex('requests')
+      .where({ id })
+      .update(fieldsToUpdate)
+      .returning('*');
+
+    if (updated.length === 0) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
+
+    res.json(updated[0]);
+  } catch (err) {
+    console.error(`Failed to update request with id ${id}:`, err);
+    res.status(500).json({ error: 'Failed to update request' });
+  }
+});
+
+
 module.exports = router;
