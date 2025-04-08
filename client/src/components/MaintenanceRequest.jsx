@@ -1,88 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import './MaintenanceRequestPage.css';
+import React, { useState, useEffect } from "react";
+import "./MaintenanceRequest.css";
 
 const MaintenanceRequestPage = () => {
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    state: '',
-    military_base: '',
-    building_number: '',
-    room_number: '',
-    location_desc: '',
-    work_order_desc: '',
+    first_name: "",
+    last_name: "",
+    state: "",
+    military_base: "",
+    building_number: "",
+    room_number: "",
+    location_desc: "",
+    work_order_desc: "",
     priority: 1,
-    phone_number: '',
-    email: '',
+    phone_number: "",
+    email: "",
   });
 
   const [baseOptions, setBaseOptions] = useState([]);
 
   useEffect(() => {
     const baseMap = {
-      CA: ['Fort Irwin', 'Camp Pendleton'],
-      TX: ['Fort Bliss', 'Fort Hood'],
-      NC: ['Fort Bragg'],
+      CA: ["Fort Irwin", "Camp Pendleton"],
+      TX: ["Fort Bliss", "Fort Hood"],
+      NC: ["Fort Bragg"],
     };
     setBaseOptions(baseMap[formData.state] || []);
   }, [formData.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const requiredFields = [
-      'first_name',
-      'last_name',
-      'state',
-      'military_base',
-      'building_number',
-      'room_number',
-      'location_desc',
-      'work_order_desc',
-      'phone_number',
-      'email'
+      "first_name",
+      "last_name",
+      "state",
+      "military_base",
+      "building_number",
+      "room_number",
+      "location_desc",
+      "work_order_desc",
+      "phone_number",
+      "email",
     ];
 
-    const missingFields = requiredFields.filter(field => !formData[field]);
+    const missingFields = requiredFields.filter((field) => !formData[field]);
 
     if (missingFields.length > 0) {
-      alert(`Please fill out all required fields: ${missingFields.join(', ')}`);
+      alert(`Please fill out all required fields: ${missingFields.join(", ")}`);
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:8000/api/requests', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("http://localhost:8000/api/requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error('Network response was not ok');
+      if (!res.ok) throw new Error("Network response was not ok");
 
       const result = await res.json();
-      alert('Request submitted successfully!');
+      alert("Request submitted successfully!");
       console.log(result);
       setFormData({
-        first_name: '',
-        last_name: '',
-        state: '',
-        military_base: '',
-        building_number: '',
-        room_number: '',
-        location_desc: '',
-        work_order_desc: '',
+        first_name: "",
+        last_name: "",
+        state: "",
+        military_base: "",
+        building_number: "",
+        room_number: "",
+        location_desc: "",
+        work_order_desc: "",
         priority: 1,
-        phone_number: '',
-        email: '',
+        phone_number: "",
+        email: "",
       });
     } catch (err) {
-      console.error('Submission error:', err);
-      alert('Failed to submit request.');
+      console.error("Submission error:", err);
+      alert("Failed to submit request.");
     }
   };
 
@@ -105,7 +105,12 @@ const MaintenanceRequestPage = () => {
           onChange={handleChange}
         />
 
-        <select name="state" required value={formData.state} onChange={handleChange}>
+        <select
+          name="state"
+          required
+          value={formData.state}
+          onChange={handleChange}
+        >
           <option value="">Select State (required)</option>
           <option value="CA">California</option>
           <option value="TX">Texas</option>
@@ -120,7 +125,9 @@ const MaintenanceRequestPage = () => {
         >
           <option value="">Select Base (required)</option>
           {baseOptions.map((base, idx) => (
-            <option key={idx} value={base}>{base}</option>
+            <option key={idx} value={base}>
+              {base}
+            </option>
           ))}
         </select>
 
