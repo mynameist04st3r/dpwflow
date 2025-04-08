@@ -22,11 +22,13 @@
 import { useState } from "react";
 import "./styles/App.css";
 import HomePage from "./components/HomePage";
+import MaintenanceRequest from "./components/MaintenanceRequest";
 
 function App() {
   return (
     <div className="app">
       <HomePage />
+      <MaintenanceRequest />
     </div>
   );
 }
