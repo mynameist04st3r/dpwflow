@@ -10,8 +10,8 @@ returns:
 ]
 
 - Get all location entries for a given state.
-GET http://localhost:8000/locations/:state
-example: GET http://localhost:8000/locations/North%20Carolina
+GET http://localhost:8000/locations/specificState/:state_name
+example: GET http://localhost:8000/locations/specificState/TX
 returns:
 [
     {
