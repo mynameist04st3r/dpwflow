@@ -49,6 +49,7 @@ function App() {
         <NavBar />
       </Router>
     </>
+
   );
 }
 
