@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./HomePage";
+import HomePage from "../pages/HomePage";
 import Launch from "./Launch";
 import MaintenanceRequest from "./MaintenanceRequest";
 import MaintenanceTracker from "./MaintenanceTracker";
