@@ -28,19 +28,7 @@ import NavBar from "./components/NavBar";
 function App() {
   return (
     <>
-      {/* <div className="app">
-        <HomePage />
-      </div> */}
-
-      {/* Router for navigation */}
       <Router>
-        {/* Test Message */}
-        <p
-          style={{ textAlign: "center", fontWeight: "bold", marginTop: "20px" }}
-        >
-          This is a test message in App.jsx
-        </p>
-
         {/* Main routes handled inside Dashboard */}
         <Routes>
           <Route path="/*" element={<HomePage />} />
@@ -56,7 +44,6 @@ function App() {
         <NavBar />
       </Router>
     </>
-
   );
 }
 

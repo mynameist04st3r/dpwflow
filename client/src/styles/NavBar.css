@@ -1,14 +1,162 @@
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding-top: 80px;
+}
+
+/* Underline animation */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 0%;
+  background-color: #426f4d;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Nav wrapper */
 .nav {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
-  height: 80px;
-  background-color: #36485e;
+  min-height: 80px;
+  background-color: #8cc5a6;
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 2rem;
   z-index: 1000;
+  padding: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  flex-wrap: nowrap;
+  min-height: 80px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+/* Nav items */
+.nav-link {
+  text-decoration: none;
+  color: #101420;
+  font-size: 1.3rem;
+  font-weight: 550;
+  font-family: "Protest Strike", sans-serif;
+  padding: 10px 12px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  background-color: #ecf0f1;
+  color: #426f4d;
+  transform: scale(1.05);
+}
+
+.nav-link.active {
+  border: 3px solid #426f4d;
+  background-color: #ecf0f1;
+  color: #426f4d;
+}
+
+/* Hamburger menu */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 1101;
+}
+
+.burger .bar {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 2rem;
+    height: auto;
+  }
+
+  .nav-inner {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 0;
+  }
+
+  .burger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1101;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-link {
+    width: auto;
+    max-width: 90%;
+    text-align: left;
+    padding: 12px 20px;
+    margin: 0 auto;
+    display: inline-block;
+  }
 }
