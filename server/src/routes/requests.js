@@ -70,18 +70,26 @@ router.get('/acceptedRequests', async (req, res) => {
 });
 
 
+const normalizeRoomOrBuilding = (str) => {
+  if (!str) return null;
+  return str.toUpperCase().replace(/[\s\-]/g, '');
+};
+
 router.post('/newRequest', async (req, res) => {
   try {
-    const {
-      user_id = 999, // default to anonymous user if not provided
+    let {
+      user_id,
       work_order_desc,
       location_id,
       priority = 1,
-      building_number = null,
-      room_number = null,
+      building_number,
+      room_number,
       location_desc = null
     } = req.body;
 
+    if (!user_id) {
+      user_id = 999;
+    }
 
     if (!work_order_desc || !location_id) {
       return res.status(400).json({
@@ -89,16 +97,21 @@ router.post('/newRequest', async (req, res) => {
       });
     }
 
+    building_number = normalizeRoomOrBuilding(building_number);
+    room_number = normalizeRoomOrBuilding(room_number);
+
+    const insertData = {
+      user_id,
+      work_order_desc,
+      location_id,
+      priority,
+      building_number,
+      room_number,
+      location_desc
+    };
+
     const [newRequest] = await knex('requests')
-      .insert({
-        user_id,
-        work_order_desc,
-        location_id,
-        priority,
-        building_number,
-        room_number,
-        location_desc
-      })
+      .insert(insertData)
       .returning('*');
 
     res.status(201).json(newRequest);
