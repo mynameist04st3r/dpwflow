@@ -50,10 +50,10 @@ returns:
 POST http://localhost:8000/requests/newRequest
 Body requires three fields:
 {
-  "user_id": 2,
   "work_order_desc": "Heater is not working in the barracks.",
   "location_id": 1
 }
+*** if user_id is not provided, it will default to the anonymous user 999 ***
 Full JSON body with all fields:
 {
   "user_id": 2,

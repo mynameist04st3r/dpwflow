@@ -73,7 +73,7 @@ router.get('/acceptedRequests', async (req, res) => {
 router.post('/newRequest', async (req, res) => {
   try {
     const {
-      user_id,
+      user_id = 999, // default to anonymous user if not provided
       work_order_desc,
       location_id,
       priority = 1,
@@ -82,9 +82,10 @@ router.post('/newRequest', async (req, res) => {
       location_desc = null
     } = req.body;
 
-    if (!user_id || !work_order_desc || !location_id) {
+
+    if (!work_order_desc || !location_id) {
       return res.status(400).json({
-        error: 'Missing required fields: user_id, work_order_desc, location_id'
+        error: 'Missing required fields: work_order_desc, location_id'
       });
     }
 
