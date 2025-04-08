@@ -11,13 +11,6 @@ function NavBar() {
         Home
       </NavLink>
       <NavLink
-        to="/launch"
-        className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-      >
-        Launch
-      </NavLink>
-
-      <NavLink
         to="/maintenance-request"
         className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
       >

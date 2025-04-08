@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Contact() {
+export default function Requests() {
   return (
     <div>
-      Contact Us!
+      Requests
     </div>
   )
 }
