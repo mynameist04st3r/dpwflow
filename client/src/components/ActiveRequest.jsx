@@ -1,35 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 export default function ActiveRequest() {
-    const[input, setInput]=useState("");
-    const[result, setResult]=useState([]);
-   const search = async () => {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState([]);
+  const search = async () => {
     try {
-        const response = await fetch('');
-        const data = await response.json();
-        setResult(data)
+      const response = await fetch("");
+      const data = await response.json();
+      setResult(data);
     } catch (error) {
-        console.error('fetch error', error);
-        
+      console.error("fetch error", error);
     }
-   };
-    
+  };
+
   return (
     <div>
-      <input placeholder='search active'
-       value={input}
-       onChange={(e) => setInput(e.target.value)}/>
+      <input
+        placeholder="search active"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
 
-       <div>
+      <div>
         <button onClick={search}>Search</button>
-       </div>
-       <div>
+      </div>
+      <div>
         <ul>
-        {result.map((active)=>{
-           return <li key={active.id}>{active.name} </li>;
-        })}
+          {result.map((active) => {
+            return <li key={active.id}>{active.name} </li>;
+          })}
         </ul>
-       </div>
+      </div>
     </div>
   );
 }

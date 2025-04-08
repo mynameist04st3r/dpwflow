@@ -29,17 +29,17 @@ const baseMap = {
 
 const MaintenanceRequestPage = () => {
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    state: '',
-    military_base: '',
-    building_number: '',
-    room_number: '',
-    location_desc: '',
-    work_order_desc: '',
+    first_name: "",
+    last_name: "",
+    state: "",
+    military_base: "",
+    building_number: "",
+    room_number: "",
+    location_desc: "",
+    work_order_desc: "",
     priority: 1,
-    phone_number: '',
-    email: '',
+    phone_number: "",
+    email: "",
   });
 
   const [baseOptions, setBaseOptions] = useState([]);
@@ -75,27 +75,27 @@ const MaintenanceRequestPage = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error('Network response was not ok');
+      if (!res.ok) throw new Error("Network response was not ok");
 
       const result = await res.json();
-      alert('Request submitted successfully!');
+      alert("Request submitted successfully!");
       console.log(result);
       setFormData({
-        first_name: '',
-        last_name: '',
-        state: '',
-        military_base: '',
-        building_number: '',
-        room_number: '',
-        location_desc: '',
-        work_order_desc: '',
+        first_name: "",
+        last_name: "",
+        state: "",
+        military_base: "",
+        building_number: "",
+        room_number: "",
+        location_desc: "",
+        work_order_desc: "",
         priority: 1,
-        phone_number: '',
-        email: '',
+        phone_number: "",
+        email: "",
       });
     } catch (err) {
-      console.error('Submission error:', err);
-      alert('Failed to submit request.');
+      console.error("Submission error:", err);
+      alert("Failed to submit request.");
     }
   };
 
@@ -119,7 +119,12 @@ const MaintenanceRequestPage = () => {
           onChange={handleChange}
         />
 
-        <select name="state" required value={formData.state} onChange={handleChange}>
+        <select
+          name="state"
+          required
+          value={formData.state}
+          onChange={handleChange}
+        >
           <option value="">Select State (required)</option>
           {Object.keys(baseMap).map((abbr) => (
             <option key={abbr} value={abbr}>{abbr}</option>
@@ -129,7 +134,9 @@ const MaintenanceRequestPage = () => {
         <select name="military_base" required value={formData.military_base} onChange={handleChange}>
           <option value="">Select Base (required)</option>
           {baseOptions.map((base, idx) => (
-            <option key={idx} value={base}>{base}</option>
+            <option key={idx} value={base}>
+              {base}
+            </option>
           ))}
         </select>
 
