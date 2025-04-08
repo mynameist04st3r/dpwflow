@@ -30,17 +30,18 @@ body {
   left: 0;
   width: 100%;
   height: 80px;
-  background-color: #36485e;
+  background-color: #8cc5a6;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* #407088 */
 /* Nav links */
-.nav-link {
+/* .nav-link {
   text-decoration: none;
   color: #ecf0f1;
   font-size: 1.1rem;
@@ -50,6 +51,21 @@ body {
   border-radius: 4px;
   transition: all 0.3s ease;
   position: relative;
+} */
+
+.nav-link {
+  text-decoration: none;
+  color: #ecf0f1;
+  font-size: 1.3rem;
+  font-weight: 550;
+  font-family: "Arial", sans-serif;
+  padding: 10px 12px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
 }
 
 /* Hover effect */
@@ -64,26 +80,4 @@ body {
   border-color: #3498db;
   background-color: #ecf0f1;
   color: #2c3e50;
-}
-
-/* Fire effect on click */
-.nav-link:active::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, #ff4500, #ff8c00, #f7d14f);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  animation: fireburst 0.5s ease-out forwards;
-}
-
-/* Fireburst animation */
-@keyframes fireburst {
-  to {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0;
-  }
 }
