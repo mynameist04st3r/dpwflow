@@ -1,0 +1,16 @@
+.search-container {
+    display: flex; /* Places items in a row */
+    align-items: center; /* Aligns items vertically */
+    gap: 10px; /* Adds space between input and button */
+  }
+  
+  .search-input {
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  .search-button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
