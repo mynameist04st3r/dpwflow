@@ -15,6 +15,7 @@ body {
 }
 
 .nav-link::after {
+  transition: width 0.3s ease-in-out;
   content: "";
   position: absolute;
   left: 0;
@@ -89,7 +90,7 @@ body {
 
 .nav-link.active {
   border: 3px solid #426f4d;
-  background-color: #ecf0f1;
+  background-color: #d9ede0;
   color: #426f4d;
 }
 
@@ -140,6 +141,7 @@ body {
   }
 
   .nav-links {
+    transition: width 0.3s ease-in-out;
     display: none;
     flex-direction: column;
     width: 100%;
@@ -149,6 +151,7 @@ body {
 
   .nav-links.open {
     display: flex;
+    transition: all 0.3s ease;
   }
 
   .nav-link {
