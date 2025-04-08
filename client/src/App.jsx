@@ -9,6 +9,7 @@ import MaintenanceTracker from "./pages/MaintenanceTracker";
 import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
+import ActiveRequest from "./pages/ActiveRequest";
 
 //     conflict issue
 // import { useState } from 'react'
@@ -27,19 +28,7 @@ import NavBar from "./components/NavBar";
 function App() {
   return (
     <>
-      {/* <div className="app">
-        <HomePage />
-      </div> */}
-
-      {/* Router for navigation */}
       <Router>
-        {/* Test Message */}
-        <p
-          style={{ textAlign: "center", fontWeight: "bold", marginTop: "20px" }}
-        >
-          This is a test message in App.jsx
-        </p>
-
         {/* Main routes handled inside Dashboard */}
         <Routes>
           <Route path="/*" element={<HomePage />} />
@@ -49,12 +38,12 @@ function App() {
           <Route path="/maintenance-tracker" element={<MaintenanceTracker />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/active-request" element={<ActiveRequest/>} />
         </Routes>
 
         <NavBar />
       </Router>
     </>
-
   );
 }
 

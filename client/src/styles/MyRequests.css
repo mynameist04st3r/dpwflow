@@ -1,0 +1,257 @@
+.my-requests-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.my-requests-container h1 {
+  color: #1b3d6d;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.filter-btn.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Table Styles */
+.requests-table-wrapper {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.requests-table th,
+.requests-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.requests-table th {
+  background-color: #1b3d6d;
+  color: white;
+  font-weight: 600;
+}
+
+.requests-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.in-progress {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-badge.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Priority Badges */
+.priority-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.priority-badge.high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.priority-badge.normal {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.priority-badge.low {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #1b3d6d;
+  font-size: 1.2rem;
+}
+
+/* Error State */
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.retry-btn {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.retry-btn:hover {
+  background-color: #c82333;
+}
+
+/* Empty State */
+.no-requests {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .my-requests-container {
+    margin: 1rem auto;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+
+  .requests-table-wrapper {
+    margin: 0 -1rem;
+    border-radius: 0;
+  }
+}
+
+/* Statistics Cards */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-content h3 {
+  color: #6c757d;
+  font-size: 0.875rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.stat-number {
+  color: #1b3d6d;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .requests-table-wrapper {
+    margin: 0 -1rem;
+    border-radius: 0;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.25rem;
+  }
+}
