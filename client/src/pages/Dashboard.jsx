@@ -1,7 +1,14 @@
-import React from 'react';
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./HomePage";
+import MaintenanceRequest from "./MaintenanceRequest";
+import MaintenanceTracker from "./MaintenanceTracker";
+import MyRequests from "./MyRequests";
+import Admin from "./Admin";
+import Contact from "./Contact";
 
 function Dashboard() {
   return (
+    <>
     <div style={{
       padding: '40px',
       background: 'linear-gradient(to right, #e66465, #9198e5)',
@@ -20,6 +27,16 @@ function Dashboard() {
         <p> Add widgets, charts, or whatever tf </p>
       </div>
     </div>
+    <Routes>
+    <Route path="/" element={<HomePage />} />
+    <Route path="/maintenance-request" element={<MaintenanceRequest />} />
+    <Route path="/dashboard" element={<Dashboard />} />
+    <Route path="/maintenance-tracker" element={<MaintenanceTracker />} />
+    <Route path="/my-requests" element={<MyRequests />} />
+    <Route path="/admin" element={<Admin />} />
+    <Route path="/contact" element={<Contact />} />
+  </Routes>
+  </>
   );
 }
 
