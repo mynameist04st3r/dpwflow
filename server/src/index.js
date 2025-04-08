@@ -45,4 +45,4 @@ app.use('/GetRequests', getRequestsRoutes);
 
 app.listen(port, (req, res) => {
   console.log(`Your server is up at http://localhost:${port}/`)
-})
+});
