@@ -1,88 +1,101 @@
 import React, { useState, useEffect } from 'react';
-import './MaintenanceRequestPage.css';
+import './MaintenanceRequest.css';
+
+// Base locations by state
+const baseMap = {
+  AL: ['Fort Rucker', 'Redstone Arsenal', 'Anniston Army Depot'],
+  AK: ['Fort Wainwright', 'Fort Greely', 'Joint Base Elmendorf-Richardson'],
+  AZ: ['Fort Huachuca', 'Yuma Proving Ground'],
+  AR: ['Pine Bluff Arsenal', 'Camp Joseph T. Robinson', 'Fort Chaffee'],
+  CA: ['Fort Irwin', 'Presidio of Monterey', 'Camp Roberts', 'Fort Hunter Liggett'],
+  CO: ['Fort Carson', 'Pueblo Chemical Depot'],
+  GA: ['Fort Benning', 'Fort Gordon', 'Fort Stewart', 'Hunter Army Airfield'],
+  HI: ['Schofield Barracks', 'Fort Shafter', 'Tripler Army Medical Center'],
+  KS: ['Fort Leavenworth', 'Fort Riley'],
+  KY: ['Fort Knox', 'Fort Campbell'],
+  LA: ['Fort Polk', 'Camp Beauregard'],
+  MD: ['Aberdeen Proving Ground', 'Fort Meade', 'Fort Detrick'],
+  MO: ['Fort Leonard Wood'],
+  NJ: ['Fort Dix', 'Picatinny Arsenal'],
+  NY: ['Fort Drum', 'United States Military Academy at West Point', 'Fort Hamilton'],
+  NC: ['Fort Bragg', 'Camp Mackall'],
+  OK: ['Fort Sill', 'McAlester Army Ammunition Plant'],
+  SC: ['Fort Jackson'],
+  TX: ['Fort Hood', 'Fort Bliss', 'Fort Sam Houston'],
+  VA: ['Fort Belvoir', 'Fort Eustis', 'Fort Lee'],
+  WA: ['Joint Base Lewis-McChord', 'Yakima Training Center'],
+  WI: ['Fort McCoy']
+};
 
 const MaintenanceRequestPage = () => {
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    state: '',
-    military_base: '',
-    building_number: '',
-    room_number: '',
-    location_desc: '',
-    work_order_desc: '',
+    first_name: "",
+    last_name: "",
+    state: "",
+    military_base: "",
+    building_number: "",
+    room_number: "",
+    location_desc: "",
+    work_order_desc: "",
     priority: 1,
-    phone_number: '',
-    email: '',
+    phone_number: "",
+    email: "",
   });
 
   const [baseOptions, setBaseOptions] = useState([]);
 
   useEffect(() => {
-    const baseMap = {
-      CA: ['Fort Irwin', 'Camp Pendleton'],
-      TX: ['Fort Bliss', 'Fort Hood'],
-      NC: ['Fort Bragg'],
-    };
     setBaseOptions(baseMap[formData.state] || []);
   }, [formData.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const requiredFields = [
-      'first_name',
-      'last_name',
-      'state',
-      'military_base',
-      'building_number',
-      'room_number',
-      'location_desc',
-      'work_order_desc',
-      'phone_number',
-      'email'
+      'first_name', 'last_name', 'state', 'military_base',
+      'building_number', 'room_number', 'location_desc',
+      'work_order_desc', 'phone_number', 'email'
     ];
 
-    const missingFields = requiredFields.filter(field => !formData[field]);
-
-    if (missingFields.length > 0) {
-      alert(`Please fill out all required fields: ${missingFields.join(', ')}`);
+    const missing = requiredFields.filter((f) => !formData[f]);
+    if (missing.length) {
+      alert(`Please fill out all required fields: ${missing.join(', ')}`);
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:8000/api/requests', {
+      const res = await fetch('http://localhost:8000/requests/newRequest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error('Network response was not ok');
+      if (!res.ok) throw new Error("Network response was not ok");
 
       const result = await res.json();
-      alert('Request submitted successfully!');
+      alert("Request submitted successfully!");
       console.log(result);
       setFormData({
-        first_name: '',
-        last_name: '',
-        state: '',
-        military_base: '',
-        building_number: '',
-        room_number: '',
-        location_desc: '',
-        work_order_desc: '',
+        first_name: "",
+        last_name: "",
+        state: "",
+        military_base: "",
+        building_number: "",
+        room_number: "",
+        location_desc: "",
+        work_order_desc: "",
         priority: 1,
-        phone_number: '',
-        email: '',
+        phone_number: "",
+        email: "",
       });
     } catch (err) {
-      console.error('Submission error:', err);
-      alert('Failed to submit request.');
+      console.error("Submission error:", err);
+      alert("Failed to submit request.");
     }
   };
 
@@ -90,6 +103,7 @@ const MaintenanceRequestPage = () => {
     <div className="maint-request-container">
       <h2>Submit Maintenance Request</h2>
       <form onSubmit={handleSubmit} className="maint-request-form">
+
         <input
           name="first_name"
           required
@@ -105,22 +119,24 @@ const MaintenanceRequestPage = () => {
           onChange={handleChange}
         />
 
-        <select name="state" required value={formData.state} onChange={handleChange}>
-          <option value="">Select State (required)</option>
-          <option value="CA">California</option>
-          <option value="TX">Texas</option>
-          <option value="NC">North Carolina</option>
-        </select>
-
         <select
-          name="military_base"
+          name="state"
           required
-          value={formData.military_base}
+          value={formData.state}
           onChange={handleChange}
         >
+          <option value="">Select State (required)</option>
+          {Object.keys(baseMap).map((abbr) => (
+            <option key={abbr} value={abbr}>{abbr}</option>
+          ))}
+        </select>
+
+        <select name="military_base" required value={formData.military_base} onChange={handleChange}>
           <option value="">Select Base (required)</option>
           {baseOptions.map((base, idx) => (
-            <option key={idx} value={base}>{base}</option>
+            <option key={idx} value={base}>
+              {base}
+            </option>
           ))}
         </select>
 
@@ -141,7 +157,7 @@ const MaintenanceRequestPage = () => {
         <input
           name="location_desc"
           required
-          placeholder="Location (e.g. Bathroom) (required)"
+          placeholder="Location (e.g., Bathroom) (required)"
           value={formData.location_desc}
           onChange={handleChange}
         />
@@ -153,15 +169,30 @@ const MaintenanceRequestPage = () => {
           onChange={handleChange}
         ></textarea>
 
-        <select
-          name="priority"
-          value={formData.priority}
-          onChange={handleChange}
-        >
-          <option value={1}>Low</option>
-          <option value={2}>Medium</option>
-          <option value={3}>High</option>
-        </select>
+        <div className="priority-select-wrapper">
+          <label htmlFor="priority">Priority</label>
+          <select
+            name="priority"
+            id="priority"
+            value={formData.priority}
+            onChange={handleChange}
+          >
+            <option value={1}>1 - High</option>
+            <option value={2}>2 - Medium</option>
+            <option value={3}>3 - Low</option>
+          </select>
+          <div className="priority-help">
+            <span className="help-icon">❓</span>
+            <div className="help-text">
+              <strong>Priority Levels:</strong>
+              <ul>
+                <li><strong>1:</strong> Fix within 24 hours (e.g. burst pipe, HVAC outage)</li>
+                <li><strong>2:</strong> Fix within the week (e.g. broken outlet, door issue)</li>
+                <li><strong>3:</strong> Fix within 30 days (e.g. paint touch-up, minor repairs)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
         <input
           name="phone_number"
@@ -177,10 +208,6 @@ const MaintenanceRequestPage = () => {
           value={formData.email}
           onChange={handleChange}
         />
-
-        {/* Optional field example */}
-        {/* <input type="file" name="attachment" onChange={handleFileChange} />
-        <small>(Optional) Upload attachment</small> */}
 
         <button type="submit">Submit Request</button>
       </form>
