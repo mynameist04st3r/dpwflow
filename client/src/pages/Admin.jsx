@@ -76,52 +76,61 @@ export default function Admin() {
   };
 
   return (
-    <div>
+    <div className="admin-back-div-container">
       <NavBar />
       <div className="admin-container">
         <div className="admin-button-bar">
-          <div className="admin-input-local-data">
+          <div className="admin-button-container">
+            <div className="admin-set-priorities">
+              <button className="admin-buttons">Prioritize Work Orders</button>
+            </div>
+            <div className="admin-classify-users">
+              <button className="admin-buttons">Set User Rolls</button>
+            </div>
+            <div className="admin-input-local-data">
             <button className="admin-buttons" onClick={() => setShowForm(true)}>Add Installation Data</button>
-          </div>
-          <div className="admin-classify-users">
-            <button className="admin-buttons">Set User Rolls</button>
-          </div>
-          <div className="admin-set-priorities">
-            <button className="admin-buttons">Prioritize Work Orders</button>
+            </div>
           </div>
         </div>
-        {showForm && (
-          <div className="admin-add-installation-data-form">
-            <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={handleSearch}
-                placeholder="Search states"
-                style={{width: '50%', padding: '10px', marginBottom: '20px'}}
-              />
-              {searchResults.length > 0 && (
-                <ul style={{listStyle: 'none', padding: '0', width: '50%'}}>
-                  {searchResults.map((result, index) => (
-                    <li key={index}>{result.state}</li>
-                  ))}
-                </ul>
-              )}
-              {isNewState && (
-                <div>
-                  <label>New State:</label>
+        <div className="admin-forms-container">
+          <div className="admin-forms">
+            {(showForm ? (
+              <div>
+                <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                   <input
-                    type="text"
-                    value={newState}
-                    onChange={handleNewStateChange}
+                    type="search"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    placeholder="Search states"
                     style={{width: '50%', padding: '10px', marginBottom: '20px'}}
                   />
-                </div>
-              )}
-              <button type="submit" className="admin-buttons">Submit</button>
-            </form>
+                  {searchResults.length > 0 && (
+                    <ul style={{listStyle: 'none', padding: '0', width: '50%'}}>
+                      {searchResults.map((result, index) => (
+                        <li key={index}>{result.state}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {isNewState && (
+                    <div>
+                      <label>New State:</label>
+                      <input
+                        type="text"
+                        value={newState}
+                        onChange={handleNewStateChange}
+                        style={{width: '50%', padding: '10px', marginBottom: '20px'}}
+                      />
+                    </div>
+                  )}
+                  <button type="submit" className="admin-buttons">Submit</button>
+                </form>
+              </div>
+            ) : (
+              <div>Select an option to the left</div>
+            )
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
