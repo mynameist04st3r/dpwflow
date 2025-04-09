@@ -12,8 +12,8 @@ const MaintenanceRequestPage = () => {
     location_desc: '',
     work_order_desc: '',
     priority: 1,
-    phone_number: '',
-    email: '',
+    anon_phone: '',
+    anon_email: '',
     user_id: 999,
     location_id: 999
   });
@@ -100,7 +100,7 @@ const MaintenanceRequestPage = () => {
     const requiredFields = [
       'first_name', 'last_name', 'state', 'military_base',
       'building_number', 'room_number', 'location_desc',
-      'work_order_desc', 'phone_number', 'email'
+      'work_order_desc', 'anon_phone', 'anon_email'
     ];
 
     const missing = requiredFields.filter((field) => !formData[field]);
@@ -139,11 +139,12 @@ const MaintenanceRequestPage = () => {
         location_desc: '',
         work_order_desc: '',
         priority: 1,
-        phone_number: '',
-        email: '',
+        anon_phone: '',
+        anon_email: '',
         user_id: formData.user_id,
         location_id: 999
       });
+
     } catch (err) {
       console.error('Submission error:', err);
       alert('Failed to submit maintenance request.');
@@ -198,8 +199,8 @@ const MaintenanceRequestPage = () => {
           </div>
         </div>
 
-        <input name="phone_number" required placeholder="Phone Number (required)" value={formData.phone_number} onChange={handleChange} />
-        <input name="email" required placeholder="Email (required)" value={formData.email} onChange={handleChange} />
+        <input name="anon_phone" required placeholder="Phone Number (required)" value={formData.anon_phone} onChange={handleChange} />
+        <input name="anon_email" required placeholder="Email (required)" value={formData.anon_email} onChange={handleChange} />
 
         {/* Hidden fields */}
         <input type="hidden" name="user_id" value={formData.user_id} />
