@@ -1,32 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/MaintenanceRequest.css';
 
-// Base locations by state
-const baseMap = {
-  AL: ['Fort Rucker', 'Redstone Arsenal', 'Anniston Army Depot'],
-  AK: ['Fort Wainwright', 'Fort Greely', 'Joint Base Elmendorf-Richardson'],
-  AZ: ['Fort Huachuca', 'Yuma Proving Ground'],
-  AR: ['Pine Bluff Arsenal', 'Camp Joseph T. Robinson', 'Fort Chaffee'],
-  CA: ['Fort Irwin', 'Presidio of Monterey', 'Camp Roberts', 'Fort Hunter Liggett'],
-  CO: ['Fort Carson', 'Pueblo Chemical Depot'],
-  GA: ['Fort Benning', 'Fort Gordon', 'Fort Stewart', 'Hunter Army Airfield'],
-  HI: ['Schofield Barracks', 'Fort Shafter', 'Tripler Army Medical Center'],
-  KS: ['Fort Leavenworth', 'Fort Riley'],
-  KY: ['Fort Knox', 'Fort Campbell'],
-  LA: ['Fort Polk', 'Camp Beauregard'],
-  MD: ['Aberdeen Proving Ground', 'Fort Meade', 'Fort Detrick'],
-  MO: ['Fort Leonard Wood'],
-  NJ: ['Fort Dix', 'Picatinny Arsenal'],
-  NY: ['Fort Drum', 'United States Military Academy at West Point', 'Fort Hamilton'],
-  NC: ['Fort Bragg', 'Camp Mackall'],
-  OK: ['Fort Sill', 'McAlester Army Ammunition Plant'],
-  SC: ['Fort Jackson'],
-  TX: ['Fort Hood', 'Fort Bliss', 'Fort Sam Houston'],
-  VA: ['Fort Belvoir', 'Fort Eustis', 'Fort Lee'],
-  WA: ['Joint Base Lewis-McChord', 'Yakima Training Center'],
-  WI: ['Fort McCoy']
-};
-
 const MaintenanceRequestPage = () => {
   const [formData, setFormData] = useState({
     first_name: '',
@@ -44,38 +18,81 @@ const MaintenanceRequestPage = () => {
     location_id: 999
   });
 
+  const [allLocations, setAllLocations] = useState([]);
   const [baseOptions, setBaseOptions] = useState([]);
 
+  // Fetch all locations once on mount
   useEffect(() => {
-    setBaseOptions(baseMap[formData.state] || []);
-  }, [formData.state]);
+    const fetchLocations = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/locations/allLocations');
+        const data = await res.json();
+        console.log('Fetched locations:', data);
+        setAllLocations(data);
+      } catch (err) {
+        console.error('Failed to fetch locations:', err);
+      }
+    };
+  
+    fetchLocations();
+  }, []);
 
   useEffect(() => {
-    const storedUserId = parseInt(localStorage.getItem('user_id'), 10);
-    const storedLocationId = parseInt(localStorage.getItem('location_id'), 10);
+    const matchingBases = allLocations.filter(loc => loc.state === formData.state);
+    setBaseOptions(matchingBases);
+  }, [formData.state, allLocations]);
 
-    if (!isNaN(storedUserId) && !isNaN(storedLocationId)) {
+  useEffect(() => {
+    const match = baseOptions.find(loc => loc.military_base === formData.military_base);
+    if (match) {
       setFormData(prev => ({
         ...prev,
-        user_id: storedUserId,
-        location_id: storedLocationId
+        location_id: match.id
       }));
     }
-  }, []);
+  }, [formData.military_base, baseOptions]);
+
+  const capitalizeLetters = (str) => {
+    return str.replace(/[a-z]/g, char => char.toUpperCase());
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Convert certain fields to numbers
-    const newValue = ['priority'].includes(name)
-      ? parseInt(value, 10)
-      : value;
+    let newValue = value;
+
+    if (name === 'priority') {
+      newValue = parseInt(value, 10);
+    }
+
+    if (name === 'building_number' || name === 'room_number') {
+      newValue = capitalizeLetters(value);
+    }
 
     setFormData(prev => ({
       ...prev,
       [name]: newValue
     }));
   };
+
+  useEffect(() => {
+    const storedUserId = parseInt(localStorage.getItem('user_id'), 10);
+    const storedLocationId = parseInt(localStorage.getItem('location_id'), 10);
+
+    if (!isNaN(storedUserId)) {
+      setFormData(prev => ({
+        ...prev,
+        user_id: storedUserId
+      }));
+    }
+
+    if (!isNaN(storedLocationId)) {
+      setFormData(prev => ({
+        ...prev,
+        location_id: storedLocationId
+      }));
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,7 +109,6 @@ const MaintenanceRequestPage = () => {
       return;
     }
 
-    // Ensure numeric fields are valid
     const payload = {
       ...formData,
       user_id: parseInt(formData.user_id, 10) || 999,
@@ -125,7 +141,7 @@ const MaintenanceRequestPage = () => {
         priority: 1,
         phone_number: '',
         email: '',
-        user_id: 999,
+        user_id: formData.user_id,
         location_id: 999
       });
     } catch (err) {
@@ -144,15 +160,16 @@ const MaintenanceRequestPage = () => {
 
         <select name="state" required value={formData.state} onChange={handleChange}>
           <option value="">Select State (required)</option>
-          {Object.keys(baseMap).map((abbr) => (
-            <option key={abbr} value={abbr}>{abbr}</option>
+          {[...new Set(allLocations.map(loc => loc.state))].map((stateName) => (
+            <option key={stateName} value={stateName}>{stateName}</option>
+
           ))}
         </select>
 
         <select name="military_base" required value={formData.military_base} onChange={handleChange}>
           <option value="">Select Base (required)</option>
-          {baseOptions.map((base, idx) => (
-            <option key={idx} value={base}>{base}</option>
+          {baseOptions.map((loc) => (
+            <option key={loc.id} value={loc.military_base}>{loc.military_base}</option>
           ))}
         </select>
 
