@@ -25,14 +25,14 @@ router.post("/signup", async (req, res) => {
     } = req.body;
 
     if (
-      (!first_name ||
-        !last_name ||
-        !rank ||
-        !password ||
-        !username ||
-        !confirmPassword ||
-        !phone_number,
-      !email)
+      !first_name ||
+      !last_name ||
+      !rank ||
+      !password ||
+      !username ||
+      !confirmPassword ||
+      !phone_number ||
+      !email
     ) {
       return res
         .status(400)
