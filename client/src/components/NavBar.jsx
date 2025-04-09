@@ -72,11 +72,21 @@ function LoginForm({
   );
 }
 function SignUpForm({
+  firstName,
+  lastName,
+  rank,
+  phoneNumber,
+  email,
   username,
   password,
   confirmPassword,
-  setUsername,
+  setFirstName,
+  setLastName,
+  setRank,
   setPassword,
+  setUsername,
+  setPhoneNumber,
+  setEmail,
   setConfirmPassword,
   setSignUpForm,
   setSignedIn,
@@ -92,9 +102,14 @@ function SignUpForm({
         console.log("Please fill out all fields");
         return;
       }
-      const response = await axios.post(`http://localhost:8000/signup`, {
+      const response = await axios.post(`http://localhost:8000/auth/signup`, {
+        firstName,
+        lastName,
+        rank,
         username,
         password,
+        phoneNumber,
+        email,
         confirmPassword,
       });
       if (response.data.success) {
@@ -116,7 +131,7 @@ function SignUpForm({
       className="sign-up-form-container"
       style={{
         position: "fixed",
-        width: "200px",
+        width: "400px",
         top: 90,
         right: 0,
         background: "#EB8921",
@@ -129,6 +144,38 @@ function SignUpForm({
       }}
     >
       <form onSubmit={handleSignUp}>
+        <input
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="First Name"
+        />
+        <input
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last Name"
+        />
+        <input
+          type="text"
+          value={rank}
+          onChange={(e) => setRank(e.target.value)}
+          placeholder="Rank"
+        />
+        <input
+          type="tel"
+          value={phoneNumber}
+          name="phone_number"
+          pattern="[0-9]{10}"
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          placeholder="Enter 10-digit phone number"
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+        />
         <input
           type="text"
           value={username}
@@ -162,6 +209,12 @@ function NavBar() {
   const [signedIn, setSignedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [rank, setRank] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
   const [signUpError, setSignUpError] = useState(null);
@@ -283,15 +336,26 @@ function NavBar() {
         {signUpForm &&
           createPortal(
             <SignUpForm
+              firstName={firstName}
+              lastName={lastName}
+              rank={rank}
+              phoneNumber={phoneNumber}
+              email={email}
               username={username}
               password={password}
               confirmPassword={confirmPassword}
+              setFirstName={setFirstName}
+              setLastName={setLastName}
+              setRank={setRank}
+              setPhoneNumber={setPhoneNumber}
+              setEmail={setEmail}
               setUsername={setUsername}
               setPassword={setPassword}
               setConfirmPassword={setConfirmPassword}
               setSignUpForm={setSignUpForm}
               setSignedIn={setSignedIn}
               signUpError={signUpError}
+              setSignUpError={setSignUpError}
             />,
             document.body
           )}
