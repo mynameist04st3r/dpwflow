@@ -65,6 +65,7 @@ router.post("/signup", async (req, res) => {
       username,
       phone_number,
       email,
+      role: 1, // 1 = user, 2 = manager, 3 = admin
     });
 
     return res.json({ success: true, message: "User created successfully" });

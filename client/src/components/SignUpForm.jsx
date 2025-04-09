@@ -1,27 +1,19 @@
+import { useState } from "react";
 import axios from "axios";
 
-function SignUpForm({
-  firstName,
-  lastName,
-  rank,
-  phoneNumber,
-  email,
-  username,
-  password,
-  confirmPassword,
-  setFirstName,
-  setLastName,
-  setRank,
-  setPhoneNumber,
-  setEmail,
-  setUsername,
-  setPassword,
-  setConfirmPassword,
-  setSignUpForm,
-  setSignedIn,
-  signUpError,
-  setSignUpError,
-}) {
+axios.defaults.withCredentials = true;
+
+function SignUpForm({ setSignUpForm, setSignedIn }) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [rank, setRank] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [signUpError, setSignUpError] = useState(null);
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (!username || !password || !confirmPassword)
@@ -30,15 +22,15 @@ function SignUpForm({
       return setSignUpError("Passwords do not match");
 
     try {
-      const res = await axios.post(`http://localhost:8000/signup`, {
+      const res = await axios.post("http://localhost:8000/signup", {
         first_name: firstName,
         last_name: lastName,
         rank,
-        phone_number: phoneNumber,
-        email,
         username,
         password,
         confirmPassword,
+        phone_number: phoneNumber,
+        email,
       });
       if (res.data.success) {
         setSignUpForm(false);
@@ -46,10 +38,16 @@ function SignUpForm({
         setUsername("");
         setPassword("");
         setConfirmPassword("");
-      } else setSignUpError("Failed to create user");
+      } else {
+        setSignUpError(res.data.message || "Signup failed.");
+      }
     } catch (err) {
-      console.error(err);
-      setSignUpError("Signup error");
+      console.error("Signup Error:", err);
+      if (err.response) {
+        setSignUpError(err.response.data.message || "Signup failed.");
+      } else {
+        setSignUpError("Unable to connect to server.");
+      }
     }
   };
 

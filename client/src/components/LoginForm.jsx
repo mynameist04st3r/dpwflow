@@ -1,19 +1,17 @@
+import { useState } from "react";
 import axios from "axios";
 
-function LoginForm({
-  username,
-  password,
-  setUsername,
-  setPassword,
-  setLoginForm,
-  setSignedIn,
-  loginError,
-  setLoginError,
-}) {
+axios.defaults.withCredentials = true;
+
+function LoginForm({ setLoginForm, setSignedIn }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(null);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8000/login`, {
+      const res = await axios.post("http://localhost:8000/login", {
         username,
         password,
       });
@@ -23,10 +21,16 @@ function LoginForm({
         setUsername("");
         setPassword("");
         localStorage.setItem("token", res.data.token);
-      } else setLoginError("Login failed");
+      } else {
+        setLoginError(res.data.message || "Login failed.");
+      }
     } catch (err) {
-      console.error(err);
-      setLoginError("Login error");
+      console.error("Login Error:", err);
+      if (err.response) {
+        setLoginError(err.response.data.message || "Login failed.");
+      } else {
+        setLoginError("Unable to connect to server.");
+      }
     }
   };
 
@@ -45,7 +49,7 @@ function LoginForm({
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button type="submit">Login</button>
+        <button type="submit">Submit</button>
         {loginError && <p style={{ color: "red" }}>{loginError}</p>}
       </form>
     </div>
@@ -54,7 +58,7 @@ function LoginForm({
 
 const formStyle = {
   position: "fixed",
-  width: "300px",
+  width: "250px",
   top: 90,
   right: 0,
   background: "#EB8921",

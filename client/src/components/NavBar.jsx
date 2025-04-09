@@ -4,27 +4,12 @@ import { createPortal } from "react-dom";
 import "../styles/NavBar.css";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
-import axios from "axios";
-
-axios.defaults.withCredentials = true;
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [rank, setRank] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
   const [loginForm, setLoginForm] = useState(false);
   const [signUpForm, setSignUpForm] = useState(false);
-  const [loginError, setLoginError] = useState(null);
-  const [signUpError, setSignUpError] = useState(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -61,9 +46,7 @@ function NavBar() {
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
           <NavLink
             to="/"
-            className={({ isActive }) =>
-              `nav-link train-one-text ${isActive ? "active" : ""}`
-            }
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
             onClick={closeMenu}
           >
             Home
@@ -111,16 +94,29 @@ function NavBar() {
             Contact
           </NavLink>
 
-          {/* Auth Buttons */}
           <div className="header-buttons-container">
             {signedIn ? (
-              <button className="header-buttons">Account</button>
+              <button
+                className="header-buttons"
+                onClick={() => {
+                  setSignedIn(false);
+                  localStorage.removeItem("token"); // or your auth key
+                }}
+              >
+                Logout
+              </button>
             ) : (
               <>
-                <button className="header-buttons" onClick={handleLoginToggle}>
+                <button
+                  className="header-buttons"
+                  onClick={() => setLoginForm(true)}
+                >
                   Login
                 </button>
-                <button className="header-buttons" onClick={handleSignUpToggle}>
+                <button
+                  className="header-buttons"
+                  onClick={() => setSignUpForm(true)}
+                >
                   Sign Up
                 </button>
               </>
@@ -128,46 +124,17 @@ function NavBar() {
           </div>
         </div>
 
-        {/* Login Form */}
         {loginForm &&
           createPortal(
-            <LoginForm
-              username={username}
-              password={password}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setLoginForm={setLoginForm}
-              setSignedIn={setSignedIn}
-              loginError={loginError}
-              setLoginError={setLoginError}
-            />,
+            <LoginForm setLoginForm={setLoginForm} setSignedIn={setSignedIn} />,
             document.body
           )}
 
-        {/* Sign Up Form */}
         {signUpForm &&
           createPortal(
             <SignUpForm
-              firstName={firstName}
-              lastName={lastName}
-              rank={rank}
-              phoneNumber={phoneNumber}
-              email={email}
-              username={username}
-              password={password}
-              confirmPassword={confirmPassword}
-              setFirstName={setFirstName}
-              setLastName={setLastName}
-              setRank={setRank}
-              setPhoneNumber={setPhoneNumber}
-              setEmail={setEmail}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setConfirmPassword={setConfirmPassword}
               setSignUpForm={setSignUpForm}
               setSignedIn={setSignedIn}
-              signUpError={signUpError}
-              setSignUpError={setSignUpError}
             />,
             document.body
           )}
