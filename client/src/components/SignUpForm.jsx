@@ -38,6 +38,9 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
         setUsername("");
         setPassword("");
         setConfirmPassword("");
+
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
       } else {
         setSignUpError(res.data.message || "Signup failed.");
       }

@@ -15,12 +15,14 @@ function LoginForm({ setLoginForm, setSignedIn }) {
         username,
         password,
       });
+      console.log("Login response:", res.data);
       if (res.data.success) {
         setLoginForm(false);
         setSignedIn(true);
         setUsername("");
         setPassword("");
-        localStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
       } else {
         setLoginError(res.data.message || "Login failed.");
       }
