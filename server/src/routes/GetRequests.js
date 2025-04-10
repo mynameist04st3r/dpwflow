@@ -9,17 +9,22 @@ const baseRequestSelect = [
   { work_order_last_name: 'users.last_name' },
   { work_order_rank: 'users.rank' },
   { work_order_phone_number: 'users.phone_number' },
+  { work_order_email: 'users.email' },
+  { work_order_user_id: 'users.id' },
   'requests.work_order_desc',
   'requests.priority',
   'requests.pending',
   'requests.accepted',
   'requests.complete',
+  'requests.building_id',
   'requests.building_number',
   'requests.room_number',
   'requests.location_desc',
+  { work_order_location_id: 'locations.id' },
   { work_order_state: 'locations.state' },
   { work_order_military_base: 'locations.military_base' },
-  'requests.date_created'
+  'requests.date_created',
+  'requests.date_completed'
 ];
 
 

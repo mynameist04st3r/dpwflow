@@ -18,6 +18,17 @@ router.post('/new-building', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    const admin = await knex('users')
+    .where({ id: admin_id })
+    .select('role')
+    .first();
+
+    if (!admin || (admin.role !== 2 && admin.role !== 3)) {
+    return res.status(403).json({
+      error: 'User is not authorized to manage buildings'
+    });
+    }
+
     const normalizedBuildingNumber = normalizeBuildingNumber(building_number);
 
     let building = await knex('buildings')
