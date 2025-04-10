@@ -1,6 +1,8 @@
 .search-container {
     display: flex; /* Places items in a row */
     gap: 160px; 
+    margin-top: 15px;
+    justify-content: space-between;
 
   }
   
@@ -33,4 +35,19 @@
     list-style-type: none;
     border: 1px black solid;
     margin-top: 10px;
+    border-radius: 5px;
+    background-color: white;
+    text-align: left;
+  }
+  .container_header{
+    text-align: right ;
+    margin-bottom: 10px;
+  }
+  .toprow{
+    display:flex;
+    justify-content: flex-start;
+    gap: 30px;
+    align-items: center;
+    
+    
   }
