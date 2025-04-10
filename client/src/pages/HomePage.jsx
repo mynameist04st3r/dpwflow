@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom";
 import "../styles/HomePage.css";
+import LoginForm from "../components/LoginForm";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [loginForm, setLoginForm] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+
+  const handleAdminClick = () => {
+    setLoginForm(true);
+  };
 
   return (
     <div className="home-container">
@@ -53,15 +61,12 @@ const HomePage = () => {
             Submit Request
           </button>
           <button
-            className="btn secondary"
-            onClick={() => navigate("/my-requests")}
+            className="btn primary"
+            onClick={() => navigate("/active-request")}
           >
-            View My Requests
+            View Active Requests
           </button>
-          <button
-            className="btn admin-login"
-            onClick={() => navigate("/admin")}
-          >
+          <button className="btn admin-login" onClick={handleAdminClick}>
             Admin
           </button>
         </div>
@@ -71,6 +76,12 @@ const HomePage = () => {
         <p>&copy; 2025 DPWFlow. All rights reserved.</p>
         <p>Privacy Policy | Terms of Service</p>
       </footer>
+
+      {loginForm &&
+        createPortal(
+          <LoginForm setLoginForm={setLoginForm} setSignedIn={setSignedIn} />,
+          document.body
+        )}
     </div>
   );
 };

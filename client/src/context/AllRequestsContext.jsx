@@ -9,7 +9,7 @@ export const AllRequestsProvider = ({ children }) => {
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/GetRequests/AllRequests", {
+      const response = await fetch("http://localhost:8000/GetRequests/AllRequests", {
         credentials: "include",
       });
       const data = await response.json();
