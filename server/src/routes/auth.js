@@ -10,6 +10,7 @@ router.get("/", (req, res) => {
   res.send("Server operational");
 });
 
+// Added auto login after account creation
 // POST /signup
 router.post("/signup", async (req, res) => {
   try {
@@ -57,20 +58,34 @@ router.post("/signup", async (req, res) => {
 
     const hashedPassword = await hash(password, 10);
 
-    await knex("users").insert({
-      first_name,
-      last_name,
-      rank,
-      password: hashedPassword,
-      username,
-      phone_number,
-      email,
-      role: 1, // 1 = user, 2 = manager, 3 = admin
-    });
+    const inserted = await knex("users")
+      .insert({
+        first_name,
+        last_name,
+        rank,
+        password: hashedPassword,
+        username,
+        phone_number,
+        email,
+        role: 1, // 1 = user, 2 = manager, 3 = admin
+      })
+      .returning([
+        "id",
+        "first_name",
+        "last_name",
+        "phone_number",
+        "email",
+      ]); /* Return the inserted user */
 
-    return res.json({ success: true, message: "User created successfully" });
+    const newUser = inserted[0]; // access the returned user
+
+    return res.json({
+      success: true,
+      message: "User created and logged in successfully", //updated this line
+      user: newUser,
+    });
   } catch (err) {
-    console.error(err);
+    console.error("Signup error:", err);
     return res
       .status(500)
       .json({ success: false, message: "Internal server error" });
@@ -113,7 +128,7 @@ router.post("/login", async (req, res) => {
         last_name: user.last_name,
         phone_number: user.phone_number,
         email: user.email,
-      }
+      },
     });
   } catch (err) {
     console.error(err);
@@ -122,6 +137,5 @@ router.post("/login", async (req, res) => {
       .json({ success: false, message: "Internal server error" });
   }
 });
-
 
 module.exports = router;

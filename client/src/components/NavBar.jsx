@@ -33,6 +33,18 @@ function NavBar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      setSignedIn(true);
+    }
+  }, []);
+
+  // const storedUser = sessionStorage.getItem("user");
+  // const user = storedUser ? JSON.parse(storedUser) : null;
+
+  // // const user = JSON.parse(sessionStorage.getItem("user"));
+
   return (
     <nav className="nav">
       <div className="nav-inner">
@@ -101,10 +113,9 @@ function NavBar() {
                   setSignedIn(false);
                   sessionStorage.removeItem("token");
                   sessionStorage.removeItem("user");
-
                 }}
               >
-                Logout
+                {/* Hi {user?.first_name || "User"}, Logout */} Logout
               </button>
             ) : (
               <>
