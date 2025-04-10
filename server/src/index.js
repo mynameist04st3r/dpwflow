@@ -19,6 +19,7 @@ const requestsRoutes = require("./routes/requests");
 const getRequestsRoutes = require("./routes/GetRequests");
 const locationsRoutes = require("./routes/locations");
 const authRoutes = require("./routes/auth");
+const buildingsRoutes = require("./routes/buildings");
 
 app.use(express.json());
 app.use(
@@ -48,6 +49,7 @@ app.use("/requests", requestsRoutes);
 app.use("/locations", locationsRoutes);
 app.use("/GetRequests", getRequestsRoutes);
 app.use("/auth", authRoutes);
+app.use("/buildings", buildingsRoutes);
 
 app.listen(port, (req, res) => {
   console.log(`Your server is up at http://localhost:${port}/`);
