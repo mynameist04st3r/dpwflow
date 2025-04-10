@@ -39,6 +39,7 @@ function NavBar() {
       setSignedIn(true);
     }
   }, []);
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   return (
     <nav className="nav">
@@ -110,7 +111,7 @@ function NavBar() {
                   sessionStorage.removeItem("user");
                 }}
               >
-                Logout
+                Hi {user?.first_name || "User"}, Logout
               </button>
             ) : (
               <>
