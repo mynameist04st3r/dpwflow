@@ -7,6 +7,11 @@ export default function ActiveRequest() {
   const [filteredResults, setFilteredResults] = useState([]);
   const navigate = useNavigate();
 
+  const enterKey = (event)=>{
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
   // Fetch data when the Search button is clicked
   const handleSearch = async () => {
     if (!input) {
@@ -32,13 +37,15 @@ export default function ActiveRequest() {
     <div className="container_header">
         <button className="home_button" onClick={()=> navigate('./launch')}>home</button>
     </div>
-      <h1>Accepted Work Orders</h1>
+      <h1 className="h1-header">Building Work Orders</h1>
       <div className="search-container">
         <input
           className="search-input"
           placeholder="Search by building number"
           value={input}
-          onChange={(e) => setInput(e.target.value)} // Update input state on change
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={enterKey}
+          // Update input state on change
           />
         <div>
           <button
