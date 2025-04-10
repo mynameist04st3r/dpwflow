@@ -104,7 +104,17 @@ router.post("/login", async (req, res) => {
         .json({ success: false, message: "Invalid username or password" });
     }
 
-    return res.json({ success: true, message: "Logged in successfully" });
+    return res.json({
+      success: true,
+      message: "Logged in successfully",
+      user: {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        phone_number: user.phone_number,
+        email: user.email,
+      }
+    });
   } catch (err) {
     console.error(err);
     return res
@@ -112,5 +122,6 @@ router.post("/login", async (req, res) => {
       .json({ success: false, message: "Internal server error" });
   }
 });
+
 
 module.exports = router;
