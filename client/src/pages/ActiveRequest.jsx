@@ -29,7 +29,7 @@ export default function ActiveRequest() {
 
     <div className="container">
     <div className="container_header">
-        <button onClick={()=> navigate('./launch')}>home</button>
+        <button className="home_button" onClick={()=> navigate('./launch')}>home</button>
     </div>
       <h1>Accepted Work Orders</h1>
       <div className="search-container">
