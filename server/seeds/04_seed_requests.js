@@ -75,12 +75,29 @@ exports.seed = async function(knex) {
       work_order_desc: 'Flickering light in hallway.',
       location_id: 2,
       building_id: 5,
-      building_number: 'C-2',
+      building_number: 'C2',
       room_number: '2E',
       location_desc: 'End of corridor',
       anon_name: 'C. Ray',
       anon_email: 'ray.anon@example.com',
       anon_phone: '5552223333'
+    },
+    {
+      id: 6,
+      user_id: 999,
+      pending: true,
+      accepted: false,
+      complete: false,
+      priority: 5,
+      work_order_desc: 'Oven sounds like a cammed V8 on start-up.',
+      location_id: 2,
+      building_id: null,
+      building_number: '321B',
+      room_number: '2E',
+      location_desc: 'Kitchen',
+      anon_name: 'John Wick',
+      anon_email: 'boogieman.anon@example.com',
+      anon_phone: '9102911111'
     }
   ]);
 
