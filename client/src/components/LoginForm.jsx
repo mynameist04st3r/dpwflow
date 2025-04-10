@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import axios from "axios";
-
-axios.defaults.withCredentials = true;
+import "../styles/FormModal.css";
 
 function LoginForm({ setLoginForm, setSignedIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
+  const formRef = useRef(null);
+
+  // Close form if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) {
+        setLoginForm(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,12 +26,14 @@ function LoginForm({ setLoginForm, setSignedIn }) {
         username,
         password,
       });
+      console.log("Login response:", res.data);
       if (res.data.success) {
         setLoginForm(false);
         setSignedIn(true);
         setUsername("");
         setPassword("");
-        localStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
       } else {
         setLoginError(res.data.message || "Login failed.");
       }
@@ -35,8 +48,15 @@ function LoginForm({ setLoginForm, setSignedIn }) {
   };
 
   return (
-    <div className="login-form-container" style={formStyle}>
+    <div className="form-modal login-form-container" ref={formRef}>
+      <div className="form-top-buttons">
+        <button className="close-button" onClick={() => setLoginForm(false)}>
+          X
+        </button>
+      </div>
+
       <form onSubmit={handleLogin}>
+        <h2 className="form-title">Login</h2>
         <input
           type="text"
           value={username}
@@ -50,24 +70,10 @@ function LoginForm({ setLoginForm, setSignedIn }) {
           placeholder="Password"
         />
         <button type="submit">Submit</button>
-        {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+        {loginError && <p className="error-text">{loginError}</p>}
       </form>
     </div>
   );
 }
-
-const formStyle = {
-  position: "fixed",
-  width: "250px",
-  top: 90,
-  right: 0,
-  background: "#EB8921",
-  marginRight: "30px",
-  padding: 10,
-  border: "1px solid #93C560",
-  borderRadius: 5,
-  boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-  zIndex: 1000,
-};
 
 export default LoginForm;

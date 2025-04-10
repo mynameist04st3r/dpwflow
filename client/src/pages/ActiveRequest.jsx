@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../styles/ActiveRequest.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ActiveRequest() {
   const [input, setInput] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch data when the Search button is clicked
   const handleSearch = async () => {
@@ -13,12 +15,14 @@ export default function ActiveRequest() {
     }
 
     try {
+      // const encodedInput = encodeURIComponent(input);
       const response = await fetch(`http://localhost:8000/GetRequests/byBuilding/${input}`);
       const data = await response.json();
       setFilteredResults(data); // Update the filtered results with fetched data
     } catch (error) {
       console.error("fetch error", error);
     }
+    
   };
 
   return (
@@ -26,7 +30,7 @@ export default function ActiveRequest() {
 
     <div className="container">
     <div className="container_header">
-        <button>home</button>
+        <button className="home_button" onClick={()=> navigate('./launch')}>home</button>
     </div>
       <h1>Accepted Work Orders</h1>
       <div className="search-container">
@@ -48,10 +52,16 @@ export default function ActiveRequest() {
       <div>
   <ul>
     {filteredResults
-      .filter((item) => item.accepted === true) // Filter accepted requests
+    // the below code filter has been turned off for now
+      // .filter((item) => item.accepted === true) 
       .map((item, index) => (
         <li key={index} className="list">
-          Building Number {item.building_number} |Room Number {item.room_number} <br></br>Discription: {item.work_order_desc}
+          <div className="toprow">
+            <span> Building Number: {item.building_number} </span>
+            <span>Room Number {item.room_number}</span>
+            <span>Date created {item.date_created}</span>
+          </div>
+          Discription: {item.work_order_desc}
         </li>
       ))}
   </ul>
