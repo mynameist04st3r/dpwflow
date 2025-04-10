@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
 import "../styles/NavBar.css";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
@@ -102,22 +101,17 @@ function NavBar() {
                   setSignedIn(false);
                   sessionStorage.removeItem("token");
                   sessionStorage.removeItem("user");
+
                 }}
               >
                 Logout
               </button>
             ) : (
               <>
-                <button
-                  className="header-buttons"
-                  onClick={() => setLoginForm(true)}
-                >
+                <button className="header-buttons" onClick={handleLoginToggle}>
                   Login
                 </button>
-                <button
-                  className="header-buttons"
-                  onClick={() => setSignUpForm(true)}
-                >
+                <button className="header-buttons" onClick={handleSignUpToggle}>
                   Sign Up
                 </button>
               </>
@@ -125,20 +119,13 @@ function NavBar() {
           </div>
         </div>
 
-        {loginForm &&
-          createPortal(
-            <LoginForm setLoginForm={setLoginForm} setSignedIn={setSignedIn} />,
-            document.body
-          )}
+        {loginForm && (
+          <LoginForm setLoginForm={setLoginForm} setSignedIn={setSignedIn} />
+        )}
 
-        {signUpForm &&
-          createPortal(
-            <SignUpForm
-              setSignUpForm={setSignUpForm}
-              setSignedIn={setSignedIn}
-            />,
-            document.body
-          )}
+        {signUpForm && (
+          <SignUpForm setSignUpForm={setSignUpForm} setSignedIn={setSignedIn} />
+        )}
       </div>
     </nav>
   );
