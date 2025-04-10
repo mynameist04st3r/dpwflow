@@ -22,7 +22,7 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
       return setSignUpError("Passwords do not match");
 
     try {
-      const res = await axios.post("http://localhost:8000/signup", {
+      const res = await axios.post("http://localhost:8000/auth/signup", {
         first_name: firstName,
         last_name: lastName,
         rank,
