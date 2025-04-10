@@ -33,6 +33,13 @@ function NavBar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      setSignedIn(true);
+    }
+  }, []);
+
   return (
     <nav className="nav">
       <div className="nav-inner">
@@ -101,7 +108,6 @@ function NavBar() {
                   setSignedIn(false);
                   sessionStorage.removeItem("token");
                   sessionStorage.removeItem("user");
-
                 }}
               >
                 Logout
