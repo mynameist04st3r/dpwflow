@@ -5,7 +5,8 @@
   top: 100px;
   right: 30px;
   width: 340px;
-  background-color: #426f4d;
+  /* background-color: #426f4d; */
+  background-color: var(--background-color);
   padding: 24px 24px 28px 24px;
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
@@ -92,5 +93,5 @@
   font-size: 1.4rem;
   font-weight: bold;
   text-align: center;
-  color: #101420;
+  color: white;
 }
