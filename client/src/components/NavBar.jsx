@@ -99,7 +99,9 @@ function NavBar() {
                 className="header-buttons"
                 onClick={() => {
                   setSignedIn(false);
-                  localStorage.removeItem("token");
+                  sessionStorage.removeItem("token");
+                  sessionStorage.removeItem("user");
+
                 }}
               >
                 Logout
