@@ -22,7 +22,6 @@ function LoginForm({ setLoginForm, setSignedIn }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // ... axios login logic
   };
 
   return (
@@ -32,16 +31,23 @@ function LoginForm({ setLoginForm, setSignedIn }) {
       }`}
       ref={formRef}
     >
-      <button className="close-button" onClick={() => setLoginForm(false)}>
-        X
-      </button>
+      <div className="form-top-buttons">
+        {minimized ? (
+          <button
+            className="minimize-button"
+            onClick={() => setMinimized(false)}
+          >
+            🔽 Expand
+          </button>
+        ) : null}
+        <button className="close-button" onClick={() => setLoginForm(false)}>
+          X
+        </button>
+      </div>
 
-      {minimized ? (
-        <button onClick={() => setMinimized(false)}>🔽 Expand</button>
-      ) : (
+      {!minimized && (
         <form onSubmit={handleLogin}>
           <h2 className="form-title">Login</h2>
-
           <input
             type="text"
             value={username}

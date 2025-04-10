@@ -6,13 +6,14 @@
   right: 30px;
   width: 320px;
   background-color: #eb8921;
-  padding: 40px 20px 20px 20px; /* Increased top padding for space */
+  padding: 40px 20px 20px 20px;
   border-radius: 8px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 2000;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 50px;
 }
 
 .sign-up-form-container form,
@@ -57,9 +58,6 @@
 
 /* Close and minimize buttons */
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background-color: red !important;
   color: white !important;
   border: none;
@@ -70,19 +68,47 @@
   cursor: pointer;
 }
 
-.minimize-button {
-  margin-right: 20px;
-  position: absolute;
-  top: 10px;
-  right: 50px;
-  background-color: #ccc;
-  color: #333;
+.form-top-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.expand-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  padding: 10px;
+}
+
+.expand-button {
+  background-color: #426f4d;
+  color: white;
   border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 1rem;
+  padding: 10px 14px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.minimized {
+  width: auto;
+  min-width: 200px;
+  height: 60px;
+  min-height: 50px;
+  background-color: #eb8921;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 10px;
 }
 
 /* Responsive */
@@ -95,17 +121,6 @@
   }
 }
 
-.minimized {
-  width: 180px;
-  height: auto;
-  padding: 10px;
-  background-color: #eb8921;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .form-title {
   margin-bottom: 16px;
   font-size: 1.4rem;
@@ -113,5 +128,3 @@
   text-align: center;
   color: #101420;
 }
-
-/* Add margin to separate buttons */
