@@ -15,6 +15,7 @@ export default function ActiveRequest() {
     }
 
     try {
+      // const encodedInput = encodeURIComponent(input);
       const response = await fetch(`http://localhost:8000/GetRequests/byBuilding/${input}`);
       const data = await response.json();
       setFilteredResults(data); // Update the filtered results with fetched data
@@ -51,7 +52,8 @@ export default function ActiveRequest() {
       <div>
   <ul>
     {filteredResults
-      .filter((item) => item.accepted === true) // Filter accepted requests
+    // the below code filter has been turned off for now
+      // .filter((item) => item.accepted === true) 
       .map((item, index) => (
         <li key={index} className="list">
           <div className="toprow">
