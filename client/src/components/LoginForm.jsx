@@ -22,6 +22,30 @@ function LoginForm({ setLoginForm, setSignedIn }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:8000/auth/login", {
+        username,
+        password,
+      });
+      console.log("Login response:", res.data);
+      if (res.data.success) {
+        setLoginForm(false);
+        setSignedIn(true);
+        setUsername("");
+        setPassword("");
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
+      } else {
+        setLoginError(res.data.message || "Login failed.");
+      }
+    } catch (err) {
+      console.error("Login Error:", err);
+      if (err.response) {
+        setLoginError(err.response.data.message || "Login failed.");
+      } else {
+        setLoginError("Unable to connect to server.");
+      }
+    }
   };
 
   return (
