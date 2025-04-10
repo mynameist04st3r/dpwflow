@@ -40,10 +40,14 @@ function NavBar() {
     }
   }, []);
 
+  // const user = JSON.parse(sessionStorage.getItem("user"));
+
+
   // const storedUser = sessionStorage.getItem("user");
   // const user = storedUser ? JSON.parse(storedUser) : null;
 
   // // const user = JSON.parse(sessionStorage.getItem("user"));
+
 
   return (
     <nav className="nav">
@@ -115,7 +119,10 @@ function NavBar() {
                   sessionStorage.removeItem("user");
                 }}
               >
-                {/* Hi {user?.first_name || "User"}, Logout */} Logout
+
+                {/* {/* Hi {user?.first_name || "User"},  */}
+                Logout
+
               </button>
             ) : (
               <>
