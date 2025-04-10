@@ -32,11 +32,11 @@ export default function ActiveRequest() {
 
   return (
     <>
-
-    <div className="container">
+<div className="total-display">
     <div className="container_header">
         <button className="home_button" onClick={()=> navigate('./launch')}>home</button>
     </div>
+    <div className="container">
       <h1 className="h1-header">Building Work Orders</h1>
       <div className="search-container">
         <input
@@ -74,6 +74,7 @@ export default function ActiveRequest() {
   </ul>
 </div>
     </div>
+</div>
       </>
   );
 }
