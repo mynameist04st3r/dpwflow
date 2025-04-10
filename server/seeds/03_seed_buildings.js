@@ -10,7 +10,8 @@ exports.seed = async function(knex) {
     { id: 2, building_number: '45B', location_id: 2 },
     { id: 3, building_number: '89', location_id: 3 },
     { id: 4, building_number: 'B5', location_id: 1 },
-    { id: 5, building_number: 'C2', location_id: 2 }
+    { id: 5, building_number: 'C2', location_id: 2 },
+    { id: 999, building_number: 'Submitted by User', location_id: 1 }
   ]);
 
   await knex.raw(`SELECT setval('buildings_id_seq', (SELECT MAX(id) FROM buildings))`);

@@ -8,6 +8,8 @@ returns:
         "work_order_last_name": "Doe",
         "work_order_rank": "Sergeant",
         "work_order_phone_number": "5551234567",
+        "work_order_email": "john.doe@example.mil",
+        "work_order_user_id": 1,
         "work_order_desc": "Leaky faucet in bathroom.",
         "priority": 2,
         "pending": true,
@@ -16,9 +18,12 @@ returns:
         "building_number": "123",
         "room_number": "A101",
         "location_desc": "South Wing",
-        "work_order_state": "North Carolina",
-        "work_order_military_base": "Fort Liberty",
-        "date_created": "2025-04-07T16:50:12.841Z"
+        "work_order_state": "AL",
+        "work_order_military_base": "Fort Rucker",
+        "work_order_location_id": 1,
+        "date_created": "2025-04-10T18:39:05.274Z",
+        "date_completed": null,
+        "building_id": 1
     }
 ]
 
@@ -32,6 +37,8 @@ returns:
         "work_order_last_name": "Doe",
         "work_order_rank": "Sergeant",
         "work_order_phone_number": "5551234567",
+        "work_order_email": "john.doe@example.mil",
+        "work_order_user_id": 1,
         "work_order_desc": "Leaky faucet in bathroom.",
         "priority": 2,
         "pending": true,
@@ -40,9 +47,12 @@ returns:
         "building_number": "123",
         "room_number": "A101",
         "location_desc": "South Wing",
-        "work_order_state": "North Carolina",
-        "work_order_military_base": "Fort Liberty",
-        "date_created": "2025-04-07T16:50:12.841Z"
+        "work_order_state": "AL",
+        "work_order_military_base": "Fort Rucker",
+        "work_order_location_id": 1,
+        "date_created": "2025-04-10T18:39:05.274Z",
+        "date_completed": null,
+        "building_id": 1
     }
 ]
 
@@ -54,21 +64,26 @@ ex: http://localhost:8000/GetRequests/byBuilding/45-b
 returns:
 [
     {
-        "id": 2,
-        "work_order_first_name": "Jane",
-        "work_order_last_name": "Smith",
-        "work_order_rank": "Corporal",
-        "work_order_phone_number": "5559876543",
-        "work_order_desc": "Heater not working.",
-        "priority": 3,
-        "pending": false,
-        "accepted": true,
+        "id": 1,
+        "work_order_first_name": "John",
+        "work_order_last_name": "Doe",
+        "work_order_rank": "Sergeant",
+        "work_order_phone_number": "5551234567",
+        "work_order_email": "john.doe@example.mil",
+        "work_order_user_id": 1,
+        "work_order_desc": "Leaky faucet in bathroom.",
+        "priority": 2,
+        "pending": true,
+        "accepted": false,
         "complete": false,
-        "building_number": "45B",
-        "room_number": "2F",
-        "location_desc": "East Barracks",
+        "building_number": "123",
+        "room_number": "A101",
+        "location_desc": "South Wing",
         "work_order_state": "AL",
-        "work_order_military_base": "Redstone Arsenal",
-        "date_created": "2025-04-08T15:46:10.476Z"
+        "work_order_military_base": "Fort Rucker",
+        "work_order_location_id": 1,
+        "date_created": "2025-04-10T18:39:05.274Z",
+        "date_completed": null,
+        "building_id": 1
     }
 ]
