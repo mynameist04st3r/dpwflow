@@ -4,25 +4,40 @@ import { useAllRequests } from "../context/AllRequestsContext";
 
 export default function MyRequests() {
   const { requests, loading } = useAllRequests();
+  const [sortBy, setSortBy] = useState("id");
 
-  const formattedRequests = requests.map((req) => ({
-    id: req.id,
-    created_at: req.date_created,
-    location: `${req.building_number}, Room ${req.room_number}`,
-    issue_type: req.work_order_desc.split(" ")[0] || "General",
-    description: req.work_order_desc,
-    status: req.complete
-      ? "completed"
-      : req.accepted
-      ? "in progress"
-      : "pending",
-    priority:
-      req.priority === 1
-        ? "high"
-        : req.priority === 2
-        ? "normal"
-        : "low",
-  }));
+  const formattedRequests = [...requests]
+    .map((req) => ({
+      id: req.id,
+      created_at: req.date_created,
+      location: `${req.building_number}, Room ${req.room_number}`,
+      issue_type: req.work_order_desc.split(" ")[0] || "General",
+      description: req.work_order_desc,
+      status: req.complete
+        ? "completed"
+        : req.accepted
+        ? "in progress"
+        : "pending",
+      priority:
+        req.priority === 1
+          ? "high"
+          : req.priority === 2
+          ? "normal"
+          : "low",
+    }))
+    .sort((a, b) => {
+      if (sortBy === "id") return a.id - b.id;
+      if (sortBy === "date") return new Date(b.created_at) - new Date(a.created_at);
+      if (sortBy === "priority") {
+        const priorityOrder = { high: 1, normal: 2, low: 3 };
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      }
+      if (sortBy === "status") {
+        const statusOrder = { pending: 1, "in progress": 2, completed: 3 };
+        return statusOrder[a.status] - statusOrder[b.status];
+      }
+      return 0;
+    });
 
   const stats = {
     total: formattedRequests.length,
@@ -52,7 +67,6 @@ export default function MyRequests() {
     <div className="my-requests-container">
       <h1>My Maintenance Requests</h1>
 
-      {/* Loading State */}
       {loading ? (
         <p>Loading requests...</p>
       ) : (
@@ -90,6 +104,21 @@ export default function MyRequests() {
                 <p className="stat-number">{stats.highPriority}</p>
               </div>
             </div>
+          </div>
+
+          {/* Sort Dropdown */}
+          <div className="sort-options">
+            <label htmlFor="sort">Sort By:</label>
+            <select
+              id="sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="id">Request ID</option>
+              <option value="date">Date</option>
+              <option value="priority">Priority</option>
+              <option value="status">Status</option>
+            </select>
           </div>
 
           {/* Requests Table */}
@@ -144,6 +173,7 @@ export default function MyRequests() {
     </div>
   );
 }
+
   // Sample data
 //   const sampleRequests = [
 //     {
