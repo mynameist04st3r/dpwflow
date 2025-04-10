@@ -13,6 +13,7 @@ exports.up = function(knex) {
     table.integer('priority').defaultTo(1);
     table.text('work_order_desc');
     table.timestamp('date_created').defaultTo(knex.fn.now());
+    table.timestamp('date_completed').nullable();
     table.integer('location_id').unsigned().notNullable();
     table.foreign('location_id').references('id').inTable('locations').onDelete('CASCADE');
     table.integer('building_id').unsigned();

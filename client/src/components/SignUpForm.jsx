@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import axios from "axios";
+import "../styles/FormModal.css";
 
 axios.defaults.withCredentials = true;
 
@@ -13,6 +14,19 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpError, setSignUpError] = useState(null);
+  const [minimized, setMinimized] = useState(false);
+
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) {
+        setMinimized(true);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -22,7 +36,7 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
       return setSignUpError("Passwords do not match");
 
     try {
-      const res = await axios.post("http://localhost:8000/signup", {
+      const res = await axios.post("http://localhost:8000/auth/signup", {
         first_name: firstName,
         last_name: lastName,
         rank,
@@ -38,6 +52,9 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
         setUsername("");
         setPassword("");
         setConfirmPassword("");
+
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
       } else {
         setSignUpError(res.data.message || "Signup failed.");
       }
@@ -52,76 +69,85 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
   };
 
   return (
-    <div className="sign-up-form-container" style={formStyle}>
-      <form onSubmit={handleSignUp}>
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          placeholder="First Name"
-        />
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          placeholder="Last Name"
-        />
-        <input
-          type="text"
-          value={rank}
-          onChange={(e) => setRank(e.target.value)}
-          placeholder="Rank"
-        />
-        <input
-          type="tel"
-          value={phoneNumber}
-          pattern="[0-9]{10}"
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          placeholder="Phone Number"
-        />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-        />
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-        />
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm Password"
-        />
-        <button type="submit">Submit</button>
-        {signUpError && <p style={{ color: "red" }}>{signUpError}</p>}
-      </form>
+    <div
+      className={`form-modal sign-up-form-container ${
+        minimized ? "minimized" : ""
+      }`}
+      ref={formRef}
+    >
+      <div className="form-top-buttons">
+        {minimized ? (
+          <button
+            className="minimize-button"
+            onClick={() => setMinimized(false)}
+          >
+            🔽 Expand
+          </button>
+        ) : null}
+        <button className="close-button" onClick={() => setSignUpForm(false)}>
+          X
+        </button>
+      </div>
+
+      {!minimized && (
+        <form onSubmit={handleSignUp}>
+          <h2 className="form-title">Sign Up Form</h2>
+
+          <input
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder="First Name"
+          />
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Last Name"
+          />
+          <input
+            type="text"
+            value={rank}
+            onChange={(e) => setRank(e.target.value)}
+            placeholder="Rank"
+          />
+          <input
+            type="tel"
+            value={phoneNumber}
+            pattern="[0-9]{10}"
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="Phone Number"
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
+          />
+          <button type="submit">Submit</button>
+          {signUpError && <p className="signup-error">{signUpError}</p>}
+        </form>
+      )}
     </div>
   );
 }
-
-const formStyle = {
-  position: "fixed",
-  width: "400px",
-  top: 90,
-  right: 0,
-  background: "#EB8921",
-  marginRight: "30px",
-  padding: 10,
-  border: "1px solid #93C560",
-  borderRadius: 5,
-  boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-  zIndex: 1000,
-};
 
 export default SignUpForm;
