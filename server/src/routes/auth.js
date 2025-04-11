@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
       username,
       confirmPassword,
       phone_number,
-      email,
+      email
     } = req.body;
 
     if (
@@ -75,6 +75,7 @@ router.post("/signup", async (req, res) => {
         "last_name",
         "phone_number",
         "email",
+        "role",
       ]); /* Return the inserted user */
 
     const newUser = inserted[0]; // access the returned user
@@ -128,6 +129,7 @@ router.post("/login", async (req, res) => {
         last_name: user.last_name,
         phone_number: user.phone_number,
         email: user.email,
+        role: user.role
       },
     });
   } catch (err) {
