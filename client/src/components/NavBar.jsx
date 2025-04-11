@@ -40,8 +40,8 @@ function NavBar() {
     }
   }, []);
 
-  // const user = JSON.parse(sessionStorage.getItem("user"));
-
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userRole = user?.role || 1;
 
   // const storedUser = sessionStorage.getItem("user");
   // const user = storedUser ? JSON.parse(storedUser) : null;
@@ -59,7 +59,7 @@ function NavBar() {
         </div>
 
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <NavLink
+          {/* <NavLink
             to="/"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
             onClick={closeMenu}
@@ -107,7 +107,26 @@ function NavBar() {
             onClick={closeMenu}
           >
             Contact
-          </NavLink>
+          </NavLink> */}
+          <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Home</NavLink>
+
+<NavLink to="/maintenance-request" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Maintenance Request</NavLink>
+
+
+{userRole >= 3 && (
+  <NavLink to="/maintenance-tracker" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Maintenance Tracker</NavLink>
+)}
+{userRole >= 2 && (
+  <NavLink to="/maintenance-tracker" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>My Requests</NavLink>
+)}
+
+
+{userRole === 4 && (
+  <NavLink to="/admin" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Admin</NavLink>
+)}
+
+<NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Contact</NavLink>
+
 
           <div className="header-buttons-container">
             {signedIn ? (
