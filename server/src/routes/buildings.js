@@ -23,7 +23,7 @@ router.post('/new-building', async (req, res) => {
     .select('role')
     .first();
 
-    if (!admin || (admin.role !== 2 && admin.role !== 3)) {
+    if (!admin || (admin.role !== 3 && admin.role !== 4)) {
     return res.status(403).json({
       error: 'User is not authorized to manage buildings'
     });
@@ -94,7 +94,7 @@ router.get('/get-buildings/building-number/:building_number', async (req, res) =
   try {
     const { building_number } = req.params;
     const normalized = building_number.toUpperCase().replace(/[\s\-]/g, '');
-    
+
     const building = await knex('buildings')
       .whereRaw(
         "REPLACE(REPLACE(UPPER(building_number), ' ', ''), '-', '') = ?",
