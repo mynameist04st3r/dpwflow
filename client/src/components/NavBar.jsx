@@ -117,7 +117,6 @@ function NavBar() {
 )}
 
 {userRole >= 3 && (
-  <NavLink to="/maintenance-tracker" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Maintenance Tracker</NavLink>,
   <NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Dashboard</NavLink>
 )}
 
