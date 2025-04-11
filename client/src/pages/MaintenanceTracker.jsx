@@ -64,6 +64,44 @@ export default function MaintenanceTracker() {
     }
   };
 
+  const handleStatusChange = async (id, newStatus) => {
+    if (!window.confirm(`Change status to "${newStatus}"?`)) return;
+
+    const statusPayload = {
+      pending: newStatus === "pending",
+      accepted: newStatus === "in progress",
+      complete: newStatus === "completed",
+    };
+
+    try {
+      await fetch(`http://localhost:8000/requests/updateRequest/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(statusPayload),
+      });
+      window.location.reload(); // or trigger a re-fetch if using SWR/react-query
+    } catch (err) {
+      console.error("Failed to update status:", err);
+    }
+  };
+
+  const handlePriorityChange = async (id, newPriority) => {
+    if (!window.confirm(`Change priority to "${newPriority}"?`)) return;
+
+    const priorityMap = { high: 1, normal: 2, low: 3 };
+
+    try {
+      await fetch(`http://localhost:8000/requests/updateRequest/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priority: priorityMap[newPriority] }),
+      });
+      window.location.reload();
+    } catch (err) {
+      console.error("Failed to update priority:", err);
+    }
+  };
+
   return (
     <div className="my-requests-container">
       <h1>Maintenance Tracker</h1>
@@ -74,6 +112,7 @@ export default function MaintenanceTracker() {
         <>
           {/* Statistics Cards */}
           <div className="stats-container">
+            {/* ... same stat card layout as before ... */}
             <div className="stat-card">
               <div className="stat-icon">📊</div>
               <div className="stat-content">
@@ -81,7 +120,6 @@ export default function MaintenanceTracker() {
                 <p className="stat-number">{stats.total}</p>
               </div>
             </div>
-
             <div className="stat-card">
               <div className="stat-icon">🔄</div>
               <div className="stat-content">
@@ -89,7 +127,6 @@ export default function MaintenanceTracker() {
                 <p className="stat-number">{stats.active}</p>
               </div>
             </div>
-
             <div className="stat-card">
               <div className="stat-icon">✅</div>
               <div className="stat-content">
@@ -97,7 +134,6 @@ export default function MaintenanceTracker() {
                 <p className="stat-number">{stats.completed}</p>
               </div>
             </div>
-
             <div className="stat-card">
               <div className="stat-icon">⚡</div>
               <div className="stat-content">
@@ -154,14 +190,28 @@ export default function MaintenanceTracker() {
                       <td>{request.issue_type}</td>
                       <td>{request.description}</td>
                       <td>
-                        <span className={getStatusBadgeClass(request.status)}>
-                          {request.status}
-                        </span>
+                        <select
+                          value={request.status}
+                          onChange={(e) =>
+                            handleStatusChange(request.id, e.target.value)
+                          }
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="in progress">Accepted</option>
+                          <option value="completed">Completed</option>
+                        </select>
                       </td>
                       <td>
-                        <span className={`priority-badge ${request.priority}`}>
-                          {request.priority}
-                        </span>
+                        <select
+                          value={request.priority}
+                          onChange={(e) =>
+                            handlePriorityChange(request.id, e.target.value)
+                          }
+                        >
+                          <option value="high">High</option>
+                          <option value="normal">Normal</option>
+                          <option value="low">Low</option>
+                        </select>
                       </td>
                     </tr>
                   ))}

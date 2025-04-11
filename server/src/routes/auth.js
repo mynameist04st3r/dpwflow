@@ -67,7 +67,7 @@ router.post("/signup", async (req, res) => {
         username,
         phone_number,
         email,
-        role: 1, // 1 = user, 2 = manager, 3 = admin
+        role: 2, // 1 = Guest, 2 = End User, 3 = Manager, 4 = Admin
       })
       .returning([
         "id",
