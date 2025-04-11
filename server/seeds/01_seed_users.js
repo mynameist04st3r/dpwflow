@@ -42,6 +42,17 @@ exports.seed = async function(knex) {
       role: 1
     },
     {
+      id: 4,
+      first_name: 'Mike',
+      last_name: 'Bradley',
+      rank: 'CIV',
+      password: await hash('securepass3'),
+      username: 'MikeBradley',
+      phone_number: '5556789012',
+      email: 'admin.brown@example.mil',
+      role: 1
+    },
+    {
       id: 999,
       first_name: 'Anonymous',
       last_name: 'Submitter',
