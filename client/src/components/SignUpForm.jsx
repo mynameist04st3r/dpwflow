@@ -20,7 +20,7 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (formRef.current && !formRef.current.contains(e.target)) {
-        setSignUpForm(false); // closes form when clicking outside
+        setSignUpForm(false); 
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -66,6 +66,7 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
       }
     }
   };
+  
 
   return (
     <div className="form-modal sign-up-form-container" ref={formRef}>
