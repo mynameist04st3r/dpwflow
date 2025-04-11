@@ -124,6 +124,42 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  const { admin_id, building_id } = req.query;
+
+  try {
+    let query = knex('admin_buildings').select('*');
+
+    if (admin_id && building_id) {
+      const relation = await query
+        .where({ admin_id, building_id })
+        .first();
+
+      if (!relation) {
+        return res.status(404).json({ message: 'Relationship not found' });
+      }
+
+      return res.status(200).json(relation);
+    }
+
+    if (admin_id) {
+      const assignments = await query.where({ admin_id });
+      return res.status(200).json(assignments);
+    }
+
+    if (building_id) {
+      const assignments = await query.where({ building_id });
+      return res.status(200).json(assignments);
+    }
+
+    const allAssignments = await query;
+    return res.status(200).json(allAssignments);
+
+  } catch (err) {
+    console.error('Error fetching admin-building data:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 module.exports = router;
