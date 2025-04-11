@@ -51,7 +51,7 @@ exports.seed = async function(knex) {
       phone_number: '',
       email: '',
       role: 1
-    }
+    },
      {
       id: 4,
       first_name: 'admin',
