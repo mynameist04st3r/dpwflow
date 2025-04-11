@@ -71,4 +71,23 @@ router.get('/byBuilding/:building_number', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const request = await buildRequestQuery()
+      .where('requests.id', id)
+      .first(); // only get one record
+
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
+
+    res.json(request);
+  } catch (err) {
+    console.error('Failed to fetch request by ID:', err);
+    res.status(500).json({ error: 'Failed to fetch maintenance request by ID' });
+  }
+});
+
 module.exports = router;
