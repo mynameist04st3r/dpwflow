@@ -30,3 +30,8 @@ cd server/
 npm install
 npm start
 ('npm run dev' will run the API with nodemon for development)
+
+***FOR WINDOWS USERS RUNNING WSL***
+1. Run Ubuntu
+2. cd mnt to server directory
+3. Follow Steps 1
