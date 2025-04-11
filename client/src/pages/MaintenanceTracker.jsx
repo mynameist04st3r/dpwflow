@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/MyRequests.css"; // Reuse the existing styles
 import { useAllRequests } from "../context/AllRequestsContext";
 
@@ -97,7 +98,11 @@ export default function MaintenanceTracker() {
                 <tbody>
                   {formattedRequests.map((request) => (
                     <tr key={request.id}>
-                      <td>#{request.id}</td>
+                      <td>
+                        <Link to={`/maintenance-tracker/${request.id}`}>
+                          #{request.id}
+                        </Link>
+                      </td>
                       <td>{new Date(request.created_at).toLocaleDateString()}</td>
                       <td>{request.location}</td>
                       <td>{request.issue_type}</td>
