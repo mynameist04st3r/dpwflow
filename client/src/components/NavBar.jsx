@@ -112,14 +112,14 @@ function NavBar() {
 
 <NavLink to="/maintenance-request" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Maintenance Request</NavLink>
 
+{userRole >= 2 && (
+  <NavLink to="/my-requests" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>My Requests</NavLink>
+)}
 
 {userRole >= 3 && (
-  <NavLink to="/maintenance-tracker" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Maintenance Tracker</NavLink>
+  <NavLink to="/maintenance-tracker" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Maintenance Tracker</NavLink>,
+  <NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Dashboard</NavLink>
 )}
-{userRole >= 2 && (
-  <NavLink to="/maintenance-tracker" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>My Requests</NavLink>
-)}
-
 
 {userRole === 4 && (
   <NavLink to="/admin" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Admin</NavLink>
