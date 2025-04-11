@@ -50,14 +50,14 @@ function Admin() {
                   <TableBody className="admin-forms-prioritized-body">
                     {prioritizedRequests.map((request) => (
                       <TableRow key={request.id}>
-                        <TableCell component="th" scope="row">{request.priority}</TableCell>
-                        <TableCell align="left">{request.pending ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="left">{request.accepted ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="left">{request.work_order_desc}</TableCell>
-                        <TableCell align="left">{request.date_created}</TableCell>
-                        <TableCell align="left">{request.date_completed}</TableCell>
-                        <TableCell align="left">{request.location_id}</TableCell>
-                        <TableCell align="left">{request.building_id}</TableCell>
+                        <TableCell component="th" scope="row" style={{ borderBottom: '1px solid #426f4d' }}>{request.priority}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.pending ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.accepted ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.work_order_desc}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.date_created}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.date_completed}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.location_id}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.building_id}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
