@@ -1,3 +1,26 @@
+:root {
+  --primary-color: #8cc5a6;
+  --secondary-color: #426f4d;
+  --accent-color: #101420;
+  --background-color: #000000a6;
+  --text-color: #dbdde2;
+  --card-background: #050608;
+  --hover-color: #6da888;
+  --border-color: #5a8f6e;
+}
+/* GlowPulse animation for signin and signup forms */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 3px 1px #426f4d;
+  }
+  50% {
+    box-shadow: 0 0 8px 2px #6da888;
+  }
+  100% {
+    box-shadow: 0 0 3px 1px #5a8f6e;
+  }
+}
+
 /* Target both forms */
 .sign-up-form-container,
 .login-form-container {
@@ -5,7 +28,8 @@
   top: 100px;
   right: 30px;
   width: 340px;
-  background-color: #426f4d;
+  /* background-color: #426f4d; */
+  background-color: var(--background-color);
   padding: 24px 24px 28px 24px;
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
@@ -15,6 +39,8 @@
   align-items: stretch;
   gap: 16px;
   transition: all 0.3s ease;
+  /* box-shadow: 0 0 2px 2px rgba(255, 255, 255, 0.8); */
+  animation: glowPulse 4s ease-in-out infinite;
 }
 
 .sign-up-form-container form,
@@ -92,5 +118,5 @@
   font-size: 1.4rem;
   font-weight: bold;
   text-align: center;
-  color: #101420;
+  color: white;
 }
