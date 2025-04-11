@@ -52,6 +52,17 @@ exports.seed = async function(knex) {
       email: '',
       role: 1
     }
+     {
+      id: 4,
+      first_name: 'admin',
+      last_name: 'admin',
+      rank: 'N/A',
+      password: await hash('password'),
+      username: 'admin',
+      phone_number: '1234567890',
+      email: 'admin@dpwflow.com',
+      role: 4
+    }
   ]);
 
   await knex.raw(`SELECT setval('users_id_seq', (SELECT MAX(id) FROM users))`);
