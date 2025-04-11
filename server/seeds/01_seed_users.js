@@ -56,7 +56,7 @@ exports.seed = async function(knex) {
       id: 4,
       first_name: 'admin',
       last_name: 'admin',
-      rank: 'N/A',
+      rank: 'CIV',
       password: await hash('password'),
       username: 'admin',
       phone_number: '1234567890',
