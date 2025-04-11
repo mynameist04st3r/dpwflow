@@ -1,79 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Button } from 'react';
 import '../styles/Admin.css';
 import NavBar from '../components/NavBar';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
-export default function Admin() {
-  const [states, setStates] = useState([]);
-  const [bases, setBases] = useState([]);
-  const [buildings, setBuildings] = useState([]);
-  const [managers, setManagers] = useState([]);
-  const [error, setError] = useState(null);
+function Admin() {
+  const [prioritizedRequests, setPrioritizedRequests] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [newState, setNewState] = useState('');
-  const [isNewState, setIsNewState] = useState(false);
-
   useEffect(() => {
-    fetch(`http://localhost:8000/locations`)
-      .then(res => res.json())
-      .then(data => {
-        console.log('Fetched locations:', data);
-      })
-      .catch(err => setError(err.message));
+    const fetchPrioritizedRequests = async () => {
+      const response = await fetch('http://localhost:8000/adminrequests/prioritizedRequests');
+      const data = await response.json();
+      setPrioritizedRequests(data.slice(0, 20));
+    };
+    fetchPrioritizedRequests();
   }, []);
-
-  const handleSearch = async (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    if (query) {
-      try {
-        const response = await fetch(`http://localhost:8000/locations/search`, {
-          method: 'GET',
-          params: {q: query}
-        });
-        const data = await response.json();
-        setSearchResults(data);
-        if (data.length === 0) {
-          setIsNewState(true);
-        } else {
-          setIsNewState(false);
-          setNewState('');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      setSearchResults([]);
-      setIsNewState(false);
-      setNewState('');
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isNewState) {
-      try {
-        const response = await fetch(`http://localhost:8000:locations`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({state: newState}),
-        });
-        const data = await response.json();
-        console.log('New state added: ', data);
-        setShowForm(false);
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      console.log('State already exists');
-    }
-  };
-
-  const handleNewStateChange = (e) => {
-    setNewState(e.target.value);
-  };
 
   return (
     <div className="admin-back-div-container">
@@ -81,57 +25,51 @@ export default function Admin() {
       <div className="admin-container">
         <div className="admin-button-bar">
           <div className="admin-button-container">
-            <div className="admin-set-priorities">
-              <button className="admin-buttons">Prioritize Work Orders</button>
-            </div>
-            <div className="admin-classify-users">
-              <button className="admin-buttons">Set User Rolls</button>
-            </div>
-            <div className="admin-input-local-data">
+            <button className="admin-buttons" onClick={() => setShowForm(true)}>Prioritize Work Orders</button>
+            <button className="admin-buttons">Set User Rolls</button>
             <button className="admin-buttons" onClick={() => setShowForm(true)}>Add Installation Data</button>
-            </div>
           </div>
         </div>
         <div className="admin-forms-container">
           <div className="admin-forms">
-            {(showForm ? (
+            {showForm && (
               <div>
-                <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                  <input
-                    type="search"
-                    value={searchQuery}
-                    onChange={handleSearch}
-                    placeholder="Search states"
-                    style={{width: '50%', padding: '10px', marginBottom: '20px'}}
-                  />
-                  {searchResults.length > 0 && (
-                    <ul style={{listStyle: 'none', padding: '0', width: '50%'}}>
-                      {searchResults.map((result, index) => (
-                        <li key={index}>{result.state}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {isNewState && (
-                    <div>
-                      <label>New State:</label>
-                      <input
-                        type="text"
-                        value={newState}
-                        onChange={handleNewStateChange}
-                        style={{width: '50%', padding: '10px', marginBottom: '20px'}}
-                      />
-                    </div>
-                  )}
-                  <button type="submit" className="admin-buttons">Submit</button>
-                </form>
+                <Table>
+                  <TableHead>
+                    <TableRow className="admin-forms-prioritized-header-row">
+                      <TableCell style={{ borderBottom: '2px solid #961e14' }}>Priority</TableCell>
+                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Pending</TableCell>
+                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Accepted</TableCell>
+                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Work Order Description</TableCell>
+                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Date Created</TableCell>
+                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Date Completed</TableCell>
+                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Location ID</TableCell>
+                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Building ID</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody className="admin-forms-prioritized-body">
+                    {prioritizedRequests.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell component="th" scope="row">{request.priority}</TableCell>
+                        <TableCell align="left">{request.pending ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{request.accepted ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{request.work_order_desc}</TableCell>
+                        <TableCell align="left">{request.date_created}</TableCell>
+                        <TableCell align="left">{request.date_completed}</TableCell>
+                        <TableCell align="left">{request.location_id}</TableCell>
+                        <TableCell align="left">{request.building_id}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </div>
-            ) : (
-              <div>Select an option to the left</div>
-            )
             )}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Admin;
+
