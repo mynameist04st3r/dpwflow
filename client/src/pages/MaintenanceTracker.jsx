@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../styles/MyRequests.css"; // Reuse the existing styles
+import "../styles/MyRequests.css";
 import { useAllRequests } from "../context/AllRequestsContext";
 
 export default function MaintenanceTracker() {
@@ -40,6 +40,17 @@ export default function MaintenanceTracker() {
       return 0;
     });
 
+  const stats = {
+    total: formattedRequests.length,
+    active: formattedRequests.filter(
+      (r) => r.status === "pending" || r.status === "in progress"
+    ).length,
+    completed: formattedRequests.filter((r) => r.status === "completed").length,
+    highPriority: formattedRequests.filter(
+      (r) => r.priority === "high" && r.status !== "completed"
+    ).length,
+  };
+
   const getStatusBadgeClass = (status) => {
     switch (status?.toLowerCase()) {
       case "pending":
@@ -61,6 +72,41 @@ export default function MaintenanceTracker() {
         <p>Loading requests...</p>
       ) : (
         <>
+          {/* Statistics Cards */}
+          <div className="stats-container">
+            <div className="stat-card">
+              <div className="stat-icon">📊</div>
+              <div className="stat-content">
+                <h3>Total Requests</h3>
+                <p className="stat-number">{stats.total}</p>
+              </div>
+            </div>
+
+            <div className="stat-card">
+              <div className="stat-icon">🔄</div>
+              <div className="stat-content">
+                <h3>Active Requests</h3>
+                <p className="stat-number">{stats.active}</p>
+              </div>
+            </div>
+
+            <div className="stat-card">
+              <div className="stat-icon">✅</div>
+              <div className="stat-content">
+                <h3>Completed</h3>
+                <p className="stat-number">{stats.completed}</p>
+              </div>
+            </div>
+
+            <div className="stat-card">
+              <div className="stat-icon">⚡</div>
+              <div className="stat-content">
+                <h3>High Priority</h3>
+                <p className="stat-number">{stats.highPriority}</p>
+              </div>
+            </div>
+          </div>
+
           {/* Sort Dropdown */}
           <div className="sort-options">
             <label htmlFor="sort">Sort By:</label>
