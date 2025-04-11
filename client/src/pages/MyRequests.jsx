@@ -6,7 +6,12 @@ export default function MyRequests() {
   const { requests, loading } = useAllRequests();
   const [sortBy, setSortBy] = useState("id");
 
-  const formattedRequests = [...requests]
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userId = user?.id;
+
+  const filteredRequests = requests.filter((r) => r.work_order_user_id === userId);
+
+  const formattedRequests = [...filteredRequests]
     .map((req) => ({
       id: req.id,
       created_at: req.date_created,
