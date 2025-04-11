@@ -1,0 +1,134 @@
+===========================
+USERS API ENDPOINT DOCS
+===========================
+
+-------------------------
+GET http://localhost:8000/users
+-------------------------
+Fetches all users.
+
+Parameters: None
+
+returns:
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "username": "johndoe",
+    "email": "john.doe@example.mil",
+    "role": 3
+  },
+  ...
+]
+
+-------------------------
+GET http://localhost:8000/users?user_id={id}
+-------------------------
+Fetches a single user by ID.
+
+Parameters:
+user_id: int
+
+Example
+GET http://localhost:8000/users?user_id=2
+
+returns:
+[
+  {
+    "id": 2,
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "username": "janesmith",
+    "email": "jane.smith@example.mil",
+    "role": 2
+  }
+]
+
+-------------------------
+GET http://localhost:8000/users?user_role={role}
+-------------------------
+Fetches all users with role = 1 (regular users).
+
+Parameters:
+user_role: int
+
+Example:
+GET http://localhost:8000/users?user_role=1
+
+returns:
+[
+  {
+    "id": 3,
+    "first_name": "Alex",
+    "last_name": "Brown",
+    "username": "alexbrown",
+    "email": "alex.brown@example.mil",
+    "role": 1
+  },
+  ...
+]
+
+-------------------------
+PATCH http://localhost:8000/users/{user_id}/role
+-------------------------
+Updates a user's role.
+
+Parameters:
+user_id: int
+
+body:
+{
+  "role": int
+}
+
+Example:
+PATCH http://localhost:8000/users/1/role
+body:
+{
+  "role": 3
+}
+
+returns:
+{
+  "message": "User role updated successfully",
+  "user": {
+    "id": 2,
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "username": "janesmith",
+    "role": 3
+  }
+}
+
+-------------------------
+PATCH http://localhost:8000/users/{user_id}/credentials
+-------------------------
+Updates a user's username and/or password. Passwords are hashed.
+
+Parameters:
+user_id: int
+
+body:
+{
+  "username": string,
+  "password": string
+}
+
+Example:
+PATCH http://localhost:8000/users/2/credentials
+body:
+{
+  "username": "janethegreat",
+  "password": "newpassword"
+}
+
+returns:
+{
+  "message": "Credentials updated successfully",
+  "user": {
+    "id": 2,
+    "username": "janethegreat",
+    "email": "jane.smith@example.mil"
+  }
+}

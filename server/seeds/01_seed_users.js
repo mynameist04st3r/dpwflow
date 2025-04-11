@@ -62,6 +62,17 @@ exports.seed = async function(knex) {
       phone_number: '',
       email: '',
       role: 1
+    },
+     {
+      id: 4,
+      first_name: 'admin',
+      last_name: 'admin',
+      rank: 'N/A',
+      password: await hash('password'),
+      username: 'admin',
+      phone_number: '1234567890',
+      email: 'admin@dpwflow.com',
+      role: 4
     }
   ]);
 
