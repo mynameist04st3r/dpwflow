@@ -4,7 +4,7 @@
   --accent-color: #101420;
   --background-color: #000000a6;
   --text-color: #dbdde2;
-  --card-background: #050608;
+  --card-background: #000000;
   --hover-color: #6da888;
   --border-color: #5a8f6e;
 }
@@ -44,63 +44,63 @@
 
 .intro-content {
   text-align: center;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
-  background-color: var(--card-background);
-  border: 2px solid var(--border-color);
   padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #8cc5a6;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .intro-content h2 {
-  color: var(--primary-color);
+  color: #8cc5a6;
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .intro-content p {
-  color: var(--text-color);
+  color: #dbdde2;
   line-height: 1.6;
+  margin-bottom: 2rem;
 }
 
 .features-grid {
   display: flex;
+  justify-content: space-between;
   gap: 2rem;
-  margin: 2rem 0;
+  margin-top: 2rem;
 }
 
 .feature-card {
-  background-color: var(--card-background);
-  padding: 2rem;
-  border-radius: 8px;
-  border: 2px solid var(--border-color);
-  text-align: center;
-  transition: all 0.3s ease;
   flex: 1;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+  border-top: 1px solid #8cc5a6;
+  transition: transform 0.2s ease;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
-  border-color: var(--primary-color);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.feature-icon {
+.features-icon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: var(--primary-color);
+  display: block;
+  color: #8cc5a6;
 }
 
 .feature-card h3 {
-  color: var(--primary-color);
+  color: #8cc5a6;
   margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 
 .feature-card p {
-  color: var(--text-color);
+  color: #dbdde2;
   line-height: 1.5;
+  font-size: 1rem;
+  margin-bottom: 0;
 }
 
 .action-buttons {
@@ -164,8 +164,8 @@
     font-size: 2.5rem;
   }
 
-  .intro-content h2 {
-    font-size: 1.5rem;
+  .intro-content {
+    padding: 1.5rem;
   }
 
   .action-buttons {
@@ -175,5 +175,16 @@
 
   .btn {
     width: 100%;
+  }
+
+  .features-grid {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    width: 100%;
+    border-top: 1px solid #8cc5a6;
+    padding-top: 1.5rem;
   }
 }
