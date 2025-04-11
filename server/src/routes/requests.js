@@ -31,28 +31,18 @@ router.post('/newRequest', async (req, res) => {
 
     const normalizedBuildingNumber = normalizeBuildingNumber(building_number);
 
-    let building = await knex('buildings')
+    const building = await knex('buildings')
       .where({
         building_number: normalizedBuildingNumber,
         location_id
       })
       .first();
 
-    if (!building) {
-      const [newBuilding] = await knex('buildings')
-        .insert({
-          building_number: normalizedBuildingNumber,
-          location_id
-        })
-        .returning('*');
-      building = newBuilding;
-    }
-
     const isGuest = user_id === 999;
 
     const insertData = {
       user_id,
-      building_id: building.id,
+      building_id: building ? building.id : null,
       location_id,
       building_number: normalizedBuildingNumber,
       room_number: room_number || null,
