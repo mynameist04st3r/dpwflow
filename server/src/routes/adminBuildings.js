@@ -78,4 +78,52 @@ router.delete('/', async (req, res) => {
 });
 
 
+router.post('/', async (req, res) => {
+  const { admin_id, building_id } = req.body;
+
+  if (!admin_id || !building_id) {
+    return res.status(400).json({
+      error: 'Missing required fields: admin_id and building_id'
+    });
+  }
+
+  try {
+    const admin = await knex('users')
+      .where({ id: admin_id })
+      .select('role')
+      .first();
+
+    if (!admin || (admin.role !== 3 && admin.role !== 4)) {
+      return res.status(403).json({
+        error: 'User is not authorized to be assigned to a building'
+      });
+    }
+
+    const existing = await knex('admin_buildings')
+      .where({ admin_id, building_id })
+      .first();
+
+    if (existing) {
+      return res.status(409).json({
+        error: 'This admin is already assigned to the specified building'
+      });
+    }
+
+    const [newAssignment] = await knex('admin_buildings')
+      .insert({ admin_id, building_id })
+      .returning('*');
+
+    return res.status(201).json({
+      message: 'Admin assigned to building successfully',
+      assignment: newAssignment
+    });
+
+  } catch (err) {
+    console.error('Error creating admin-building assignment:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
 module.exports = router;
