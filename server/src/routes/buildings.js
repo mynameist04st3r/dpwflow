@@ -94,7 +94,7 @@ router.get('/get-buildings/building-number/:building_number', async (req, res) =
   try {
     const { building_number } = req.params;
     const normalized = building_number.toUpperCase().replace(/[\s\-]/g, '');
-    
+
     const building = await knex('buildings')
       .whereRaw(
         "REPLACE(REPLACE(UPPER(building_number), ' ', ''), '-', '') = ?",
