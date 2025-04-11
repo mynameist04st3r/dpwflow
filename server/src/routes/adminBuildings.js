@@ -43,4 +43,39 @@ router.patch('/', async (req, res) => {
 });
 
 
+router.delete('/', async (req, res) => {
+  const { admin_id, building_id } = req.body;
+
+  if (!admin_id || !building_id) {
+    return res.status(400).json({
+      error: 'Missing required fields: admin_id and building_id'
+    });
+  }
+
+  try {
+    const existing = await knex('admin_buildings')
+      .where({ admin_id, building_id })
+      .first();
+
+    if (!existing) {
+      return res.status(404).json({
+        error: `No admin-building assignment found for admin_id ${admin_id} and building_id ${building_id}`
+      });
+    }
+
+    await knex('admin_buildings')
+      .where({ admin_id, building_id })
+      .del();
+
+    res.status(200).json({
+      message: 'Admin-building assignment deleted successfully'
+    });
+
+  } catch (err) {
+    console.error('Error deleting admin-building assignment:', err);
+    res.status(500).json({ error: 'Failed to delete admin-building assignment' });
+  }
+});
+
+
 module.exports = router;
