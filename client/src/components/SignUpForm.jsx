@@ -54,6 +54,8 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
 
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
+        // Added the role to save into sessionStorage
+        sessionStorage.setItem("userRole", res.data.user.role);
       } else {
         setSignUpError(res.data.message || "Signup failed.");
       }
