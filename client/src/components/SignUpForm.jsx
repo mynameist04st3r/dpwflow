@@ -20,7 +20,7 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (formRef.current && !formRef.current.contains(e.target)) {
-        setSignUpForm(false); 
+        setSignUpForm(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -54,6 +54,9 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
 
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
+        // Added the role to save into sessionStorage
+        // sessionStorage.setItem("userRole", res.data.user.role);  causing issues with not recognizing user role due to string vs number issue.
+        sessionStorage.setItem("userRole", String(res.data.user.role)); // fixed issue with not recognizing user role due to string vs number issue.
       } else {
         setSignUpError(res.data.message || "Signup failed.");
       }
@@ -66,7 +69,6 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
       }
     }
   };
-  
 
   return (
     <div className="form-modal sign-up-form-container" ref={formRef}>

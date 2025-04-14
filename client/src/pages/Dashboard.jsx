@@ -27,4 +27,6 @@ function Dashboard() {
   );
 }
 
+console.log("Dashboard page loaded");
+
 export default Dashboard;
