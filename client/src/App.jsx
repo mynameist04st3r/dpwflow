@@ -27,12 +27,30 @@ import { Roles } from "./Roles";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [userRole, setUserRole] = useState(null); // Wait until role is loaded
+//////   const [userRole, setUserRole] = useState(null); // Wait until role is loaded
+
+//////   useEffect(() => {
+//////     const stored = sessionStorage.getItem("userRole");
+//////     const parsed = stored ? parseInt(stored) : null;
+//////     setUserRole(parsed ?? Roles.GUEST);
+  
+  // const [userRole, setUserRole] = useState(Roles.GUEST);
+  // useEffect(() => {
+  //   const storedRole = sessionStorage.getItem("userRole");
+  //   if (storedRole !== null) {
+  //     setUserRole(parseInt(storedRole));
+  //   }
+  // }, []);
+
+  const [userRole, setUserRole] = useState(null); // Start as null
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("userRole");
-    const parsed = stored ? parseInt(stored) : null;
-    setUserRole(parsed ?? Roles.GUEST);
+    const storedRole = sessionStorage.getItem("userRole");
+    if (storedRole !== null) {
+      setUserRole(parseInt(storedRole)); // Convert string to number
+    } else {
+      setUserRole(Roles.GUEST); // Fallback if nothing in sessionStorage
+    }
   }, []);
 
   if (userRole === null) return null; // Prevent early route rendering
@@ -42,7 +60,7 @@ function App() {
       <Routes>
         {/* Protected pages */}
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
               <Dashboard />
@@ -58,7 +76,7 @@ function App() {
           }
         />
         <Route
-          path="/maintenance-tracker"
+          path="/maintenance-tracker/*"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
               <MaintenanceTracker />
@@ -81,14 +99,22 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/maintenance-tracker/:id"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
-              <MaintenanceTrackerDetails />
-            </ProtectedRoute>
-          }
-        />
+//// <<<<<<< fix-maintenance-tracker
+////         <Route
+////           path="/maintenance-tracker/:id"
+////           element={
+////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+////               <MaintenanceTrackerDetails />
+//// =======
+////         {<Route
+////           path="/maintenance-tracker"
+////           element={
+////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+////               <MaintenanceTracker />
+//// >>>>>>> Rob
+////            </ProtectedRoute>
+////          }
+////        />
         <Route
           path="/my-buildings"
           element={
@@ -98,12 +124,12 @@ function App() {
           }
         />
 
-        {/* Public pages */}
+        {/*    {Public pages}    */}
         <Route path="/contact" element={<Contact />} />
         <Route path="/active-request" element={<ActiveRequest />} />
         <Route path="/maintenance-request" element={<MaintenanceRequest />} />
 
-        {/* Home page (moved to the bottom to avoid hijacking other routes) */}
+        {/*    Home page (moved to the bottom to avoid hijacking other routes)}     */}
         <Route path="/" element={<HomePage />} />
 
         {/* Optional: 404 fallback */}
