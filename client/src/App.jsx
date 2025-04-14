@@ -94,14 +94,14 @@ function App() {
           }
         />
 
-        <Route
+        {/* <Route
           path="/my-buildings"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
               <MyBuildings />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         {/* Public pages */}
         <Route path="/contact" element={<Contact />} />
