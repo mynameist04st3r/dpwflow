@@ -34,6 +34,9 @@ function LoginForm({ setLoginForm, setSignedIn }) {
         setPassword("");
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
+
+        // Added the role to save into sessionStorage
+        sessionStorage.setItem("userRole", res.data.user.role);
       } else {
         setLoginError(res.data.message || "Login failed.");
       }
