@@ -13,7 +13,7 @@ import ActiveRequest from "./pages/ActiveRequest";
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import './styles/App.css'
-// import './styles/index.css'
+// import './styles/index.css'sessionStorage.setItem(
 
 // Below is good code///////////////
 // import { useState } from "react";
@@ -28,8 +28,10 @@ import { useState, useEffect } from "react";
 function App() {
   const [userRole, setUserRole] = useState(Roles.GUEST);
   useEffect(() => {
-    const storedRole = parseInt(sessionStorage.getItem("userRole"));
-    if (storedRole) setUserRole(storedRole);
+    const storedRole = sessionStorage.getItem("userRole");
+    if (storedRole !== null) {
+      setUserRole(parseInt(storedRole));
+    }
   }, []);
 
   return (
