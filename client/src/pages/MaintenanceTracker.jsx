@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/MyRequests.css";
 import { useAllRequests } from "../context/AllRequestsContext";
 
 export default function MaintenanceTracker() {
   const { requests, loading } = useAllRequests();
   const [sortBy, setSortBy] = useState("id");
-  const [filterMode, setFilterMode] = useState("all"); // "all" or "mine"
+  const [filterMode, setFilterMode] = useState("all");
   const [assignedBuildings, setAssignedBuildings] = useState([]);
+  const navigate = useNavigate();
 
   const user = JSON.parse(sessionStorage.getItem("user"));
   const userRole = user?.role || 1;
@@ -138,7 +139,7 @@ export default function MaintenanceTracker() {
         <p>Loading requests...</p>
       ) : (
         <>
-          {/* Statistics Cards */}
+          {/* Stats Cards */}
           <div className="stats-container">
             <div className="stat-card">
               <div className="stat-icon">📊</div>
@@ -170,20 +171,8 @@ export default function MaintenanceTracker() {
             </div>
           </div>
 
-          {/* Sort & Filter */}
+          {/* Filter, Sort, Manage */}
           <div className="sort-options">
-            <label htmlFor="sort">Sort By:</label>
-            <select
-              id="sort"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <option value="id">Request ID</option>
-              <option value="date">Date</option>
-              <option value="priority">Priority</option>
-              <option value="status">Status</option>
-            </select>
-
             {userRole >= 3 && (
               <>
                 <label htmlFor="buildingFilter">Filter:</label>
@@ -197,6 +186,22 @@ export default function MaintenanceTracker() {
                 </select>
               </>
             )}
+
+            <label htmlFor="sort">Sort By:</label>
+            <select
+              id="sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="id">Request ID</option>
+              <option value="date">Date</option>
+              <option value="priority">Priority</option>
+              <option value="status">Status</option>
+            </select>
+
+            <button onClick={() => navigate("/my-buildings")}>
+              Manage Buildings
+            </button>
           </div>
 
           {/* Requests Table */}
