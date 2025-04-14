@@ -29,11 +29,22 @@ import { useState, useEffect } from "react";
 // import MyBuildings from "./pages/MyBuildings";
 
 function App() {
-  const [userRole, setUserRole] = useState(Roles.GUEST);
+  // const [userRole, setUserRole] = useState(Roles.GUEST);
+  // useEffect(() => {
+  //   const storedRole = sessionStorage.getItem("userRole");
+  //   if (storedRole !== null) {
+  //     setUserRole(parseInt(storedRole));
+  //   }
+  // }, []);
+
+  const [userRole, setUserRole] = useState(null); // Start as null
+
   useEffect(() => {
     const storedRole = sessionStorage.getItem("userRole");
     if (storedRole !== null) {
-      setUserRole(parseInt(storedRole));
+      setUserRole(parseInt(storedRole)); // Convert string to number
+    } else {
+      setUserRole(Roles.GUEST); // Fallback if nothing in sessionStorage
     }
   }, []);
 
@@ -42,7 +53,7 @@ function App() {
       <Routes>
         {/* Protected pages */}
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
               <Dashboard />
@@ -58,7 +69,7 @@ function App() {
           }
         />
         <Route
-          path="/maintenance-tracker"
+          path="/maintenance-tracker/*"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
               <MaintenanceTracker />
@@ -83,23 +94,6 @@ function App() {
           }
         />
 
-        {/* <Route
-          path="/maintenance-tracker"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
-              <MaintenanceTracker />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/maintenance-tracker/:id"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
-              <MaintenanceTrackerDetails />
-            </ProtectedRoute>
-          }
-        />
         <Route
           path="/my-buildings"
           element={
@@ -107,7 +101,7 @@ function App() {
               <MyBuildings />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
         {/* Public pages */}
         <Route path="/contact" element={<Contact />} />
