@@ -84,7 +84,7 @@ function App() {
           }
         />
 
-        {/* <Route
+        <Route
           path="/maintenance-tracker"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
@@ -108,7 +108,7 @@ function App() {
               <MyBuildings />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
         {/* Public pages */}
         <Route path="/contact" element={<Contact />} />
