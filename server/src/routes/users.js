@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('knex')(require('../../knexfile')[process.env.NODE_ENV || 'development']);
-const { hash } = require('@uswriting/bcrypt');
+const { hash, compare } = require('@uswriting/bcrypt');
 
 
 router.get('/', async (req, res) => {
@@ -65,7 +65,7 @@ router.patch('/:id/role', async (req, res) => {
 
 router.patch('/:id/credentials', async (req, res) => {
   const { id } = req.params;
-  const { username, password } = req.body;
+  const { username, password, current_password } = req.body;
 
   if (!username && !password) {
     return res.status(400).json({
@@ -79,16 +79,21 @@ router.patch('/:id/credentials', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    if (password) {
+      if (!current_password) {
+        return res.status(400).json({ error: 'Current password is required to change password' });
+      }
+
+      const isMatch = await compare(current_password, user.password);
+      if (!isMatch) {
+        return res.status(403).json({ error: 'Current password is incorrect' });
+      }
+    }
+
     const updateData = {};
 
-    if (username) {
-      updateData.username = username;
-    }
-
-    if (password) {
-      const hashed = await hash(password, 10);
-      updateData.password = hashed;
-    }
+    if (username) updateData.username = username;
+    if (password) updateData.password = await hash(password, 10);
 
     await knex('users').where({ id }).update(updateData);
 
@@ -106,5 +111,44 @@ router.patch('/:id/credentials', async (req, res) => {
     res.status(500).json({ error: 'Failed to update credentials' });
   }
 });
+
+
+
+router.patch('/:id/profile', async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name, rank, email, phone_number } = req.body;
+
+  if (!first_name || !last_name || !email || !phone_number) {
+    return res.status(400).json({
+      error: 'Missing required fields: first_name, last_name, email, or phone_number',
+    });
+  }
+
+  try {
+    const user = await knex('users').where({ id }).first();
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    await knex('users')
+      .where({ id })
+      .update({ first_name, last_name, rank, email, phone_number });
+
+    const updatedUser = await knex('users')
+      .select('id', 'first_name', 'last_name', 'rank', 'email', 'phone_number')
+      .where({ id })
+      .first();
+
+    res.status(200).json({
+      message: 'Profile updated successfully',
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.error('Error updating user profile:', err);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
 
 module.exports = router;

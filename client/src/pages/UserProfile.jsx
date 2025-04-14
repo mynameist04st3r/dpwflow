@@ -7,7 +7,11 @@ function UserProfile() {
   const [user, setUser] = useState(null);
   const [editCredentials, setEditCredentials] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    current_password: "",
+    password: ""
+  });
   const [profileData, setProfileData] = useState({
     first_name: "",
     last_name: "",
@@ -49,26 +53,48 @@ function UserProfile() {
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:8000/users/${user.id}/credentials`, formData);
+      const payload = {
+        username: formData.username,
+        current_password: formData.current_password,
+        password: formData.password
+      };
+
+      const res = await axios.patch(`http://localhost:8000/users/${user.id}/credentials`, payload);
+
       alert("Credentials updated");
+      sessionStorage.setItem("user", JSON.stringify({ ...user, username: formData.username }));
+      setUser({ ...user, username: formData.username });
       setEditCredentials(false);
     } catch (err) {
       console.error("Failed to update credentials", err);
-      setError("Failed to update credentials");
+      setError(err.response?.data?.error || "Failed to update credentials");
     }
   };
+
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:8000/users/${user.id}/profile`, profileData);
+      const res = await axios.patch(`http://localhost:8000/users/${user.id}/profile`, profileData);
       alert("Profile updated");
+      const updatedRes = await axios.get(`http://localhost:8000/users?user_id=${user.id}`);
+      const updatedUser = updatedRes.data[0];
+      setUser(updatedUser);
+      setProfileData({
+        first_name: updatedUser.first_name,
+        last_name: updatedUser.last_name,
+        rank: updatedUser.rank,
+        email: updatedUser.email,
+        phone_number: updatedUser.phone_number
+      });
+      sessionStorage.setItem("user", JSON.stringify(updatedUser));
       setEditProfile(false);
     } catch (err) {
       console.error("Failed to update profile", err);
       setError("Failed to update profile");
     }
   };
+
 
   if (!user) return <div>Loading...</div>;
 
@@ -149,24 +175,32 @@ function UserProfile() {
             <button onClick={() => setEditCredentials(true)}>Change Credentials</button>
           </div>
         ) : (
-          <form onSubmit={handleCredentialsSubmit}>
-            <input
-              type="text"
-              placeholder="Username"
-              value={formData.username}
-              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              required
-            />
-            <input
-              type="password"
-              placeholder="New Password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-            />
-            <button type="submit">Save Credentials</button>
-            <button type="button" onClick={() => setEditCredentials(false)}>Cancel</button>
-          </form>
+            <form onSubmit={handleCredentialsSubmit}>
+              <input
+                type="text"
+                placeholder="Username"
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Current Password"
+                value={formData.current_password}
+                onChange={(e) => setFormData({ ...formData, current_password: e.target.value })}
+                required
+              />
+              <input
+                type="password"
+                placeholder="New Password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+              />
+              <button type="submit">Save Credentials</button>
+              <button type="button" onClick={() => setEditCredentials(false)}>Cancel</button>
+            </form>
+
         )}
       </div>
 
