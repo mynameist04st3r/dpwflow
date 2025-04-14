@@ -36,7 +36,9 @@ function LoginForm({ setLoginForm, setSignedIn }) {
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
 
         // Added the role to save into sessionStorage
-        sessionStorage.setItem("userRole", res.data.user.role);
+        // sessionStorage.setItem("userRole", res.data.user.role);
+
+        sessionStorage.setItem("userRole", String(res.data.user.role)); // fixed issue with not recognizing user role due to string vs number issue.
       } else {
         setLoginError(res.data.message || "Login failed.");
       }
