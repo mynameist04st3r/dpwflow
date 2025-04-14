@@ -1,0 +1,97 @@
+===========================
+BUILDINGS API ENDPOINT DOCS
+===========================
+
+-------------------------
+POST http://localhost:8000/buildings/new-building
+-------------------------
+Creates a new building if it does not already exist and assigns an admin to it.
+
+Parameters: None
+
+body:
+{
+  "building_number": "45-B",
+  "location_id": 2,
+  "admin_id": 3
+}
+
+Notes:
+- Only users with role = 2 or 3 can be assigned as building managers. Creates new row in admin_building TABLE.
+- Normalizes the building_number (uppercase, no dashes or spaces).
+- If the building already exists, it returns a message.
+
+returns:
+{
+  "message": "Building and admin assignment created successfully",
+  "building": {
+    "id": 12,
+    "location_id": 2,
+    "building_number": "45B"
+  },
+  "admin_building": {
+    "admin_id": 3,
+    "building_id": 12
+  }
+}
+
+
+-------------------------
+GET http://localhost:8000/buildings/get-buildings
+-------------------------
+Fetches all buildings in the database.
+
+Parameters: None
+
+returns:
+[
+  {
+    "id": 1,
+    "location_id": 2,
+    "building_number": "45B"
+  },
+  {
+    "id": 2,
+    "location_id": 1,
+    "building_number": "123"
+  },
+  ...
+]
+
+
+-------------------------
+GET http://localhost:8000/buildings/get-buildings/id/{building_id}
+-------------------------
+Fetches a single building by its unique ID.
+
+Parameters:
+building_id: int
+
+Example:
+GET http://localhost:8000/buildings/get-buildings/id/1
+
+returns:
+{
+  "id": 1,
+  "location_id": 2,
+  "building_number": "45B"
+}
+
+
+-------------------------
+GET http://localhost:8000/buildings/get-buildings/building-number/{building_number}
+-------------------------
+Fetches a single building by its building_number (normalized before comparing).
+
+Parameters:
+building_number: string
+
+Example:
+GET http://localhost:8000/buildings/get-buildings/building-number/45-b
+
+returns:
+{
+  "id": 1,
+  "location_id": 2,
+  "building_number": "45B"
+}

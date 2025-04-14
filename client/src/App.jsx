@@ -7,6 +7,7 @@ import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import ActiveRequest from "./pages/ActiveRequest";
+import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails"
 
 //     conflict issue
 // import { useState } from 'react'
