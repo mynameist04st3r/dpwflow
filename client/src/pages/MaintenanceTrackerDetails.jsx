@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../styles/MaintenanceTrackerDetails.css";
 
 export default function MaintenanceTrackerDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [request, setRequest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,6 +32,11 @@ export default function MaintenanceTrackerDetails() {
 
   return (
     <div className="my-requests-container">
+
+      <button onClick={() => navigate(-1)} className="back-button">
+        ← Back
+      </button>
+      
     <h1>Maintenance Request #{request.id}</h1>
   
     <div className="request-details-card">

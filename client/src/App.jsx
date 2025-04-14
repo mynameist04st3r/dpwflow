@@ -7,6 +7,7 @@ import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import ActiveRequest from "./pages/ActiveRequest";
+import MyBuildings from "./pages/MyBuildings";
 import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails";
 import UserProfile from "./pages/UserProfile";
 
@@ -93,22 +94,29 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* <Route
+        {<Route
+          path="/maintenance-tracker"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MaintenanceTracker />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/my-buildings"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
               <MyBuildings />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
-        {/* Public pages */}
+        {/*    {Public pages}    */}
         <Route path="/contact" element={<Contact />} />
         <Route path="/active-request" element={<ActiveRequest />} />
         <Route path="/maintenance-request" element={<MaintenanceRequest />} />
 
-        {/* Home page (moved to the bottom to avoid hijacking other routes) */}
+        {/*    Home page (moved to the bottom to avoid hijacking other routes)}     */}
         <Route path="/" element={<HomePage />} />
 
         {/* Optional: 404 fallback */}
