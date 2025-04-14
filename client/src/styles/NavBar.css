@@ -163,3 +163,8 @@ body {
     display: inline-block;
   }
 }
+.signup-button,
+.login-button {
+  background-color: #101420;
+  color: #dbdde2;
+}

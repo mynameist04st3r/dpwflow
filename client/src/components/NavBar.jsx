@@ -194,10 +194,10 @@ function NavBar() {
               </button>
             ) : (
               <>
-                <button className="header-buttons" onClick={handleLoginToggle}>
+                <button className="login-button" onClick={handleLoginToggle}>
                   Login
                 </button>
-                <button className="header-buttons" onClick={handleSignUpToggle}>
+                <button className="signup-button" onClick={handleSignUpToggle}>
                   Sign Up
                 </button>
               </>
