@@ -10,6 +10,7 @@ export default function ActiveRequest() {
   const enterKey = (event)=>{
     if (event.key === 'Enter') {
       handleSearch();
+      setInput("");
     }
   };
   // Fetch data when the Search button is clicked
