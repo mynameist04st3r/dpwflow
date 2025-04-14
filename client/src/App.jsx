@@ -1,6 +1,3 @@
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import NavBar from "./components/NavBar";
-
 // // Pages (in components folder)
 import HomePage from "./pages/HomePage";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
@@ -20,33 +17,73 @@ import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails"
 // import './styles/index.css'
 
 // Below is good code///////////////
-import { useState } from "react";
+// import { useState } from "react";
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 // import Dashboard from "./components/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { Roles } from "./Roles";
+import { useState, useEffect } from "react";
 
 function App() {
-  return (
-    <>
-      <Router>
-        {/* Main routes handled inside Dashboard */}
-        <Routes>
-          <Route path="/*" element={<HomePage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/maintenance-request" element={<MaintenanceRequest />} />
-          <Route path="/my-requests" element={<MyRequests />} />
-          <Route path="/maintenance-tracker" element={<MaintenanceTracker />} />
-          <Route path="/maintenance-tracker/:id" element={<MaintenanceTrackerDetails />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/active-request" element={<ActiveRequest/>} />
-        </Routes>
+  const [userRole, setUserRole] = useState(Roles.GUEST);
+  useEffect(() => {
+    const storedRole = parseInt(sessionStorage.getItem("userRole"));
+    if (storedRole) setUserRole(storedRole);
+  }, []);
 
-        <NavBar />
-      </Router>
-    </>
+  return (
+    <Router>
+      <Routes>
+        {/* Protected pages */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-requests"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MyRequests />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/maintenance-tracker"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
+              <MaintenanceTracker />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.ADMIN}>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Public pages */}
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/active-request" element={<ActiveRequest />} />
+        <Route path="/maintenance-request" element={<MaintenanceRequest />} />
+
+        {/* Home page (moved to the bottom to avoid hijacking other routes) */}
+        <Route path="/" element={<HomePage />} />
+
+        {/* Optional: 404 fallback */}
+        <Route path="*" element={<div>404 - Page Not Found</div>} />
+      </Routes>
+
+      <NavBar />
+    </Router>
   );
 }
-
 export default App;
