@@ -10,8 +10,6 @@ import TableRow from '@mui/material/TableRow';
 function Admin() {
   const [prioritizedRequests, setPrioritizedRequests] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [draggedIndex, setDraggedIndex] = useState(null);
-
   useEffect(() => {
     const fetchPrioritizedRequests = async () => {
       const response = await fetch('http://localhost:8000/adminrequests/prioritizedRequests');
@@ -20,41 +18,6 @@ function Admin() {
     };
     fetchPrioritizedRequests();
   }, []);
-
-  const handleDrop = (index) => {
-    if (draggedIndex === null || draggedIndex === index) return;
-
-    const updatedRequests = [...prioritizedRequests];
-    const [movedItem] = updatedRequests.splice(draggedIndex, 1);
-    updatedRequests.splice(index, 0, movedItem);
-
-    setPrioritizedRequests(updatedRequests);
-    setDraggedIndex(null);
-  };
-
-  const saveNewOrder = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/adminrequests/updatePriorityOrder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(prioritizedRequests.map((req, index) => ({
-          ...req,
-          priority: index + 1,
-        }))),
-      });
-
-      if (response.ok) {
-        alert('Priority order saved successfully!');
-      } else {
-        alert('Failed to save new priority order.');
-      }
-    } catch (error) {
-      console.error('Error saving order:', error);
-      alert('Error saving priority order.');
-    }
-  };
 
   return (
     <div className="admin-back-div-container">
@@ -65,12 +28,8 @@ function Admin() {
             <button className="admin-buttons" onClick={() => setShowForm(true)}>Prioritize Work Orders</button>
             <button className="admin-buttons">Set User Rolls</button>
             <button className="admin-buttons" onClick={() => setShowForm(true)}>Add Installation Data</button>
-            {showForm && (
-              <button className="admin-buttons" onClick={saveNewOrder}>Save Priority Order</button>
-            )}
           </div>
         </div>
-
         <div className="admin-forms-container">
           <div className="admin-forms">
             {showForm && (
@@ -88,41 +47,17 @@ function Admin() {
                       <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Building ID</TableCell>
                     </TableRow>
                   </TableHead>
-
                   <TableBody className="admin-forms-prioritized-body">
-                    {prioritizedRequests.map((request, index) => (
-                      <TableRow
-                        key={request.id}
-                        draggable
-                        onDragStart={() => setDraggedIndex(index)}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={() => handleDrop(index)}
-                        style={{ cursor: 'move' }}
-                      >
-                        <TableCell component="th" scope="row" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {index + 1}
-                        </TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {request.pending ? 'Yes' : 'No'}
-                        </TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {request.accepted ? 'Yes' : 'No'}
-                        </TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {request.work_order_desc}
-                        </TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {request.date_created}
-                        </TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {request.date_completed}
-                        </TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {request.location_id}
-                        </TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>
-                          {request.building_id}
-                        </TableCell>
+                    {prioritizedRequests.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell component="th" scope="row" style={{ borderBottom: '1px solid #426f4d' }}>{request.priority}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.pending ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.accepted ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.work_order_desc}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.date_created}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.date_completed}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.location_id}</TableCell>
+                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.building_id}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -134,6 +69,7 @@ function Admin() {
       </div>
     </div>
   );
-}
+};
 
 export default Admin;
+
