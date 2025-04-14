@@ -83,6 +83,32 @@ function App() {
           }
         />
 
+        <Route
+          path="/maintenance-tracker"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MaintenanceTracker />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/maintenance-tracker/:id"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MaintenanceTrackerDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-buildings"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MyBuildings />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Public pages */}
         <Route path="/contact" element={<Contact />} />
         <Route path="/active-request" element={<ActiveRequest />} />

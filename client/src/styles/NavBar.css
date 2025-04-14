@@ -164,7 +164,8 @@ body {
   }
 }
 .signup-button,
-.login-button {
+.login-button,
+.logout-button {
   background-color: #101420;
   color: #dbdde2;
 }

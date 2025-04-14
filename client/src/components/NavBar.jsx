@@ -182,7 +182,7 @@ function NavBar() {
           <div className="header-buttons-container">
             {signedIn ? (
               <button
-                className="header-buttons"
+                className="logout-button"
                 onClick={() => {
                   setSignedIn(false);
                   sessionStorage.removeItem("token");

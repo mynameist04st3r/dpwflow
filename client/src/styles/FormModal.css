@@ -24,10 +24,12 @@
 /* Target both forms */
 .sign-up-form-container,
 .login-form-container {
-  position: absolute;
-  top: 100px;
-  right: 30px;
+  position: fixed;
+  top: 80%;
+  left: 0;
+  transform: none;
   width: 340px;
+  margin-top: 8px;
   /* background-color: #426f4d; */
   background-color: var(--background-color);
   padding: 24px 24px 28px 24px;
