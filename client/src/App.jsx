@@ -10,7 +10,9 @@ import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import ActiveRequest from "./pages/ActiveRequest";
-import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails"
+import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails";
+import UserProfile from "./pages/UserProfile";
+
 
 //     conflict issue
 // import { useState } from 'react'
@@ -41,6 +43,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/active-request" element={<ActiveRequest/>} />
+          <Route path="/user-profile" element={<UserProfile/>} />
         </Routes>
 
         <NavBar />
