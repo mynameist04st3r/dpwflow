@@ -1,13 +1,40 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/MyRequests.css";
 import { useAllRequests } from "../context/AllRequestsContext";
 
 export default function MaintenanceTracker() {
   const { requests, loading } = useAllRequests();
   const [sortBy, setSortBy] = useState("id");
+  const [filterMode, setFilterMode] = useState("all");
+  const [assignedBuildings, setAssignedBuildings] = useState([]);
+  const navigate = useNavigate();
 
-  const formattedRequests = [...requests]
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userRole = user?.role || 1;
+
+  useEffect(() => {
+    if (userRole >= 3) {
+      fetch(`http://localhost:8000/admin-buildings?admin_id=${user.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const ids = data.map((d) => d.building_id);
+          setAssignedBuildings(ids);
+        })
+        .catch((err) =>
+          console.error("Failed to fetch assigned buildings", err)
+        );
+    }
+  }, [user.id, userRole]);
+
+  const filteredRequests = requests.filter((req) => {
+    if (filterMode === "mine" && userRole >= 3) {
+      return assignedBuildings.includes(req.building_id);
+    }
+    return true;
+  });
+
+  const formattedRequests = [...filteredRequests]
     .map((req) => ({
       id: req.id,
       created_at: req.date_created,
@@ -28,7 +55,8 @@ export default function MaintenanceTracker() {
     }))
     .sort((a, b) => {
       if (sortBy === "id") return a.id - b.id;
-      if (sortBy === "date") return new Date(b.created_at) - new Date(a.created_at);
+      if (sortBy === "date")
+        return new Date(b.created_at) - new Date(a.created_at);
       if (sortBy === "priority") {
         const order = { high: 1, normal: 2, low: 3 };
         return order[a.priority] - order[b.priority];
@@ -45,7 +73,8 @@ export default function MaintenanceTracker() {
     active: formattedRequests.filter(
       (r) => r.status === "pending" || r.status === "in progress"
     ).length,
-    completed: formattedRequests.filter((r) => r.status === "completed").length,
+    completed: formattedRequests.filter((r) => r.status === "completed")
+      .length,
     highPriority: formattedRequests.filter(
       (r) => r.priority === "high" && r.status !== "completed"
     ).length,
@@ -79,7 +108,7 @@ export default function MaintenanceTracker() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(statusPayload),
       });
-      window.location.reload(); // or trigger a re-fetch if using SWR/react-query
+      window.location.reload();
     } catch (err) {
       console.error("Failed to update status:", err);
     }
@@ -110,9 +139,8 @@ export default function MaintenanceTracker() {
         <p>Loading requests...</p>
       ) : (
         <>
-          {/* Statistics Cards */}
+          {/* Stats Cards */}
           <div className="stats-container">
-            {/* ... same stat card layout as before ... */}
             <div className="stat-card">
               <div className="stat-icon">📊</div>
               <div className="stat-content">
@@ -143,8 +171,22 @@ export default function MaintenanceTracker() {
             </div>
           </div>
 
-          {/* Sort Dropdown */}
+          {/* Filter, Sort, Manage */}
           <div className="sort-options">
+            {userRole >= 3 && (
+              <>
+                <label htmlFor="buildingFilter">Filter:</label>
+                <select
+                  id="buildingFilter"
+                  value={filterMode}
+                  onChange={(e) => setFilterMode(e.target.value)}
+                >
+                  <option value="all">All Buildings</option>
+                  <option value="mine">My Buildings</option>
+                </select>
+              </>
+            )}
+
             <label htmlFor="sort">Sort By:</label>
             <select
               id="sort"
@@ -156,6 +198,10 @@ export default function MaintenanceTracker() {
               <option value="priority">Priority</option>
               <option value="status">Status</option>
             </select>
+
+            <button onClick={() => navigate("/my-buildings")}>
+              Manage Buildings
+            </button>
           </div>
 
           {/* Requests Table */}
@@ -185,21 +231,31 @@ export default function MaintenanceTracker() {
                           #{request.id}
                         </Link>
                       </td>
-                      <td>{new Date(request.created_at).toLocaleDateString()}</td>
+                      <td>
+                        {new Date(request.created_at).toLocaleDateString()}
+                      </td>
                       <td>{request.location}</td>
                       <td>{request.issue_type}</td>
                       <td>{request.description}</td>
                       <td>
-                        <select
-                          value={request.status}
-                          onChange={(e) =>
-                            handleStatusChange(request.id, e.target.value)
-                          }
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="in progress">Accepted</option>
-                          <option value="completed">Completed</option>
-                        </select>
+                        {userRole === 4 ? (
+                          <select
+                            value={request.status}
+                            onChange={(e) =>
+                              handleStatusChange(request.id, e.target.value)
+                            }
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="in progress">Accepted</option>
+                            <option value="completed">Completed</option>
+                          </select>
+                        ) : (
+                          <span
+                            className={getStatusBadgeClass(request.status)}
+                          >
+                            {request.status}
+                          </span>
+                        )}
                       </td>
                       <td>
                         <select
@@ -207,6 +263,7 @@ export default function MaintenanceTracker() {
                           onChange={(e) =>
                             handlePriorityChange(request.id, e.target.value)
                           }
+                          disabled={userRole < 3}
                         >
                           <option value="high">High</option>
                           <option value="normal">Normal</option>

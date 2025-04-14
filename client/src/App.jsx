@@ -7,6 +7,7 @@ import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import ActiveRequest from "./pages/ActiveRequest";
+import MyBuildings from "./pages/MyBuildings";
 import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails";
 import UserProfile from "./pages/UserProfile";
 
