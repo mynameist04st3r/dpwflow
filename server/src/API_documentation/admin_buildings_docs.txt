@@ -1,0 +1,124 @@
+===========================
+ADMIN-BUILDINGS API ENDPOINT DOCS
+===========================
+
+-------------------------
+GET http://localhost:8000/admin-buildings/
+-------------------------
+Fetches admin-building relationships. Can filter by admin_id, building_id, or both.
+
+Parameters:
+- admin_id: int (optional)
+- building_id: int (optional)
+
+Examples:
+GET all relationships:
+GET http://localhost:8000/admin-buildings
+
+GET by admin:
+GET http://localhost:8000/admin-buildings?admin_id=1
+
+GET by building:
+GET http://localhost:8000/admin-buildings?building_id=2
+
+GET specific relationship:
+GET http://localhost:8000/admin-buildings?admin_id=1&building_id=2
+
+returns:
+Array or single object depending on query:
+[
+  {
+    "admin_id": 1,
+    "building_id": 2
+  },
+  ...
+]
+
+-------------------------
+POST http://localhost:8000/admin-buildings/
+-------------------------
+Assigns an admin to a building if not already assigned.
+
+Parameters: None
+
+body:
+{
+  "admin_id": int,
+  "building_id": int
+}
+
+Example:
+POST http://localhost:8000/admin-buildings
+body:
+{
+  "admin_id": 3,
+  "building_id": 12
+}
+
+returns:
+{
+  "message": "Admin assigned to building successfully",
+  "assignment": {
+    "admin_id": 3,
+    "building_id": 12
+  }
+}
+
+-------------------------
+PATCH http://localhost:8000/admin-buildings/
+-------------------------
+Updates the admin assigned to a building.
+
+Parameters: None
+
+body:
+{
+  "current_admin_id": int,
+  "building_id": int,
+  "new_admin_id": int
+}
+
+Example:
+PATCH http://localhost:8000/admin-buildings
+body:
+{
+  "current_admin_id": 3,
+  "building_id": 12,
+  "new_admin_id": 4
+}
+
+returns:
+{
+  "message": "Admin-building assignment updated successfully",
+  "admin_building": {
+    "admin_id": 4,
+    "building_id": 12
+  }
+}
+
+-------------------------
+DELETE http://localhost:8000/admin-buildings/
+-------------------------
+Removes an admin-building assignment.
+
+Parameters: None
+
+body:
+{
+  "admin_id": int,
+  "building_id": int
+}
+
+Example:
+DELETE http://localhost:8000/admin-buildings
+body:
+{
+  "admin_id": 3,
+  "building_id": 12
+}
+
+returns:
+{
+  "message": "Admin-building assignment deleted successfully"
+}
+

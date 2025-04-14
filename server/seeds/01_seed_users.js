@@ -2,6 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+const { hash } = require('@uswriting/bcrypt');
+
 exports.seed = async function(knex) {
   await knex('users').del();
 
@@ -11,7 +13,7 @@ exports.seed = async function(knex) {
       first_name: 'John',
       last_name: 'Doe',
       rank: 'Sergeant',
-      password: 'securepass1',
+      password: await hash('securepass1', 10),
       username: 'johndoe',
       phone_number: '5551234567',
       email: 'john.doe@example.mil',
@@ -22,7 +24,7 @@ exports.seed = async function(knex) {
       first_name: 'Jane',
       last_name: 'Smith',
       rank: 'Corporal',
-      password: 'securepass2',
+      password: await hash('securepass2', 10),
       username: 'janesmith',
       phone_number: '5559876543',
       email: 'jane.smith@example.mil',
@@ -33,22 +35,33 @@ exports.seed = async function(knex) {
       first_name: 'Alex',
       last_name: 'Brown',
       rank: 'Private',
-      password: 'securepass3',
+      password: await hash('securepass3'),
       username: 'alexbrown',
       phone_number: '5556789012',
       email: 'alex.brown@example.mil',
-      role: 1
+      role: 2
     },
     {
       id: 999,
       first_name: 'Anonymous',
       last_name: 'Submitter',
       rank: 'N/A',
-      password: 'nopassword',
+      password: await hash('nopassword'),
       username: 'anonymoussubmitter',
       phone_number: '',
       email: '',
       role: 1
+    },
+     {
+      id: 4,
+      first_name: 'admin',
+      last_name: 'admin',
+      rank: 'CIV',
+      password: await hash('password'),
+      username: 'admin',
+      phone_number: '1234567890',
+      email: 'admin@dpwflow.com',
+      role: 4
     }
   ]);
 

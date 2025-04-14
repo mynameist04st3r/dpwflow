@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
       username,
       confirmPassword,
       phone_number,
-      email,
+      email
     } = req.body;
 
     if (
@@ -67,7 +67,7 @@ router.post("/signup", async (req, res) => {
         username,
         phone_number,
         email,
-        role: 2, // 1 = Guest, 2 = End User,  3 = Manager, 4 = Admin
+        role: 2, // 1 = Guest, 2 = End User, 3 = Manager, 4 = Admin
       })
       .returning([
         "id",
@@ -129,7 +129,7 @@ router.post("/login", async (req, res) => {
         last_name: user.last_name,
         phone_number: user.phone_number,
         email: user.email,
-        role: user.role,
+        role: user.role
       },
     });
   } catch (err) {
