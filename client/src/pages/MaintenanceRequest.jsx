@@ -76,16 +76,25 @@ const MaintenanceRequestPage = () => {
   };
 
   useEffect(() => {
-    const storedUserId = parseInt(localStorage.getItem('user_id'), 10);
-    const storedLocationId = parseInt(localStorage.getItem('location_id'), 10);
+    const rawUser = sessionStorage.getItem('user');
+if (rawUser && rawUser !== "undefined") {
+  try {
+    const storedUser = JSON.parse(rawUser);
+    setFormData(prev => ({
+      ...prev,
+      user_id: storedUser.id || 999,
+      first_name: storedUser.first_name || '',
+      last_name: storedUser.last_name || '',
+      anon_phone: storedUser.phone_number || '',
+      anon_email: storedUser.email || ''
+    }));
+  } catch (err) {
+    console.error("Failed to parse user from sessionStorage:", err);
+  }
+}
 
-    if (!isNaN(storedUserId)) {
-      setFormData(prev => ({
-        ...prev,
-        user_id: storedUserId
-      }));
-    }
-
+  
+    const storedLocationId = parseInt(sessionStorage.getItem('location_id'), 10);
     if (!isNaN(storedLocationId)) {
       setFormData(prev => ({
         ...prev,
@@ -93,6 +102,7 @@ const MaintenanceRequestPage = () => {
       }));
     }
   }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
