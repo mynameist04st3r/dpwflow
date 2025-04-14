@@ -27,6 +27,7 @@ import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Roles } from "./Roles";
 import { useState, useEffect } from "react";
+// import MyBuildings from "./pages/MyBuildings";
 
 function App() {
   const [userRole, setUserRole] = useState(Roles.GUEST);
@@ -83,7 +84,7 @@ function App() {
           }
         />
 
-        <Route
+        {/* <Route
           path="/maintenance-tracker"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
@@ -107,7 +108,7 @@ function App() {
               <MyBuildings />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         {/* Public pages */}
         <Route path="/contact" element={<Contact />} />
