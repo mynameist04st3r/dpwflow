@@ -30,4 +30,25 @@ router.get('/prioritizedRequests', async (req, res) => {
   }
 });
 
+router.put('/updatePriorityOrder', async (req, res) => {
+  try {
+    const requests = req.body;
+    const updates = requests.map((request, index) => {
+      return {
+        id: request.id,
+        priority: index + 1,
+      };
+    });
+    for (const update of updates) {
+      await knex('requests')
+        .where('id', update.id)
+        .update('priority', update.priority);
+    }
+    res.json({message: 'Priority order updated successfully'});
+  } catch (err) {
+    console.error('Failed to updatepriority order: ', err);
+    res.status(500).json({error: 'Failed to update priority order'});
+  }
+});
+
 module.exports = router;
