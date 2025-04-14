@@ -7,6 +7,9 @@ export default function MaintenanceTracker() {
   const { requests, loading } = useAllRequests();
   const [sortBy, setSortBy] = useState("id");
 
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userRole = user?.role || 1;
+
   const formattedRequests = [...requests]
     .map((req) => ({
       id: req.id,
@@ -79,7 +82,7 @@ export default function MaintenanceTracker() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(statusPayload),
       });
-      window.location.reload(); // or trigger a re-fetch if using SWR/react-query
+      window.location.reload();
     } catch (err) {
       console.error("Failed to update status:", err);
     }
@@ -112,7 +115,6 @@ export default function MaintenanceTracker() {
         <>
           {/* Statistics Cards */}
           <div className="stats-container">
-            {/* ... same stat card layout as before ... */}
             <div className="stat-card">
               <div className="stat-icon">📊</div>
               <div className="stat-content">
@@ -190,16 +192,22 @@ export default function MaintenanceTracker() {
                       <td>{request.issue_type}</td>
                       <td>{request.description}</td>
                       <td>
-                        <select
-                          value={request.status}
-                          onChange={(e) =>
-                            handleStatusChange(request.id, e.target.value)
-                          }
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="in progress">Accepted</option>
-                          <option value="completed">Completed</option>
-                        </select>
+                        {userRole === 4 ? (
+                          <select
+                            value={request.status}
+                            onChange={(e) =>
+                              handleStatusChange(request.id, e.target.value)
+                            }
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="in progress">Accepted</option>
+                            <option value="completed">Completed</option>
+                          </select>
+                        ) : (
+                          <span className={getStatusBadgeClass(request.status)}>
+                            {request.status}
+                          </span>
+                        )}
                       </td>
                       <td>
                         <select
@@ -207,6 +215,7 @@ export default function MaintenanceTracker() {
                           onChange={(e) =>
                             handlePriorityChange(request.id, e.target.value)
                           }
+                          disabled={userRole < 3} // 🔒 Managers and Admins only
                         >
                           <option value="high">High</option>
                           <option value="normal">Normal</option>
