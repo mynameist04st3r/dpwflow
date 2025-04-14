@@ -23,7 +23,7 @@ router.post('/new-building', async (req, res) => {
     .select('role')
     .first();
 
-    if (!admin || (admin.role !== 2 && admin.role !== 3)) {
+    if (!admin || (admin.role !== 3 && admin.role !== 4)) {
     return res.status(403).json({
       error: 'User is not authorized to manage buildings'
     });
@@ -65,5 +65,53 @@ router.post('/new-building', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+router.get('/get-buildings', async (req, res) => {
+  try {
+    const buildings = await knex('buildings').select('*');
+    res.status(200).json(buildings);
+  } catch (error) {
+    console.error('Error in GET /buildings', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/get-buildings/id/:building_id', async (req, res) => {
+  try {
+    const { building_id } = req.params;
+    const building = await knex('buildings').where('id', building_id).first();
+    if (!building) {
+      return res.status(404).json({ error: 'Building not found' });
+    }
+    res.status(200).json(building);
+  } catch (error) {
+    console.error('Error in GET /buildings/:building_id', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/get-buildings/building-number/:building_number', async (req, res) => {
+  try {
+    const { building_number } = req.params;
+    const normalized = building_number.toUpperCase().replace(/[\s\-]/g, '');
+
+    const building = await knex('buildings')
+      .whereRaw(
+        "REPLACE(REPLACE(UPPER(building_number), ' ', ''), '-', '') = ?",
+        [normalized]
+      )
+      .first();
+
+    if (!building) {
+      return res.status(404).json({ error: 'Building not found' });
+    }
+
+    res.status(200).json(building);
+  } catch (err) {
+    console.error('Error fetching building by number:', err);
+    res.status(500).json({ error: 'Failed to fetch building' });
+  }
+});
+
 
 module.exports = router;

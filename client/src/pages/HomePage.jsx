@@ -28,28 +28,28 @@ const HomePage = () => {
             barracks and garrison facilities. Submit, track, and manage work
             orders efficiently in one centralized platform.
           </p>
-        </div>
 
-        <div className="features-grid">
-          {/* Card 1 */}
-          <div className="feature-card">
-            <i className="features-icon">📝</i>
-            <h3>Easy Submission</h3>
-            <p>
-              Submit maintenance requests quickly with our user-friendly form
-            </p>
-          </div>
-          {/* Card 2 */}
-          <div className="feature-card">
-            <i className="features-icon">📱</i>
-            <h3>Real-time Tracking</h3>
-            <p>Monitor the status of your requests in real-time</p>
-          </div>
-          {/* Card 3 */}
-          <div className="feature-card">
-            <i className="features-icon">📊</i>
-            <h3>Efficient Management</h3>
-            <p>Streamlined workflow for maintenance teams</p>
+          <div className="features-grid">
+            {/* Card 1 */}
+            <div className="feature-card">
+              <span className="features-icon">📝</span>
+              <h3>Easy Submission</h3>
+              <p>
+                Submit maintenance requests quickly with our user-friendly form
+              </p>
+            </div>
+            {/* Card 2 */}
+            <div className="feature-card">
+              <span className="features-icon">📱</span>
+              <h3>Real-time Tracking</h3>
+              <p>Monitor the status of your requests in real-time</p>
+            </div>
+            {/* Card 3 */}
+            <div className="feature-card">
+              <span className="features-icon">📊</span>
+              <h3>Efficient Management</h3>
+              <p>Streamlined workflow for maintenance teams</p>
+            </div>
           </div>
         </div>
 
