@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { RoleLabels } from "../Roles";
 
 function SetUserRoles({ currentUser }) {
   const [users, setUsers] = useState([]);
@@ -66,7 +67,7 @@ function SetUserRoles({ currentUser }) {
       <strong>
         {user.first_name} {user.last_name}
       </strong>{" "}
-      (Current role: {user.role})
+      (Current Role: {RoleLabels[user.role] || "Unknown"})
 
       <div style={{ marginTop: "8px" }}>
         <select
