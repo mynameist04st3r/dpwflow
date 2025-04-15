@@ -1,21 +1,28 @@
 .dashboard-wrapper {
   padding: 60px 20px;
-  background: #e8f5e9; /* soft minty green */
+  background: #fefffe31; /* soft minty green */
   min-height: 100vh;
   text-align: center;
-  color: #2e4637;
+  color: #0e1310;
 }
 
 .dashboard-title {
   font-size: 3rem;
   margin-bottom: 10px;
   font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.808);  
+  
 }
 
 .dashboard-subtext {
   font-size: 1.2rem;
   margin-bottom: 40px;
-  color: #4d6a58;
+  color: #f8fffb;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.979);
+  font-weight: 450;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .dashboard-actions {
@@ -23,6 +30,11 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0 20px;
+  max-width: 1200px;
+
 }
 
 .dashboard-btn {
