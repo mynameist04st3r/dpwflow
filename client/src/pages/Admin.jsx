@@ -3,6 +3,7 @@ import '../styles/Admin.css';
 import NavBar from '../components/NavBar';
 import PrioritySorter from '../components/PrioritySorter';
 import AddInstallationData from '../components/AddInstallationData';
+import SetUserRoles from '../components/SetUserRoles'
 
 function Admin() {
   const [showForm, setShowForm] = useState(false);
@@ -34,13 +35,14 @@ function Admin() {
         <div className="admin-button-bar">
           <div className="admin-button-container">
             <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('priority');}}>Prioritize Work Orders</button>
-            <button className="admin-buttons">Set User Rolls</button>
+            <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('setRoles');}}>Set User Roles</button>
             <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('addInstallation');}}>Add Installation Data</button>
           </div>
         </div>
         <div className="admin-forms-container">
           <div className="admin-forms">
             {showForm && formType === 'priority' && <PrioritySorter />}
+            {showForm && formType === 'setRoles' && (<SetUserRoles currentUser={JSON.parse(sessionStorage.getItem("user"))} />)}
             {showForm && formType === 'addInstallation' && <AddInstallationData />}
           </div>
         </div>

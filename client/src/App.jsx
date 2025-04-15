@@ -2,7 +2,7 @@
 import HomePage from "./pages/HomePage";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
 import Dashboard from "./pages/Dashboard";
-import MaintenanceTracker from "./pages/MaintenanceTracker";
+// import MaintenanceTracker from "./pages/MaintenanceTracker";
 import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
@@ -67,6 +67,14 @@ function App() {
           }
         />
         <Route
+          path="/maintenance-tracker/:id"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MaintenanceTrackerDetails />
+            </ProtectedRoute>
+          }
+          />
+        <Route
           path="/my-requests"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
@@ -74,14 +82,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/maintenance-tracker/*"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
-              <MaintenanceTracker />
-            </ProtectedRoute>
-          }
-        />
+  
         <Route
           path="/admin"
           element={
