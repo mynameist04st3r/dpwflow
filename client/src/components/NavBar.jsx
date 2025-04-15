@@ -90,6 +90,7 @@ function NavBar() {
                 onClick={() => {
                   setSignedIn(false);
                   sessionStorage.clear();
+                  window.location.replace("/");
                 }}
               >
                 Logout
