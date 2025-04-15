@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  overflow: visible; /* make sure dropdowns are visible */
+}
+
 body {
   padding-top: 80px;
 }
@@ -162,4 +171,20 @@ body {
     margin: 0 auto;
     display: inline-block;
   }
+}
+.signup-button,
+.login-button,
+.logout-button {
+  background-color: #101420;
+  color: #dbdde2;
+}
+
+.form-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-button-wrapper {
+  position: relative;
+  display: inline-block;
 }

@@ -1,0 +1,15 @@
+Component,Guest (1),User (2),Manager (3),Admin (4)
+HomePage.jsx,X,X,X,X
+Login (Modal),X,X,X,X
+CreateUser.jsx,X,X,X,X
+MaintenanceRequest.jsx,X,X,X,X
+Active Queue,X,X,X,X
+Dashboard.jsx,,X,X,X
+MyRequests.jsx,,X,X,X
+MaintenanceTracker.jsx,,,X,X
+TBD.jsx,,,X,X
+Admin.jsx,,,,X
+AddInstallation.jsx,,,,X
+SetUserRoles.jsx,,,X,X
+ActiveBuildings.jsx,,,X,X
+MyBuildings.jsx,,,X,X

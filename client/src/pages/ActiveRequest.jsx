@@ -10,6 +10,7 @@ export default function ActiveRequest() {
   const enterKey = (event)=>{
     if (event.key === 'Enter') {
       handleSearch();
+      setInput("");
     }
   };
   // Fetch data when the Search button is clicked
@@ -34,7 +35,7 @@ export default function ActiveRequest() {
     <>
 <div className="total-display">
     <div className="container_header">
-        <button className="home_button" onClick={()=> navigate('./launch')}>home</button>
+        <button className="home_button" onClick={()=> navigate('/')}>home</button>
     </div>
     <div className="container">
       <h1 className="h1-header">Building Work Orders</h1>

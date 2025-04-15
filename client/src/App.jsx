@@ -1,6 +1,3 @@
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import NavBar from "./components/NavBar";
-
 // // Pages (in components folder)
 import HomePage from "./pages/HomePage";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
@@ -10,7 +7,9 @@ import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import ActiveRequest from "./pages/ActiveRequest";
-import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails"
+import MyBuildings from "./pages/MyBuildings";
+import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails";
+import UserProfile from "./pages/UserProfile";
 
 //     conflict issue
 // import { useState } from 'react'
@@ -20,32 +19,125 @@ import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails"
 // import './styles/index.css'
 
 // Below is good code///////////////
-import { useState } from "react";
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-// import Dashboard from "./components/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { Roles } from "./Roles";
+import { useState, useEffect } from "react";
 
 function App() {
-  return (
-    <>
-      <Router>
-        {/* Main routes handled inside Dashboard */}
-        <Routes>
-          <Route path="/*" element={<HomePage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/maintenance-request" element={<MaintenanceRequest />} />
-          <Route path="/my-requests" element={<MyRequests />} />
-          <Route path="/maintenance-tracker" element={<MaintenanceTracker />} />
-          <Route path="/maintenance-tracker/:id" element={<MaintenanceTrackerDetails />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/active-request" element={<ActiveRequest/>} />
-        </Routes>
+//////   const [userRole, setUserRole] = useState(null); // Wait until role is loaded
 
-        <NavBar />
-      </Router>
-    </>
+//////   useEffect(() => {
+//////     const stored = sessionStorage.getItem("userRole");
+//////     const parsed = stored ? parseInt(stored) : null;
+//////     setUserRole(parsed ?? Roles.GUEST);
+  
+  // const [userRole, setUserRole] = useState(Roles.GUEST);
+  // useEffect(() => {
+  //   const storedRole = sessionStorage.getItem("userRole");
+  //   if (storedRole !== null) {
+  //     setUserRole(parseInt(storedRole));
+  //   }
+  // }, []);
+
+  const [userRole, setUserRole] = useState(null); // Start as null
+
+  useEffect(() => {
+    const storedRole = sessionStorage.getItem("userRole");
+    if (storedRole !== null) {
+      setUserRole(parseInt(storedRole)); // Convert string to number
+    } else {
+      setUserRole(Roles.GUEST); // Fallback if nothing in sessionStorage
+    }
+  }, []);
+
+  if (userRole === null) return null; // Prevent early route rendering
+
+  return (
+    <Router>
+      <Routes>
+        {/* Protected pages */}
+        <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-requests"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MyRequests />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/maintenance-tracker/*"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
+              <MaintenanceTracker />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.ADMIN}>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-profile"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+{/* //// <<<<<<< fix-maintenance-tracker
+////         <Route
+////           path="/maintenance-tracker/:id"
+////           element={
+////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+////               <MaintenanceTrackerDetails />
+//// =======
+////         {<Route
+////           path="/maintenance-tracker"
+////           element={
+////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+////               <MaintenanceTracker />
+//// >>>>>>> Rob
+////            </ProtectedRoute>
+////          }
+////        /> */}
+        <Route
+          path="/my-buildings"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MyBuildings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/*    {Public pages}    */}
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/active-request" element={<ActiveRequest />} />
+        <Route path="/maintenance-request" element={<MaintenanceRequest />} />
+
+        {/*    Home page (moved to the bottom to avoid hijacking other routes)}     */}
+        <Route path="/" element={<HomePage />} />
+
+        {/* Optional: 404 fallback */}
+        <Route path="*" element={<div>404 - Page Not Found</div>} />
+      </Routes>
+
+      <NavBar setUserRole={setUserRole} />
+    </Router>
   );
 }
 
