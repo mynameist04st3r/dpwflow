@@ -11,7 +11,7 @@ export default function MaintenanceTracker() {
   const navigate = useNavigate();
 
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const userRole = user?.role || 1;
+  const userRole = user?.role || 2;
 
   useEffect(() => {
     if (userRole >= 3) {
