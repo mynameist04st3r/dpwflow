@@ -1,21 +1,13 @@
-:root {
-  --primary-color: #8cc5a6;
-  --secondary-color: #426f4d;
-  --accent-color: #101420;
-  --background-color: #000000a6;
-  --text-color: #dbdde2;
-  --card-background: #000000;
-  --hover-color: #6da888;
-  --border-color: #5a8f6e;
-}
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: var(--background-color);
+  background-color: rgba(0, 0, 0, 0.9);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  border: 1px solid #8cc5a6;
+  border-radius: 8px;
 }
 
 .home-header {
