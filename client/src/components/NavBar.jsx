@@ -123,6 +123,14 @@ function NavBar() {
             Maintenance Request
           </NavLink>
 
+          <NavLink
+            to="/active-request"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={closeMenu}
+          >
+            Active Request
+          </NavLink>
+
           {userRole >= 2 && (
             <NavLink
               to="/my-requests"
