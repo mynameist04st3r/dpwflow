@@ -4,11 +4,11 @@ import "../styles/NavBar.css";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 
-const handleLogout = () => {
-  console.log("Logging out...");
-  sessionStorage.clear(); //  Remove all session keys
-  window.location.href = "/"; // Full reload to re-trigger App.jsx
-};
+// const handleLogout = () => {
+//   console.log("Logging out...");
+//   sessionStorage.clear(); //  Remove all session keys
+//   // window.location.href = "/"; // Full reload to re-trigger App.jsx
+// };
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,8 +44,22 @@ function NavBar() {
     }
   }, []);
 
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  const userRole = user?.role || 1;
+  // const user = JSON.parse(sessionStorage.getItem("user"));
+  // const userRole = user?.role || 1;
+
+  const [userRole, setUserRole] = useState(1);
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      const parsed = JSON.parse(storedUser);
+      setUserRole(parsed.role);
+      setSignedIn(true);
+    } else {
+      setUserRole(1); // GUEST fallback
+      setSignedIn(false);
+    }
+  }, [loginForm, signUpForm, signedIn]);
 
   // const storedUser = sessionStorage.getItem("user");
   // const user = storedUser ? JSON.parse(storedUser) : null;
@@ -151,7 +165,6 @@ function NavBar() {
                   sessionStorage.removeItem("token");
                   sessionStorage.removeItem("user");
                   sessionStorage.removeItem("userRole");
-                  window.location.href = "/";
                 }}
               >
                 Logout
