@@ -4,67 +4,40 @@ import "../styles/NavBar.css";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 
-// const handleLogout = () => {
-//   console.log("Logging out...");
-//   sessionStorage.clear(); //  Remove all session keys
-//   // window.location.href = "/"; // Full reload to re-trigger App.jsx
-// };
-
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [loginForm, setLoginForm] = useState(false);
   const [signUpForm, setSignUpForm] = useState(false);
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
   const handleLoginToggle = () => {
     setLoginForm(!loginForm);
     setSignUpForm(false);
   };
-
   const handleSignUpToggle = () => {
     setSignUpForm(!signUpForm);
     setLoginForm(false);
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setMenuOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const getUserRole = () => {
+    const stored = sessionStorage.getItem("user");
+    if (!stored) return 1;
+    try {
+      const parsed = JSON.parse(stored);
+      return parsed.role || 1;
+    } catch {
+      return 1;
+    }
+  };
+
+  const userRole = getUserRole();
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    if (token) {
-      setSignedIn(true);
-    }
-  }, []);
-
-  // const user = JSON.parse(sessionStorage.getItem("user"));
-  // const userRole = user?.role || 1;
-
-  const [userRole, setUserRole] = useState(1);
-
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      const parsed = JSON.parse(storedUser);
-      setUserRole(parsed.role);
-      setSignedIn(true);
-    } else {
-      setUserRole(1); // GUEST fallback
-      setSignedIn(false);
-    }
-  }, [loginForm, signUpForm, signedIn]);
-
-  // const storedUser = sessionStorage.getItem("user");
-  // const user = storedUser ? JSON.parse(storedUser) : null;
-
-  // // const user = JSON.parse(sessionStorage.getItem("user"));
+    setSignedIn(!!token);
+  }, [loginForm, signUpForm]);
 
   return (
     <nav className="nav">
@@ -76,82 +49,36 @@ function NavBar() {
         </div>
 
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <NavLink
-            to="/"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
+          <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
             Home
           </NavLink>
-
-          <NavLink
-            to="/maintenance-request"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
+          <NavLink to="/maintenance-request" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
             Maintenance Request
           </NavLink>
-
-          <NavLink
-            to="/active-request"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
+          <NavLink to="/active-request" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
             Active Request
           </NavLink>
 
           {userRole >= 2 && (
-            <NavLink
-              to="/my-requests"
-              className={({ isActive }) =>
-                `nav-link ${isActive ? "active" : ""}`
-              }
-              onClick={closeMenu}
-            >
+            <NavLink to="/my-requests" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
               My Requests
             </NavLink>
           )}
-
           {userRole >= 3 && (
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                `nav-link ${isActive ? "active" : ""}`
-              }
-              onClick={closeMenu}
-            >
+            <NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
               Dashboard
             </NavLink>
           )}
-
           {userRole === 4 && (
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                `nav-link ${isActive ? "active" : ""}`
-              }
-              onClick={closeMenu}
-            >
+            <NavLink to="/admin" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
               Admin
             </NavLink>
           )}
-
-          <NavLink
-            to="/contact"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
+          <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
             Contact
           </NavLink>
-
           {userRole >= 2 && (
-            <NavLink
-              to="/user-profile"
-              className={({ isActive }) =>
-                `nav-link ${isActive ? "active" : ""}`
-              }
-              onClick={closeMenu}
-            >
+            <NavLink to="/user-profile" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>
               My Profile
             </NavLink>
           )}
@@ -162,9 +89,7 @@ function NavBar() {
                 className="logout-button"
                 onClick={() => {
                   setSignedIn(false);
-                  sessionStorage.removeItem("token");
-                  sessionStorage.removeItem("user");
-                  sessionStorage.removeItem("userRole");
+                  sessionStorage.clear();
                 }}
               >
                 Logout
@@ -185,7 +110,6 @@ function NavBar() {
         {loginForm && (
           <LoginForm setLoginForm={setLoginForm} setSignedIn={setSignedIn} />
         )}
-
         {signUpForm && (
           <SignUpForm setSignUpForm={setSignUpForm} setSignedIn={setSignedIn} />
         )}
