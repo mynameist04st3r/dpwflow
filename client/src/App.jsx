@@ -2,7 +2,7 @@
 import HomePage from "./pages/HomePage";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
 import Dashboard from "./pages/Dashboard";
-import MaintenanceTracker from "./pages/MaintenanceTracker";
+// import MaintenanceTracker from "./pages/MaintenanceTracker";
 import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
@@ -75,14 +75,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/maintenance-tracker/*"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
               <MaintenanceTracker />
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="/admin"
           element={
