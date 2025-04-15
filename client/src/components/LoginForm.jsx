@@ -9,7 +9,6 @@ function LoginForm({ setLoginForm, setSignedIn }) {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
   const formRef = useRef(null);
-  const navigate = useNavigate();
 
 
   // Close form if clicked outside
@@ -38,13 +37,16 @@ function LoginForm({ setLoginForm, setSignedIn }) {
         setPassword("");
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
-        navigate("/dashboard");
+        sessionStorage.setItem("userRole", String(res.data.user.role)); // fixed issue with not recognizing user role due to string vs number issue.
+        window.location.replace("/dashboard");
+
+
 
 
         // Added the role to save into sessionStorage
         // sessionStorage.setItem("userRole", res.data.user.role);
 
-        sessionStorage.setItem("userRole", String(res.data.user.role)); // fixed issue with not recognizing user role due to string vs number issue.
+      
       } else {
         setLoginError(res.data.message || "Login failed.");
       }

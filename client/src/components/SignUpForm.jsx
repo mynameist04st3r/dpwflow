@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/FormModal.css";
-import { useNavigate } from "react-router-dom";
 
 
 axios.defaults.withCredentials = true;
@@ -61,7 +60,9 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
         // Added the role to save into sessionStorage
         // sessionStorage.setItem("userRole", res.data.user.role);  causing issues with not recognizing user role due to string vs number issue.
         sessionStorage.setItem("userRole", String(res.data.user.role)); // fixed issue with not recognizing user role due to string vs number issue.
-        navigate("/dashboard");
+        window.location.replace("/dashboard");
+
+
 
       } else {
         setSignUpError(res.data.message || "Signup failed.");
