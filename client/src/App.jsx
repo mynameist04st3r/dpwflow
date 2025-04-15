@@ -68,6 +68,14 @@ function App() {
           }
         />
         <Route
+          path="/maintenance-tracker/:id"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MaintenanceTrackerDetails />
+            </ProtectedRoute>
+          }
+          />
+        <Route
           path="/my-requests"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
@@ -75,14 +83,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route
-          path="/maintenance-tracker/*"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
-              <MaintenanceTracker />
-            </ProtectedRoute>
-          }
-        /> */}
+  
         <Route
           path="/admin"
           element={
@@ -99,22 +100,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-{/* //// <<<<<<< fix-maintenance-tracker
-////         <Route
-////           path="/maintenance-tracker/:id"
-////           element={
-////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
-////               <MaintenanceTrackerDetails />
-//// =======
-////         {<Route
-////           path="/maintenance-tracker"
-////           element={
-////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
-////               <MaintenanceTracker />
-//// >>>>>>> Rob
-////            </ProtectedRoute>
-////          }
-////        /> */}
+
         <Route
           path="/my-buildings"
           element={
