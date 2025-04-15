@@ -1,0 +1,33 @@
+.priority-sorter-form-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.ghost-row {
+  height: 40px;
+  background-color: #101420;
+  border-bottom: 1px solid #961e14;
+}
+
+.admin-forms-prioritized-body {
+  border-collapse: separate;
+  border-spacing: 5px;
+}
+
+.priority-save-button-container {
+  margin-left: 20px;
+}
+
+.priority-save-button-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #101420;
+  background-color: #8cc5a6;
+  border: 2px solid #961e14;
+}
+
+.priority-save-button-container button:hover {
+  background-color: #426f4d;
+  border-color: #961e14;
+}

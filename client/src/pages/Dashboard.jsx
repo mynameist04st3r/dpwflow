@@ -1,43 +1,32 @@
-import { Routes, Route } from "react-router-dom";
-import HomePage from "./HomePage";
-import MaintenanceRequest from "./MaintenanceRequest";
-import MaintenanceTracker from "./MaintenanceTracker";
-import MyRequests from "./MyRequests";
-import Admin from "./Admin";
-import Contact from "./Contact";
+import { useNavigate } from "react-router-dom";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
-  return (
-    <>
-    <div style={{
-      padding: '40px',
-      background: 'linear-gradient(to right, #e66465, #9198e5)',
-      color: 'white',
-      height: '100vh'
-    }}>
-      <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>Kiersten's Dashboard</h1>
-      <p style={{ fontSize: '1.2rem' }}>This is the group dashboard. Period. 💅🏽</p>
+  const navigate = useNavigate();
 
-      <div style={{
-        marginTop: '30px',
-        padding: '20px',
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        borderRadius: '12px'
-      }}>
-        <p> Add widgets, charts, or whatever tf </p>
+  return (
+    <div className="dashboard-wrapper">
+      <h1 className="dashboard-title">Admin Dashboard</h1>
+      <p className="dashboard-subtext">You are logged in as: <strong>Admin</strong></p>
+
+      <div className="dashboard-actions">
+        <button className="dashboard-btn" onClick={() => navigate("/all-requests")}>
+           View All Requests
+        </button>
+        <button className="dashboard-btn" onClick={() => navigate("/admin/users")}>
+           Manage Users
+        </button>
+        <button className="dashboard-btn" onClick={() => alert("System Settings coming soon!")}>
+          System Settings
+        </button>
+        <button className="dashboard-btn" onClick={() => alert("Reports feature coming soon!")}>
+          Generate Reports
+        </button>
       </div>
     </div>
-    <Routes>
-    <Route path="/" element={<HomePage />} />
-    <Route path="/maintenance-request" element={<MaintenanceRequest />} />
-    <Route path="/dashboard" element={<Dashboard />} />
-    <Route path="/maintenance-tracker" element={<MaintenanceTracker />} />
-    <Route path="/my-requests" element={<MyRequests />} />
-    <Route path="/admin" element={<Admin />} />
-    <Route path="/contact" element={<Contact />} />
-  </Routes>
-  </>
   );
 }
+
+console.log("Dashboard page loaded");
 
 export default Dashboard;
