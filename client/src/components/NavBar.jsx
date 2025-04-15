@@ -4,11 +4,11 @@ import "../styles/NavBar.css";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 
-const handleLogout = () => {
-  console.log("Logging out...");
-  sessionStorage.clear(); //  Remove all session keys
-  window.location.href = "/"; // Full reload to re-trigger App.jsx
-};
+// const handleLogout = () => {
+//   console.log("Logging out...");
+//   sessionStorage.clear(); //  Remove all session keys
+//   window.location.href = "/"; // Full reload to re-trigger App.jsx
+// };
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
