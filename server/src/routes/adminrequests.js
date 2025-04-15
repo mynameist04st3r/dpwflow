@@ -30,4 +30,51 @@ router.get('/prioritizedRequests', async (req, res) => {
   }
 });
 
+router.put('/updatePriorityOrder', async (req, res) => {
+  try {
+    const requests = req.body;
+    const updates = requests.map((request, index) => {
+      return {
+        id: request.id,
+        priority: index + 1,
+      };
+    });
+    for (const update of updates) {
+      await knex('requests')
+        .where('id', update.id)
+        .update('priority', update.priority);
+    }
+    res.json({message: 'Priority order updated successfully'});
+  } catch (err) {
+    console.error('Failed to updatepriority order: ', err);
+    res.status(500).json({error: 'Failed to update priority order'});
+  }
+});
+
+router.get('/locations', async (req, res) => {
+  try {
+    const locations = await knex('locations').select('state');
+    res.json(locations);
+  } catch (err) {
+    console.error('Failed to fetch locations: ', err)
+    res.status(500).json({error: 'Failed to fetch locations'});
+  }
+});
+
+router.post('/locations', async (req, res) => {
+  try {
+    const {state, military_base} = req.body;
+    const existingLocation = await knex('locations').where('state', state).first();
+    if (existingLocation) {
+      res.status(400).json({error: 'Location already exists'});
+    } else {
+      const newLocation = await knex('locations').insert({state, military_base}).returning('id');
+      res.json({message: 'Location added successfully', id: newLocation[0].id});
+    }
+  } catch (err) {
+    console.error('Failed to add location: ', err);
+    res.status(500).json({error: 'Failed to add location'});
+  }
+});
+
 module.exports = router;
