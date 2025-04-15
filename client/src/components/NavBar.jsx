@@ -48,7 +48,6 @@ function NavBar() {
 
   // // const user = JSON.parse(sessionStorage.getItem("user"));
 
-
   return (
     <nav className="nav">
       <div className="nav-inner">
@@ -108,46 +107,97 @@ function NavBar() {
           >
             Contact
           </NavLink> */}
-          <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Home</NavLink>
+          <NavLink
+            to="/"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={closeMenu}
+          >
+            Home
+          </NavLink>
 
-<NavLink to="/maintenance-request" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Maintenance Request</NavLink>
+          <NavLink
+            to="/maintenance-request"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={closeMenu}
+          >
+            Maintenance Request
+          </NavLink>
 
-{userRole >= 2 && (
-  <NavLink to="/my-requests" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>My Requests</NavLink>
-)}
+          {userRole >= 2 && (
+            <NavLink
+              to="/my-requests"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+              onClick={closeMenu}
+            >
+              My Requests
+            </NavLink>
+          )}
 
-{userRole >= 3 && (
-  <NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Dashboard</NavLink>
-)}
+          {userRole >= 3 && (
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+              onClick={closeMenu}
+            >
+              Dashboard
+            </NavLink>
+          )}
 
-{userRole === 4 && (
-  <NavLink to="/admin" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Admin</NavLink>
-)}
+          {userRole === 4 && (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+              onClick={closeMenu}
+            >
+              Admin
+            </NavLink>
+          )}
 
-<NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} onClick={closeMenu}>Contact</NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={closeMenu}
+          >
+            Contact
+          </NavLink>
 
+          {userRole >= 2 && (
+            <NavLink
+              to="/user-profile"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+              onClick={closeMenu}
+            >
+              My Profile
+            </NavLink>
+          )}
 
           <div className="header-buttons-container">
             {signedIn ? (
               <button
-                className="header-buttons"
+                className="logout-button"
                 onClick={() => {
                   setSignedIn(false);
                   sessionStorage.removeItem("token");
                   sessionStorage.removeItem("user");
                 }}
               >
-
                 {/* {/* Hi {user?.first_name || "User"},  */}
                 Logout
-
               </button>
             ) : (
               <>
-                <button className="header-buttons" onClick={handleLoginToggle}>
+                <button className="login-button" onClick={handleLoginToggle}>
                   Login
                 </button>
-                <button className="header-buttons" onClick={handleSignUpToggle}>
+                <button className="signup-button" onClick={handleSignUpToggle}>
                   Sign Up
                 </button>
               </>
