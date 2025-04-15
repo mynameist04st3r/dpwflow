@@ -22,4 +22,12 @@
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  color: #101420;
+  background-color: #8cc5a6;
+  border: 2px solid #961e14;
+}
+
+.priority-save-button-container button:hover {
+  background-color: #426f4d;
+  border-color: #961e14;
 }
