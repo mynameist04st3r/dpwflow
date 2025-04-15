@@ -29,7 +29,8 @@ import { Roles } from "./Roles";
 import { useState, useEffect } from "react";
 // import MyBuildings from "./pages/MyBuildings";
 
-function App() {
+function App()
+// {
   // const [userRole, setUserRole] = useState(Roles.GUEST);
   // useEffect(() => {
   //   const storedRole = sessionStorage.getItem("userRole");
@@ -94,14 +95,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {<Route
-          path="/maintenance-tracker"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
-              <MaintenanceTracker />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="/my-buildings"
           element={
