@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import QRCodeModal from "../components/QRCodeModal";
+import "../styles/MyBuildings.css";
 
 export default function MyBuildings() {
   const [assignedBuildings, setAssignedBuildings] = useState([]);
@@ -110,103 +111,97 @@ export default function MyBuildings() {
     <div className="my-buildings-container">
       <h1>Manage My Buildings</h1>
 
-      <h2>Currently Assigned:</h2>
-      <div className="building-tags">
-        {assignedBuildings.length === 0 ? (
-          <p>You are not assigned to any buildings.</p>
-        ) : (
-          assignedBuildings.map((b) => {
-            const building = allBuildings.find((ab) => ab.id === b.building_id);
-            const isUnknown = building?.id === 999;
+      <div className="buildings-section">
+      <h2 className="panel-heading">Currently Assigned</h2>
+        <div className="building-tags">
+          {assignedBuildings.length === 0 ? (
+            <p>You are not assigned to any buildings.</p>
+          ) : (
+            assignedBuildings.map((b) => {
+              const building = allBuildings.find((ab) => ab.id === b.building_id);
+              const isUnknown = building?.id === 999;
 
-            return (
-              <div key={b.building_id} className="building-tag">
-                <p>
-                  <strong>Building ID:</strong> {isUnknown ? "Unknown" : building?.id}
-                </p>
-                <p>
-                  <strong>Building Number:</strong> {building?.building_number}
-                </p>
-                <p>
-                  <strong>Location:</strong>{" "}
-                  {building?.military_base}, {building?.state}
-                </p>
-                {!isUnknown && (
-                  <>
-                    <button onClick={() => handleRemove(b.building_id)}>Remove</button>
-                    <button
-                      onClick={() => openQrModal(building)}
-                      style={{ marginLeft: "0.5rem" }}
-                    >
-                      Generate QR
-                    </button>
-                  </>
-                )}
-              </div>
-            );
-          })
-        )}
+              return (
+                <div key={b.building_id} className="building-tag">
+                  <p><strong>Building ID:</strong> {isUnknown ? "Unknown" : building?.id}</p>
+                  <p><strong>Building Number:</strong> {building?.building_number}</p>
+                  <p><strong>Location:</strong> {building?.military_base}, {building?.state}</p>
+                  {!isUnknown && (
+                    <>
+                      <button onClick={() => handleRemove(b.building_id)}>Remove</button>
+                      <button onClick={() => openQrModal(building)} style={{ marginLeft: "0.5rem" }}>
+                        Generate QR
+                      </button>
+                    </>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
       </div>
 
-      <h2>Assign New Building</h2>
-      <div className="assign-form">
-        <label htmlFor="stateSelect">State:</label>
-        <select
-          id="stateSelect"
-          value={selectedState}
-          onChange={(e) => {
-            setSelectedState(e.target.value);
-            setSelectedBase("");
-            setSelectedBuildingId("");
-          }}
-        >
-          <option value="">Select a state</option>
-          {uniqueStates.map((state) => (
-            <option key={state} value={state}>
-              {state}
-            </option>
-          ))}
-        </select>
+      <div className="buildings-section">
+      <h2 className="panel-heading">Assign New Building</h2>
+        <div className="assign-form">
+          <label htmlFor="stateSelect">State:</label>
+          <select
+            id="stateSelect"
+            value={selectedState}
+            onChange={(e) => {
+              setSelectedState(e.target.value);
+              setSelectedBase("");
+              setSelectedBuildingId("");
+            }}
+          >
+            <option value="">Select a state</option>
+            {uniqueStates.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
 
-        {selectedState && (
-          <>
-            <label htmlFor="baseSelect">Base:</label>
-            <select
-              id="baseSelect"
-              value={selectedBase}
-              onChange={(e) => {
-                setSelectedBase(e.target.value);
-                setSelectedBuildingId("");
-              }}
-            >
-              <option value="">Select a base</option>
-              {uniqueBases.map((base) => (
-                <option key={base} value={base}>
-                  {base}
-                </option>
-              ))}
-            </select>
-          </>
-        )}
+          {selectedState && (
+            <>
+              <label htmlFor="baseSelect">Base:</label>
+              <select
+                id="baseSelect"
+                value={selectedBase}
+                onChange={(e) => {
+                  setSelectedBase(e.target.value);
+                  setSelectedBuildingId("");
+                }}
+              >
+                <option value="">Select a base</option>
+                {uniqueBases.map((base) => (
+                  <option key={base} value={base}>
+                    {base}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
-        {selectedState && selectedBase && (
-          <>
-            <label htmlFor="buildingSelect">Building Number:</label>
-            <select
-              id="buildingSelect"
-              value={selectedBuildingId}
-              onChange={(e) => setSelectedBuildingId(parseInt(e.target.value))}
-            >
-              <option value="">Select a building</option>
-              {buildingsMatching.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.building_number}
-                </option>
-              ))}
-            </select>
-            <button onClick={handleAssign}>Assign ➕</button>
-          </>
-        )}
+          {selectedState && selectedBase && (
+            <>
+              <label htmlFor="buildingSelect">Building Number:</label>
+              <select
+                id="buildingSelect"
+                value={selectedBuildingId}
+                onChange={(e) => setSelectedBuildingId(parseInt(e.target.value))}
+              >
+                <option value="">Select a building</option>
+                {buildingsMatching.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.building_number}
+                  </option>
+                ))}
+              </select>
+              <button onClick={handleAssign}>Assign ➕</button>
+            </>
+          )}
+        </div>
       </div>
 
       <br />
@@ -223,3 +218,4 @@ export default function MyBuildings() {
     </div>
   );
 }
+
