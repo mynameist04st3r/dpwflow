@@ -26,7 +26,10 @@
 .login-form-container {
   position: absolute;
   top: 100px;
-  right: 30px;
+  /* right: 30px; */
+  left: 0;
+  margin-left: 420px;
+  margin-top: 8px;
   width: 340px;
   /* background-color: #426f4d; */
   background-color: var(--background-color);
