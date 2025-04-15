@@ -16,20 +16,24 @@ import UserProfile from "./pages/UserProfile";
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import './styles/App.css'
-// import './styles/index.css'sessionStorage.setItem(
+// import './styles/index.css'
 
 // Below is good code///////////////
-// import { useState } from "react";
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-// import Dashboard from "./components/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Roles } from "./Roles";
 import { useState, useEffect } from "react";
-// import MyBuildings from "./pages/MyBuildings";
 
 function App() {
+//////   const [userRole, setUserRole] = useState(null); // Wait until role is loaded
+
+//////   useEffect(() => {
+//////     const stored = sessionStorage.getItem("userRole");
+//////     const parsed = stored ? parseInt(stored) : null;
+//////     setUserRole(parsed ?? Roles.GUEST);
+  
   // const [userRole, setUserRole] = useState(Roles.GUEST);
   // useEffect(() => {
   //   const storedRole = sessionStorage.getItem("userRole");
@@ -48,6 +52,8 @@ function App() {
       setUserRole(Roles.GUEST); // Fallback if nothing in sessionStorage
     }
   }, []);
+
+  if (userRole === null) return null; // Prevent early route rendering
 
   return (
     <Router>
@@ -85,7 +91,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/user-profile"
           element={
@@ -94,14 +99,22 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {<Route
-          path="/maintenance-tracker"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
-              <MaintenanceTracker />
-            </ProtectedRoute>
-          }
-        />
+{/* //// <<<<<<< fix-maintenance-tracker
+////         <Route
+////           path="/maintenance-tracker/:id"
+////           element={
+////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+////               <MaintenanceTrackerDetails />
+//// =======
+////         {<Route
+////           path="/maintenance-tracker"
+////           element={
+////             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+////               <MaintenanceTracker />
+//// >>>>>>> Rob
+////            </ProtectedRoute>
+////          }
+////        /> */}
         <Route
           path="/my-buildings"
           element={
@@ -123,8 +136,9 @@ function App() {
         <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
 
-      <NavBar />
+      <NavBar setUserRole={setUserRole} />
     </Router>
   );
 }
+
 export default App;
