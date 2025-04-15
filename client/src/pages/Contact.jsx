@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Contact.css";
 
 export default function Contact() {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
+  const faqItems = [
+    {
+      question: "How do I submit a maintenance request?",
+      answer:
+        "Click the 'Submit Request' button and fill out the simple form with your location and maintenance issue details.",
+    },
+    {
+      question: "How can I track my request?",
+      answer:
+        "Use the 'View Active Requests' button to see real-time updates on all your maintenance requests.",
+    },
+    {
+      question: "What are the response times?",
+      answer:
+        "Response times vary based on priority. Emergency issues are addressed within 24 hours, routine maintenance within 3-5 business days.",
+    },
+    {
+      question: "Who can submit requests?",
+      answer:
+        "All military personnel and authorized civilian staff in barracks and garrison facilities can submit maintenance requests.",
+    },
+  ];
+
   return (
     <div className="contact-container">
       <header className="contact-header">
@@ -115,6 +144,33 @@ export default function Contact() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="faq-section">
+        <div className="section-header">
+          <span className="section-icon">❓</span>
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        <div className="faq-list">
+          {faqItems.map((faq, index) => (
+            <div
+              key={index}
+              className={`faq-item ${openFaq === index ? "active" : ""}`}
+              onClick={() => toggleFaq(index)}
+            >
+              <div className="faq-question">
+                <span>{faq.question}</span>
+                <span className="faq-toggle">
+                  {openFaq === index ? "−" : "+"}
+                </span>
+              </div>
+              <div className="faq-answer">
+                <p>{faq.answer}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
