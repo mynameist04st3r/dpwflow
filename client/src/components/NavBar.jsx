@@ -4,15 +4,19 @@ import "../styles/NavBar.css";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 
+const handleLogout = () => {
+  console.log("Logging out...");
+  sessionStorage.clear(); //  Remove all session keys
+  window.location.href = "/"; // Full reload to re-trigger App.jsx
+};
+
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [loginForm, setLoginForm] = useState(false);
   const [signUpForm, setSignUpForm] = useState(false);
-
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
-
   const handleLoginToggle = () => {
     setLoginForm(!loginForm);
     setSignUpForm(false);
@@ -58,55 +62,6 @@ function NavBar() {
         </div>
 
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-          {/* <NavLink
-            to="/"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/maintenance-request"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            Maintenance Request
-          </NavLink>
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            Dashboard
-          </NavLink>
-          <NavLink
-            to="/maintenance-tracker"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            Maintenance Tracker
-          </NavLink>
-          <NavLink
-            to="/my-requests"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            My Requests
-          </NavLink>
-          <NavLink
-            to="/admin"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            Admin
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            Contact
-          </NavLink> */}
           <NavLink
             to="/"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
@@ -195,9 +150,10 @@ function NavBar() {
                   setSignedIn(false);
                   sessionStorage.removeItem("token");
                   sessionStorage.removeItem("user");
+                  sessionStorage.removeItem("userRole");
+                  window.location.href = "/";
                 }}
               >
-                {/* {/* Hi {user?.first_name || "User"},  */}
                 Logout
               </button>
             ) : (
