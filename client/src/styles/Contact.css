@@ -1,0 +1,11 @@
+.section-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--background-color);
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 1px solid #8cc5a6;
+  border-radius: 8px;
+}

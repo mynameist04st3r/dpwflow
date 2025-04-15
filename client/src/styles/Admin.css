@@ -17,12 +17,18 @@
 }
 
 .admin-button-bar {
-  background-color: rgba(16, 20, 32, 0.8);
+  /* background-color: rgba(16, 20, 32, 0.8); */
   align-items: center;
   border: 2px solid #8cc5a6;
   padding: 5px 10px 5px 10px;
   width: fit-content;
   flex-shrink: 0;
+
+  margin: 0 auto;
+  background-color: var(--background-color);
+  text-align: center;
+  border: 1px solid #8cc5a6;
+  border-radius: 8px;
 }
 
 .admin-button-container {
@@ -56,10 +62,14 @@
   justify-content: center;
   height: calc(100vh - 140px);
   margin-left: 30px;
-  background-color: rgba(16, 20, 32, 0.8);
+  /* background-color: rgba(16, 20, 32, 0.8); */
   overflow-y: auto;
-  border: 3px solid #8cc5a6;
+  /* border: 3px solid #8cc5a6; */
   padding: 20px;
+  background-color: var(--background-color);
+  text-align: center;
+  border: 1px solid #8cc5a6;
+  border-radius: 8px;
 }
 
 .admin-forms-prioritized-header-row {
@@ -72,4 +82,13 @@
   background-color: #8cc5a6;
   border: 1px solid #961e14;
   color: #101420;
+}
+
+.dashboard-wrapper {
+  margin: 0 auto;
+  padding: 2rem;
+  /* background-color: var(--background-color); */
+  text-align: center;
+  border: 3px solid #8cc5a6;
+  border-radius: 8px;
 }

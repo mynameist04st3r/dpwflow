@@ -38,6 +38,11 @@ router.patch("/:id/role", async (req, res) => {
     return res.status(400).json({ error: "Missing required field: role" });
   }
 
+  // guard to block managers from assigning admin role
+  if (req.user?.role < 4 && parseInt(role) === 4) {
+    return res.status(403).json({ error: "Only admins can assign admin roles." });
+  }
+
   try {
     const user = await knex("users").where({ id }).first();
 
@@ -61,6 +66,7 @@ router.patch("/:id/role", async (req, res) => {
     res.status(500).json({ error: "Failed to update user role" });
   }
 });
+
 
 router.patch("/:id/credentials", async (req, res) => {
   const { id } = req.params;

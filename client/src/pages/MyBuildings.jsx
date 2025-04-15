@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import QRCodeModal from "../components/QRCodeModal";
 
 export default function MyBuildings() {
   const [assignedBuildings, setAssignedBuildings] = useState([]);
@@ -9,11 +10,13 @@ export default function MyBuildings() {
   const [selectedBase, setSelectedBase] = useState("");
   const [selectedBuildingId, setSelectedBuildingId] = useState("");
 
+  const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [qrModalData, setQrModalData] = useState({ state: "", base: "", building: "" });
+
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
   const userId = user?.id;
 
-  // Load all buildings with joined location data
   useEffect(() => {
     fetch("http://localhost:8000/buildings/get-buildings")
       .then((res) => res.json())
@@ -21,7 +24,6 @@ export default function MyBuildings() {
       .catch((err) => console.error("Failed to load buildings", err));
   }, []);
 
-  // Load assigned buildings for this user
   useEffect(() => {
     fetch(`http://localhost:8000/admin-buildings?admin_id=${userId}`)
       .then((res) => res.json())
@@ -78,7 +80,19 @@ export default function MyBuildings() {
       .catch((err) => console.error("Error removing building", err));
   };
 
-  // Get dropdown options
+  const openQrModal = (building) => {
+    setQrModalData({
+      state: building.state,
+      base: building.military_base,
+      building: building.building_number,
+    });
+    setQrModalOpen(true);
+  };
+
+  const closeQrModal = () => {
+    setQrModalOpen(false);
+  };
+
   const uniqueStates = [...new Set(allBuildings.map((b) => b.state))];
   const basesInState = allBuildings
     .filter((b) => b.state === selectedState)
@@ -118,9 +132,15 @@ export default function MyBuildings() {
                   {building?.military_base}, {building?.state}
                 </p>
                 {!isUnknown && (
-                  <button onClick={() => handleRemove(b.building_id)}>
-                    Remove ❌
-                  </button>
+                  <>
+                    <button onClick={() => handleRemove(b.building_id)}>Remove</button>
+                    <button
+                      onClick={() => openQrModal(building)}
+                      style={{ marginLeft: "0.5rem" }}
+                    >
+                      Generate QR
+                    </button>
+                  </>
                 )}
               </div>
             );
@@ -191,6 +211,15 @@ export default function MyBuildings() {
 
       <br />
       <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
+
+      {qrModalOpen && (
+        <QRCodeModal
+          state={qrModalData.state}
+          base={qrModalData.base}
+          building={qrModalData.building}
+          onClose={closeQrModal}
+        />
+      )}
     </div>
   );
 }
