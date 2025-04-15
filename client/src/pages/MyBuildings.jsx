@@ -133,12 +133,12 @@ export default function MyBuildings() {
                 </p>
                 {!isUnknown && (
                   <>
-                    <button onClick={() => handleRemove(b.building_id)}>Remove ❌</button>
+                    <button onClick={() => handleRemove(b.building_id)}>Remove</button>
                     <button
                       onClick={() => openQrModal(building)}
                       style={{ marginLeft: "0.5rem" }}
                     >
-                      Generate QR 📎
+                      Generate QR
                     </button>
                   </>
                 )}
