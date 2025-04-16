@@ -125,6 +125,38 @@
   background-color: rgba(140, 197, 166, 0.1);
 }
 
+/* Hover Dropdown on Request ID */
+.id-hover-wrapper {
+  position: relative;
+}
+
+.hover-container {
+  display: inline-block;
+  position: relative;
+  font-weight: 500;
+  color: #8cc5a6;
+}
+
+.hover-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #101420;
+  color: #8cc5a6;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  border: 1px solid #8cc5a6;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hover-container:hover .hover-dropdown {
+  display: block;
+}
+
 /* Status Badges */
 .status-badge {
   padding: 0.25rem 0.75rem;
