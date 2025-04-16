@@ -92,4 +92,20 @@ router.post('/locations', async (req, res) => {
   }
 });
 
+router.get('/militaryBases', async (req, res) => {
+  try {
+    const state = req.query.state;
+    const militaryBase = req.query.militaryBase;
+    const bases = await knex('locations')
+      .where('state', state)
+      .where('military_base', 'ilike', `%${militaryBase}%`)
+      .select('military_base')
+      .distinct();
+    res.json(bases);
+  } catch (err) {
+    console.error('Failed to fetch military bases: ', err);
+    res.status(500).json({error: 'Failed to fetch military bases'});
+  }
+});
+
 module.exports = router;
