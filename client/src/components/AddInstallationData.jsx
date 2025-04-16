@@ -107,6 +107,7 @@ function AddInstallationData() {
           })
             .then((response) => response.json())
             .then((data) => console.log(data))
+            .then.alert(data.message || "priority Order updated.")
             .catch((err) => console.error(err));
         }
       })
@@ -115,10 +116,10 @@ function AddInstallationData() {
 
   return (
     <div className="installation-data-form-container">
+      <form className="add-installation-data-form" onSubmit={handleSubmit}>
       <header className="home-header">
         <h1>Installation Data</h1>
       </header>
-      <form className="add-installation-data-form" onSubmit={handleSubmit}>
         <Table>
           <TableHead>
             <TableRow className="admin-forms-installation-header-row">
