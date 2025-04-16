@@ -34,10 +34,10 @@ export default function MaintenanceTrackerDetails() {
     <div className="my-requests-container">
 
       <button onClick={() => navigate(-1)} className="back-button">
-        ← Back
+        Back
       </button>
       
-    <h1>Maintenance Request #{request.id}</h1>
+    <h1>Maintenance Request ID {request.id}</h1>
   
     <div className="request-details-card">
       <ul className="request-details-list">

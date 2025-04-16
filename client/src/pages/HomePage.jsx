@@ -8,38 +8,10 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [loginForm, setLoginForm] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
-  const [expandedFaq, setExpandedFaq] = useState(null);
 
   const handleAdminClick = () => {
     setLoginForm(true);
   };
-
-  const toggleFaq = (index) => {
-    setExpandedFaq(expandedFaq === index ? null : index);
-  };
-
-  const faqData = [
-    {
-      question: "How do I submit a maintenance request?",
-      answer:
-        "Click the 'Submit Request' button and fill out the simple form with your location and maintenance issue details.",
-    },
-    {
-      question: "How can I track my request?",
-      answer:
-        "Use the 'View Active Requests' button to see real-time updates on all your maintenance requests.",
-    },
-    {
-      question: "What are the response times?",
-      answer:
-        "Response times vary based on priority. Emergency issues are addressed within 24 hours, routine maintenance within 3-5 business days.",
-    },
-    {
-      question: "Who can submit requests?",
-      answer:
-        "All military personnel and authorized civilian staff in barracks and garrison facilities can submit maintenance requests.",
-    },
-  ];
 
   return (
     <div className="home-container">
@@ -81,48 +53,12 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className="intro-content">
-          <div className="faq-section">
-            <h2>Frequently Asked Questions</h2>
-            <div className="faq-accordion">
-              {faqData.map((faq, index) => (
-                <div
-                  key={index}
-                  className={`faq-item ${
-                    expandedFaq === index ? "expanded" : ""
-                  }`}
-                  onClick={() => toggleFaq(index)}
-                >
-                  <div className="faq-question">
-                    <h3>{faq.question}</h3>
-                    <span className="faq-icon">
-                      {expandedFaq === index ? "−" : "+"}
-                    </span>
-                  </div>
-                  <div className="faq-answer">
-                    <p>{faq.answer}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="action-buttons">
+        <div className="cta-button">
           <button
             className="btn primary"
             onClick={() => navigate("/maintenance-request")}
           >
-            Submit Request
-          </button>
-          <button
-            className="btn primary"
-            onClick={() => navigate("/active-request")}
-          >
-            View Active Requests
-          </button>
-          <button className="btn admin-login" onClick={handleAdminClick}>
-            Admin
+            Submit a Maintenance Request
           </button>
         </div>
       </section>

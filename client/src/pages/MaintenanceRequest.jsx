@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import '../styles/MaintenanceRequest.css';
 
 const MaintenanceRequestPage = () => {
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -20,6 +23,22 @@ const MaintenanceRequestPage = () => {
 
   const [allLocations, setAllLocations] = useState([]);
   const [baseOptions, setBaseOptions] = useState([]);
+
+
+//lines 29 to 42 populates table with QR code data from URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const stateParam = params.get("state");
+    const baseParam = params.get("base");
+    const buildingParam = params.get("building");
+  
+    setFormData(prev => ({
+      ...prev,
+      state: stateParam || '',
+      military_base: baseParam || '',
+      building_number: buildingParam || ''
+    }));
+  }, [location.search]);
 
   // Fetch all locations once on mount
   useEffect(() => {
