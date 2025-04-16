@@ -50,7 +50,7 @@ function PrioritySorter() {
     <DndProvider backend={HTML5Backend}>
       <div className="priority-sorter-container">
       <header className="home-header">
-        <h1>Priotize Work Orders</h1>
+        <h1>Prioritize Work Orders</h1>
       </header>
         {prioritizedRequests.map((request, index) => (
           <div
