@@ -63,6 +63,9 @@ function AddInstallationData() {
 
   return (
     <div className="installation-data-form-container">
+      <header className="home-header">
+        <h1>Installation Data</h1>
+      </header>
       <form className="add-installation-data-form" onSubmit={handleSubmit}>
         <Table>
           <TableHead>

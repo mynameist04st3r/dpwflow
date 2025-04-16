@@ -49,6 +49,9 @@ function PrioritySorter() {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="priority-sorter-container">
+      <header className="home-header">
+        <h1>Priotize Work Orders</h1>
+      </header>
         {prioritizedRequests.map((request, index) => (
           <div
             key={request.id}
