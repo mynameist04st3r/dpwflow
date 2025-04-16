@@ -1,14 +1,20 @@
 .my-requests-container {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: 14rem auto;
+  padding: 2rem 2rem;
   color: #dbdde2;
+  background-color: var(--background-color);
+  border: 1px solid #8cc5a6;
+  border-radius: 8px;
+  overflow-x: auto;
+  min-height: 70vh;
 }
 
 .my-requests-container h1 {
   color: #8cc5a6;
   margin-bottom: 2rem;
   text-align: center;
+  padding: 2rem 1rem;
 }
 
 /* Stats Cards */
@@ -17,6 +23,7 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   margin: 2rem 0;
+  padding: 1rem 1rem;
 }
 
 .stat-card {
@@ -81,7 +88,6 @@
   color: #dbdde2;
 }
 
-
 .sort-options select:hover {
   border-color: #6da888;
 }
@@ -92,12 +98,13 @@
   border-radius: 8px;
   border: 1px solid #8cc5a6;
   overflow-x: auto;
+  padding: 0rem 0rem;
 }
 
 .requests-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
+  /* min-width: 800px; */
 }
 
 .requests-table th,
@@ -116,6 +123,38 @@
 
 .requests-table tr:hover {
   background-color: rgba(140, 197, 166, 0.1);
+}
+
+/* Hover Dropdown on Request ID */
+.id-hover-wrapper {
+  position: relative;
+}
+
+.hover-container {
+  display: inline-block;
+  position: relative;
+  font-weight: 500;
+  color: #8cc5a6;
+}
+
+.hover-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #101420;
+  color: #8cc5a6;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  border: 1px solid #8cc5a6;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hover-container:hover .hover-dropdown {
+  display: block;
 }
 
 /* Status Badges */

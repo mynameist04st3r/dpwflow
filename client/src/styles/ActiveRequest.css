@@ -29,7 +29,6 @@
   min-height: fit-content;
   display: flex;
   flex-direction: column;
-
   border: 1px solid #8cc5a6;
   border-radius: 8px;
   position: fixed;

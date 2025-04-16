@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,6 +11,8 @@ function AddInstallationData() {
   const [existingLocation, setExistingLocation] = useState(null);
   const [suggestedBases, setSuggestedBases] = useState([]);
   const [militaryBase, setMilitaryBase] = useState('');
+  const [buildingNumber, setBuildingNumber] = useState('');
+  const [suggestedBuildings, setSuggestedBuildings] = useState([]);
   const handleSearchChange = (e) => {
     const newStateCode = e.target.value.toUpperCase();
     setSearchValue(newStateCode);
@@ -34,35 +36,88 @@ function AddInstallationData() {
         .catch((err) => console.error(err));
     }
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  const handleBuildingNumberChange = (e) => {
+    setBuildingNumber(e.target.value);
     if (existingLocation) {
-      return;
-    } else {
-      fetch('http://localhost:8000/locations', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({state: searchValue, military_base: militaryBase}),
-      })
+      fetch(`http://localhost:8000/adminrequests/buildings?locationId=${existingLocation.id}&buildingNumber=${e.target.value}`)
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => setSuggestedBuildings(data))
         .catch((err) => console.error(err));
     }
   };
 
-  // useEffect(() => {
-  //   fetch('/locations')
-  //     .then((response) => response.json())
-  //     .then((data) => setLocations(data))
-  //     .catch((err) => console.error(err));
-  //   const existingLocation = locations.find((location) => location.state === searchValue);
-  //   if (existingLocation) {
-  //     setIsLocationExisting(true);
-  //   }
-  // }, [searchValue, locations]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:8000/adminrequests/locations/${searchValue}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length > 0) {
+          fetch(`http://localhost:8000/adminrequests/militaryBases?state=${searchValue}&militaryBase=${militaryBase}`)
+            .then((response) => response.json())
+            .then((existingBase) => {
+              if (existingBase.length > 0) {
+                // If the military base exists for this state
+                fetch(`http://localhost:8000/adminrequests/buildings?locationId=${data[0].id}&buildingNumber=${buildingNumber}`)
+                  .then((response) => response.json())
+                  .then((existingBuilding) => {
+                    if (existingBuilding.length > 0 && existingBuilding[0].id) {
+                      // If the building number already exists for this location
+                      if (confirm(`Do you want to delete building ${buildingNumber} for location ${searchValue} ${militaryBase}?`)) {
+                        // Delete the building
+                        fetch(`http://localhost:8000/adminrequests/buildings/${existingBuilding[0].id}`, {
+                          method: 'DELETE',
+                        })
+                          .then((response) => response.json())
+                          .then((data) => console.log(data))
+                          .catch((err) => console.error(err));
+                      }
+                    } else {
+                      // Add the new building to the existing location
+                      fetch('http://localhost:8000/adminrequests/locations', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
+                      })
+                        .then((response) => response.json())
+                        .then((data) => console.log(data))
+                        .catch((err) => console.error(err));
+                    }
+                  })
+                  .catch((err) => console.error(err));
+              } else {
+                // If the military base does not exist for this state, add it
+                fetch('http://localhost:8000/adminrequests/locations', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
+                })
+                  .then((response) => response.json())
+                  .then((data) => console.log(data))
+                  .catch((err) => console.error(err));
+              }
+            })
+            .catch((err) => console.error(err));
+        } else {
+          // If the state does not exist, add it
+          fetch('http://localhost:8000/adminrequests/locations', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
+          })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.error(err));
+        }
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <div className="installation-data-form-container">
+      <header className="home-header">
+        <h1>Installation Data</h1>
+      </header>
       <form className="add-installation-data-form" onSubmit={handleSubmit}>
         <Table>
           <TableHead>
@@ -103,6 +158,26 @@ function AddInstallationData() {
               </TableCell>
             </TableRow>
             <TableRow>
+              <TableCell>Building Number:</TableCell>
+              <TableCell>
+                <input
+                  type="search"
+                  value={buildingNumber}
+                  onChange={handleBuildingNumberChange}
+                  placeholder="Enter building number"
+                />
+                {suggestedBuildings.length > 0 && (
+                  <ul>
+                    {suggestedBuildings.map((building) => (
+                      <li key={building.building_number} onClick={() => setBuildingNumber(building.building_number)}>
+                        {building.building_number}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </TableCell>
+            </TableRow>
+            <TableRow>
               <TableCell colSpan={2} style={{textAlign: 'center'}}>
                 <button type="submit">Submit</button>
               </TableCell>
@@ -111,33 +186,6 @@ function AddInstallationData() {
         </Table>
       </form>
     </div>
-    // <form className="add-installation-data-form" onSubmit={handleSubmit}>
-    //   <label className="add-installation-data-label" htmlFor="search">Search:</label>
-    //   <input
-    //     className="add-installation-data-search-box"
-    //     type="search"
-    //     // id="search"
-    //     value={searchValue}
-    //     onChange={handleSearchChange}
-    //     placeholder="Enter state code"
-    //   />
-    //   {existingLocation ? (
-    //     <p>Location already exists: {existingLocation.state}</p>
-    //   ):(
-    //     <div>
-    //       <label className="add-installation-data-label" htmlFor="military-base">Military Base</label>
-    //       <input
-    //         className="add-installation-data-search-box"
-    //         type="text"
-    //         // id="military-base"
-    //         value={militaryBase}
-    //         onChange={handleMilitaryBaseChange}
-    //         placeholder="Enter military base"
-    //       />
-    //     </div>
-    //   )}
-    //   <button type="submit">Submit</button>
-    // </form>
   );
 };
 

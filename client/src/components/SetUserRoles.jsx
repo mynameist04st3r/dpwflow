@@ -51,7 +51,11 @@ function SetUserRoles({ currentUser }) {
 
   return (
     <div className="set-user-roles-form">
-      <h3>Set User Role</h3>
+      <header className="home-header">
+        <h1>Set User Roles</h1>
+        <p className="subtitle">Managers and Admins can change the roles based off you Role</p>
+        <p className="subtitle">Search below for the user you would like the grant higher or lower permissions</p>
+      </header>
 
       <input
         type="text"

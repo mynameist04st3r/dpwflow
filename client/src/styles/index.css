@@ -5,6 +5,33 @@
 #961e14 Subdued red - font over background color, bottom borders, underlines, errors
 */
 
+/* :root {
+  --background-color: rgba(0, 0, 0, 0.92);
+  --primary-color: #8cc5a6;
+  --secondary-color: #426f4d;
+  --accent-color: #101420;
+  --text-color: #dbdde2;
+  --card-background: #050608;
+  --hover-color: #6da888;
+  --border-color: #5a8f6e;
+} */
+
+:root {
+  --background-color: rgba(0, 0, 0, 0.92);
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  --primary-color: #8cc5a6;
+  --secondary-color: #426f4d;
+  --accent-color: #101420;
+  --text-color: #dbdde2;
+  --card-background: #050608;
+  --hover-color: #6da888;
+  /* --border-color: #2cb661; */
+  --border-color: #8cc5a6;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

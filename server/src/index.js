@@ -57,6 +57,15 @@ app.use("/users", usersRoutes);
 app.use("/adminrequests", adminRequestsRoutes);
 app.use("/admin-buildings", adminBuildingsRoutes);
 
-app.listen(port, (req, res) => {
-  console.log(`Your server is up at http://localhost:${port}/`);
-});
+// app.listen(port, (req, res) => {
+//   console.log(`Your server is up at http://localhost:${port}/`);
+// });
+
+if (process.env.NODE_ENV !== "test") {
+  const port = process.env.API_PORT || 8081;
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
