@@ -17,7 +17,7 @@
   border: 1px solid var(--border-color);
   border-radius: 8px;
   color: var(--text-color);
-  min-height: 70vh;
+  min-height: 60vh;
 }
 
 .user-profile h2 {
