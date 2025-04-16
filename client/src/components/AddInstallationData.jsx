@@ -14,7 +14,7 @@ function AddInstallationData() {
   const handleSearchChange = (e) => {
     const newStateCode = e.target.value.toUpperCase();
     setSearchValue(newStateCode);
-    fetch(`/locations?state=${newStateCode}`)
+    fetch(`http://localhost:8000/adminrequests/locations/${newStateCode}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
@@ -28,7 +28,7 @@ function AddInstallationData() {
   const handleMilitaryBaseChange = (e) => {
     setMilitaryBase(e.target.value);
     if (searchValue) {
-      fetch(`militaryBases?state=${searchValue}&militaryBase=${e.target.value}`)
+      fetch(`http://localhost:8000/adminrequests/militaryBases?state=${searchValue}&militaryBase=${e.target.value}`)
         .then((response) => response.json())
         .then((data) => setSuggestedBases(data))
         .catch((err) => console.error(err));
@@ -39,7 +39,7 @@ function AddInstallationData() {
     if (existingLocation) {
       return;
     } else {
-      fetch('/locations', {
+      fetch('http://localhost:8000/locations', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({state: searchValue, military_base: militaryBase}),
@@ -88,9 +88,18 @@ function AddInstallationData() {
                 <input
                   type="search"
                   value={militaryBase}
-                  onChange="handleMilitaryBaseChange"
+                  onChange={handleMilitaryBaseChange}
                   placeholder="Enter military base"
                 />
+                {suggestedBases.length > 0 && (
+                  <ul>
+                    {suggestedBases.map((base) => (
+                      <li key={base.military_base} onClick={() => setMilitaryBase(base.military_base)}>
+                        {base.military_base}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -129,6 +138,7 @@ function AddInstallationData() {
     //   )}
     //   <button type="submit">Submit</button>
     // </form>
-  )
+  );
 };
+
 export default AddInstallationData;
