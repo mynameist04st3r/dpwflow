@@ -1,3 +1,20 @@
+.installation-data-form-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-forms-installation-header-row {
+  background-color: #426f4d;
+  border: 1px solid #961e14;
+  color: #101420;
+}
+
+.admin-forms-installation-body {
+  background-color: #8cc5a6;
+  border: 1px solid #961e14;
+  color: #101420;
+}
+
 .add-installation-data-form {
   display: flex;
   flex-direction: column;

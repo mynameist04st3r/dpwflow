@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/MyRequests.css";
+import "../styles/Dashboard.css";
 import { useAllRequests } from "../context/AllRequestsContext";
 
 export default function MaintenanceTracker() {
@@ -173,36 +173,40 @@ export default function MaintenanceTracker() {
 
           {/* Filter, Sort, Manage */}
           <div className="sort-options">
-            {userRole >= 3 && (
-              <>
-                <label htmlFor="buildingFilter">Filter:</label>
-                <select
-                  id="buildingFilter"
-                  value={filterMode}
-                  onChange={(e) => setFilterMode(e.target.value)}
-                >
-                  <option value="all">All Buildings</option>
-                  <option value="mine">My Buildings</option>
-                </select>
-              </>
-            )}
+  {userRole >= 3 && (
+    <div className="sort-group">
+      <label htmlFor="buildingFilter">Filter:</label>
+      <select
+        id="buildingFilter"
+        value={filterMode}
+        onChange={(e) => setFilterMode(e.target.value)}
+      >
+        <option value="all">All Buildings</option>
+        <option value="mine">My Buildings</option>
+      </select>
+    </div>
+  )}
 
-            <label htmlFor="sort">Sort By:</label>
-            <select
-              id="sort"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <option value="id">Request ID</option>
-              <option value="date">Date</option>
-              <option value="priority">Priority</option>
-              <option value="status">Status</option>
-            </select>
+    <div className="sort-group">
+      <label htmlFor="sort">Sort By:</label>
+      <select
+        id="sort"
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+      >
+        <option value="id">Request ID</option>
+        <option value="date">Date</option>
+        <option value="priority">Priority</option>
+        <option value="status">Status</option>
+      </select>
+    </div>
 
-            <button onClick={() => navigate("/my-buildings")}>
-              Manage Buildings
-            </button>
-          </div>
+    <div className="sort-group">
+      <button onClick={() => navigate("/my-buildings")}>
+        Manage Buildings
+      </button>
+    </div>
+  </div>
 
           {/* Requests Table */}
           {formattedRequests.length === 0 ? (

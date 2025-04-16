@@ -61,6 +61,21 @@ router.get('/locations', async (req, res) => {
   }
 });
 
+router.get('/locations/:state', async (req, res) => {
+  try {
+    const state = req.params.state;
+    const location = await knex('locations').where('state', state).first();
+    if (location) {
+      res.json([location]);
+    } else {
+      res.json([]);
+    }
+  } catch (err) {
+    console.error('Failed to fetch location: ', err);
+    res.status(500).json({error: 'Failed to fetch location'});
+  }
+});
+
 router.post('/locations', async (req, res) => {
   try {
     const {state, military_base} = req.body;
@@ -74,6 +89,22 @@ router.post('/locations', async (req, res) => {
   } catch (err) {
     console.error('Failed to add location: ', err);
     res.status(500).json({error: 'Failed to add location'});
+  }
+});
+
+router.get('/militaryBases', async (req, res) => {
+  try {
+    const state = req.query.state;
+    const militaryBase = req.query.militaryBase;
+    const bases = await knex('locations')
+      .where('state', state)
+      .where('military_base', 'ilike', `%${militaryBase}%`)
+      .select('military_base')
+      .distinct();
+    res.json(bases);
+  } catch (err) {
+    console.error('Failed to fetch military bases: ', err);
+    res.status(500).json({error: 'Failed to fetch military bases'});
   }
 });
 
