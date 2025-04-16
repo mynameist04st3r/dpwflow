@@ -15,8 +15,6 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpError, setSignUpError] = useState(null);
-  const navigate = useNavigate();
-
 
   const formRef = useRef(null);
 
