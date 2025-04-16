@@ -137,6 +137,16 @@ To run without Docker:
 3. Run backend and frontend setup steps above.
 
 ---
+## Planning Links
+### 🔗 Entity-Relationship Diagram (ERD)
+
+[ERD](https://www.figma.com/board/gNr5v1onXELNPkCtKoYmeK/CAPSTONE)
+
+### 🔗 Kanban Board
+
+[Trello](https://trello.com/b/LvYCpjqh/capstone)
+
+---
 
 ## 🧑‍💻 Authors
 
@@ -144,8 +154,8 @@ To run without Docker:
 - Camilo Cueto
 - Isaiah Harlee
 - Jason Jones
-- Robert Prickett
 - Kiersten Morrow
+- Robert Prickett
 - Andrew Stamps  
 - Paul Storrs
 
