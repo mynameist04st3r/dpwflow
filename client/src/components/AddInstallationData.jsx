@@ -74,7 +74,7 @@ function AddInstallationData() {
                       }
                     } else {
                       // Add the new building to the existing location
-                      fetch('http://localhost:8000/locations', {
+                      fetch('http://localhost:8000/adminrequests/locations', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
@@ -87,7 +87,7 @@ function AddInstallationData() {
                   .catch((err) => console.error(err));
               } else {
                 // If the military base does not exist for this state, add it
-                fetch('http://localhost:8000/locations', {
+                fetch('http://localhost:8000/adminrequests/locations', {
                   method: 'POST',
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
@@ -100,7 +100,7 @@ function AddInstallationData() {
             .catch((err) => console.error(err));
         } else {
           // If the state does not exist, add it
-          fetch('http://localhost:8000/locations', {
+          fetch('http://localhost:8000/adminrequests/locations', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
