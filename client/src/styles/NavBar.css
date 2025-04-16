@@ -188,16 +188,6 @@ body {
   font-weight: bolder;
 }
 
-:root {
-  --primary-color: #8cc5a6;
-  --secondary-color: #426f4d;
-  --accent-color: #101420;
-  --text-color: #dbdde2;
-  --card-background: #050608;
-  --hover-color: #6da888;
-  --border-color: #8cc5a6;
-}
-
 .form-wrapper {
   position: relative;
   display: inline-block;
@@ -207,47 +197,3 @@ body {
   position: relative;
   display: inline-block;
 }
-/*
-.login-button {
-  background: linear-gradient(135deg, #42e695, #3bb2b8);
-  border: none;
-  color: white;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px #42e695aa;
-}
-
-.login-button::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.4) 10%,
-    transparent 40%
-  );
-  animation: shine 3s linear infinite;
-}
-
-.login-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #42e695cc;
-}
-
-@keyframes shine {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-} */
