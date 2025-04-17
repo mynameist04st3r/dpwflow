@@ -126,6 +126,16 @@ npx jest
 
 Make sure `jest` and `supertest` are added under `devDependencies` in `package.json`.
 
+### UI Tests
+
+```bash
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+```
+Add `"test":"jest"` under `"scripts"` in `package.json`.
+
+```bash
+npm test
+```
 ---
 
 ## 🌐 Deployment Notes
