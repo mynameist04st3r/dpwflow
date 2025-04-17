@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import '../styles/Admin.css';
-import NavBar from '../components/NavBar';
-import PrioritySorter from '../components/PrioritySorter';
-import AddInstallationData from '../components/AddInstallationData';
-import SetUserRoles from '../components/SetUserRoles'
+import { useState, useEffect } from "react";
+import "../styles/Admin.css";
+import NavBar from "../components/NavBar";
+import PrioritySorter from "../components/PrioritySorter";
+import AddInstallationData from "../components/AddInstallationData";
+import SetUserRoles from "../components/SetUserRoles";
 
 function Admin() {
   const [showForm, setShowForm] = useState(false);
@@ -11,20 +11,33 @@ function Admin() {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (showForm) {
-        const container = document.querySelector('.admin-forms-container');
-        const prioritySorter = document.querySelector('.priority-sorter-form-container');
-        const addInstallationData = document.querySelector('.add-installation-data-form');
-        if (container && e.target !== container && !container.contains(e.target) &&
-            (formType === 'priority' ?
-              (prioritySorter && e.target !== prioritySorter && !prioritySorter.contains(e.target))
-              : (addInstallationData ? (e.target !== addInstallationData && !addInstallationData.contains(e.target)) : true))) {
+        const container = document.querySelector(".admin-forms-container");
+        const prioritySorter = document.querySelector(
+          ".priority-sorter-form-container"
+        );
+        const addInstallationData = document.querySelector(
+          ".add-installation-data-form"
+        );
+        if (
+          container &&
+          e.target !== container &&
+          !container.contains(e.target) &&
+          (formType === "priority"
+            ? prioritySorter &&
+              e.target !== prioritySorter &&
+              !prioritySorter.contains(e.target)
+            : addInstallationData
+            ? e.target !== addInstallationData &&
+              !addInstallationData.contains(e.target)
+            : true)
+        ) {
           setShowForm(false);
         }
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showForm, formType]);
 
@@ -34,16 +47,94 @@ function Admin() {
       <div className="admin-container">
         <div className="admin-button-bar">
           <div className="admin-button-container">
-            <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('priority');}}>Prioritize Work Orders</button>
-            <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('setRoles');}}>Set User Roles</button>
-            <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('addInstallation');}}>Add Installation Data</button>
+            {/* <button
+              className="admin-buttons"
+              onClick={() => {
+                setShowForm(true);
+                setFormType("priority");
+              }}
+            >
+              Prioritize Work Orders
+            </button>
+            <button
+              className="admin-buttons"
+              onClick={() => {
+                setShowForm(true);
+                setFormType("setRoles");
+              }}
+            >
+              Set User Roles
+            </button>
+            <button
+              className="admin-buttons"
+              onClick={() => {
+                setShowForm(true);
+                setFormType("addInstallation");
+              }}
+            >
+              Add Installation Data
+            </button> */}
+            <button
+              className={`admin-buttons ${
+                formType === "priority" ? "selected" : ""
+              }`}
+              onClick={() => {
+                setShowForm(true);
+                setFormType("priority");
+              }}
+            >
+              Prioritize Work Orders
+            </button>
+
+            <button
+              className={`admin-buttons ${
+                formType === "setRoles" ? "selected" : ""
+              }`}
+              onClick={() => {
+                setShowForm(true);
+                setFormType("setRoles");
+              }}
+            >
+              Set User Roles
+            </button>
+
+            <button
+              className={`admin-buttons ${
+                formType === "addInstallation" ? "selected" : ""
+              }`}
+              onClick={() => {
+                setShowForm(true);
+                setFormType("addInstallation");
+              }}
+            >
+              Add Installation Data
+            </button>
           </div>
         </div>
         <div className="admin-forms-container">
-          <div className="admin-forms">
-            {showForm && formType === 'priority' && <PrioritySorter />}
-            {showForm && formType === 'setRoles' && (<SetUserRoles currentUser={JSON.parse(sessionStorage.getItem("user"))} />)}
-            {showForm && formType === 'addInstallation' && <AddInstallationData />}
+          {/* <div className="admin-forms">
+            {showForm && formType === "priority" && <PrioritySorter />}
+            {showForm && formType === "setRoles" && (
+              <SetUserRoles
+                currentUser={JSON.parse(sessionStorage.getItem("user"))}
+              />
+            )}
+            {showForm && formType === "addInstallation" && (
+              <AddInstallationData />
+            )}
+          </div> */}
+          <div className="admin-forms home-header">
+            {!showForm && <h1>Select Item on on the Left</h1>}
+
+            {showForm && formType === "priority" && <PrioritySorter />}
+            {showForm && formType === "setRoles" && (
+              <SetUserRoles
+                currentUser={JSON.parse(sessionStorage.getItem("user"))}
+              />
+            )}
+            {showForm && formType === "addInstallation" && (
+              <AddInstallationData />
+            )}
           </div>
         </div>
       </div>
