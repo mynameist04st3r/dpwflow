@@ -52,7 +52,7 @@ function EasterEgg() {
             <style>{styles.keyframes}</style>
             <div style={styles.wrapper}></div>
           </>
-        )}
+        )} 
       </>
     );
   }
