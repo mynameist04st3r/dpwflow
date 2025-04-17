@@ -57,6 +57,7 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
         // Added the role to save into sessionStorage
         // sessionStorage.setItem("userRole", res.data.user.role);  causing issues with not recognizing user role due to string vs number issue.
         sessionStorage.setItem("userRole", String(res.data.user.role)); // fixed issue with not recognizing user role due to string vs number issue.
+        window.location.replace("/dashboard");
       } else {
         setSignUpError(res.data.message || "Signup failed.");
       }

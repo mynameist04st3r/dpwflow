@@ -177,6 +177,15 @@ body {
 .logout-button {
   background-color: #101420;
   color: #dbdde2;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.signup-button:hover,
+.login-button:hover,
+.logout-button:hover {
+  background: linear-gradient(135deg, #6da888, #06b6d4);
+  font-weight: bolder;
 }
 
 .form-wrapper {

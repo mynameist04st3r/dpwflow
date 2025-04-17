@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import '../styles/MaintenanceRequest.css';
 
 const MaintenanceRequestPage = () => {
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -20,6 +23,22 @@ const MaintenanceRequestPage = () => {
 
   const [allLocations, setAllLocations] = useState([]);
   const [baseOptions, setBaseOptions] = useState([]);
+
+
+//lines 29 to 42 populates table with QR code data from URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const stateParam = params.get("state");
+    const baseParam = params.get("base");
+    const buildingParam = params.get("building");
+  
+    setFormData(prev => ({
+      ...prev,
+      state: stateParam || '',
+      military_base: baseParam || '',
+      building_number: buildingParam || ''
+    }));
+  }, [location.search]);
 
   // Fetch all locations once on mount
   useEffect(() => {
@@ -163,7 +182,12 @@ if (rawUser && rawUser !== "undefined") {
 
   return (
     <div className="maint-request-container">
-      <h2>Submit Maintenance Request</h2>
+      <header className="home-header">
+        <h1>Maintenance Request</h1>
+        <p className="subtitle">Please fill out all of the fields and be as accurate as possible.</p>
+        <p className="subtitle">To better track any requests, please create an account and then submit your request.</p>
+        <p className="subtitle">Please do NOT submit a request and then create an account/login and submit another.</p>
+      </header>
       <form onSubmit={handleSubmit} className="maint-request-form">
 
         <input name="first_name" required placeholder="First Name (required)" value={formData.first_name} onChange={handleChange} />
@@ -201,9 +225,9 @@ if (rawUser && rawUser !== "undefined") {
             <div className="help-text">
               <strong>Priority Levels:</strong>
               <ul>
-                <li><strong>1:</strong> Fix within 24 hours (e.g. burst pipe, HVAC outage)</li>
-                <li><strong>2:</strong> Fix within the week (e.g. broken outlet, door issue)</li>
-                <li><strong>3:</strong> Fix within 30 days (e.g. paint touch-up, minor repairs)</li>
+                <li><strong>1 : </strong> needs fixed within 24 hours (e.g. burst pipe, HVAC outage)</li>
+                <li><strong>2 : </strong> Should be fixed within the week (e.g. broken outlet, door issue)</li>
+                <li><strong>3 : </strong> Should be fixed within 30 days (e.g. paint touch-up, minor repairs)</li>
               </ul>
             </div>
           </div>

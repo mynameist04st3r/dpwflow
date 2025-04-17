@@ -47,7 +47,7 @@ router.put('/updatePriorityOrder', async (req, res) => {
     res.json({message: 'Priority order updated successfully'});
   } catch (err) {
     console.error('Failed to updatepriority order: ', err);
-    res.status(500).json({error: 'Failed to update priority order'});
+    res.status(501).json({error: 'Failed to update priority order'});
   }
 });
 
@@ -57,7 +57,7 @@ router.get('/locations', async (req, res) => {
     res.json(locations);
   } catch (err) {
     console.error('Failed to fetch locations: ', err)
-    res.status(500).json({error: 'Failed to fetch locations'});
+    res.status(502).json({error: 'Failed to fetch locations'});
   }
 });
 
@@ -72,45 +72,62 @@ router.get('/locations/:state', async (req, res) => {
     }
   } catch (err) {
     console.error('Failed to fetch location: ', err);
-    res.status(500).json({error: 'Failed to fetch location'});
+    res.status(503).json({error: 'Failed to fetch location'});
   }
 });
 
 router.post('/locations', async (req, res) => {
   try {
-    const {state, military_base, building_number} = req.body;
+    const { state, military_base, building_number } = req.body;
     const existingLocation = await knex('locations').where('state', state).first();
+
     if (existingLocation) {
-      const existingBase = await knex('locations').where('state', state).where('military_base', military_base).first();
+      const existingBase = await knex('locations')
+        .where('state', state)
+        .where('military_base', military_base)
+        .first();
+
       if (existingBase) {
-        const existingBuilding = await knex('buildings').where('location_id', existingLocation.id).where('building_number', building_number).first();
+        const existingBuilding = await knex('buildings')
+          .where('location_id', existingLocation.id)
+          .where('building_number', building_number)
+          .first();
+
         if (existingBuilding) {
-          res.status(400).json({error: 'Building number already exists for this location'});
+          return res.status(400).json({ error: 'Building number already exists for this location' });
         } else {
-          await knex('buildings').insert({location_id: existingLocation.id, building_number: building_number});
-          res.json({message: 'Building added to existing location', id: existingLocation.id});
+          await knex('buildings').insert({
+            location_id: existingLocation.id,
+            building_number
+          });
+          return res.json({ message: 'Building added to existing location', id: existingLocation.id });
         }
       } else {
-        const newBase = await knex('locations').insert({state: state, military_base: military_base}).returning('id');
+        const newBase = await knex('locations')
+          .insert({ state, military_base })
+          .returning('id');
         const newBaseId = newBase[0].id;
         if (building_number) {
-          await knex('buildings').insert({location_id: newBaseId, building_number: building_number});
+          await knex('buildings').insert({ location_id: newBaseId, building_number });
         }
-        res.json({message: 'New military base added to existing state', id: newBaseId});
+        return res.json({ message: 'New military base added to existing state', id: newBaseId });
       }
     } else {
-      const newLocation = await knex('locations').insert({state: state, military_base: military_base}).returning('id');
+      const newLocation = await knex('locations')
+        .insert({ state, military_base })
+        .returning('id');
       const locationId = newLocation[0].id;
       if (building_number) {
-        await knex('buildings').insert({location_id: locationId, building_number: building_number});
+        await knex('buildings').insert({ location_id: locationId, building_number });
       }
-      res.json({message: 'New location and military base added', id: locationId});
+      return res.json({ message: 'New location and military base added', id: locationId });
     }
   } catch (err) {
     console.error('Failed to add location or building:', err);
-    res.status(500).json({error: 'Failed to add location or building'});
+    res.status(504).json({ error: 'Failed to add location or building' });
   }
 });
+
 
 router.get('/militaryBases', async (req, res) => {
   try {
@@ -124,7 +141,7 @@ router.get('/militaryBases', async (req, res) => {
     res.json(bases);
   } catch (err) {
     console.error('Failed to fetch military bases: ', err);
-    res.status(500).json({error: 'Failed to fetch military bases'});
+    res.status(505).json({error: 'Failed to fetch military bases'});
   }
 });
 
@@ -140,7 +157,7 @@ router.get('/buildings', async (req, res) => {
     res.json(buildings);
   } catch (err) {
     console.error('Failed to fetch buildings: ', err);
-    res.status(500).json({error: 'Failed to fetch buildings'});
+    res.status(506).json({error: 'Failed to fetch buildings'});
   }
 });
 
@@ -151,7 +168,7 @@ router.delete('/buildings/:id', async (req, res) => {
     res.json({message: 'Building deleted successfully'});
   } catch (err) {
     console.error('Failed to delete building:', err);
-    res.status(500).json({error: 'Failed to delete building'});
+    res.status(507).json({error: 'Failed to delete building'});
   }
 });
 

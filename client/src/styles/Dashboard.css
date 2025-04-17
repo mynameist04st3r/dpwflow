@@ -1,41 +1,218 @@
-.dashboard-wrapper {
-  padding: 60px 20px;
-  background: #e8f5e9; /* soft minty green */
-  min-height: 100vh;
+.my-requests-container {
+  max-width: 1200px;
+  margin: 14rem auto;
+  padding: 2rem 2rem;
+  color: #dbdde2;
+  background-color: var(--background-color);
+  border: 1px solid #8cc5a6;
+  border-radius: 8px;
+  overflow-x: auto;
+  min-height: 70vh;
+}
+
+.my-requests-container h1 {
+  color: #8cc5a6;
+  margin-bottom: 2rem;
   text-align: center;
-  color: #2e4637;
+  padding: 2rem 1rem;
 }
 
-.dashboard-title {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  font-weight: bold;
+/* Stats Cards */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 1rem 1rem;
 }
 
-.dashboard-subtext {
-  font-size: 1.2rem;
-  margin-bottom: 40px;
-  color: #4d6a58;
-}
-
-.dashboard-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-}
-
-.dashboard-btn {
-  background-color: #2e4637;
-  color: #ffffff;
-  border: none;
-  padding: 15px 30px;
-  font-size: 1.1rem;
+.stat-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #8cc5a6;
   border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease;
 }
 
-.dashboard-btn:hover {
-  background-color: #3d5a46;
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: #6da888;
+}
+
+.stat-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8cc5a6;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-content h3 {
+  color: #8cc5a6;
+  font-size: 0.875rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.stat-number {
+  color: #dbdde2;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Sort & Filter Options */
+.sort-options {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: #8cc5a6;
+}
+
+.sort-options select {
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #8cc5a6;
+  border-radius: 4px;
+  color: #dbdde2;
+}
+
+.sort-options select:hover {
+  border-color: #6da888;
+}
+
+/* Table Styles */
+.requests-table-wrapper {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  border: 1px solid #8cc5a6;
+  overflow-x: auto;
+  padding: 0rem 0rem;
+}
+
+.requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  /* min-width: 800px; */
+}
+
+.requests-table th,
+.requests-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #8cc5a6;
+  color: #dbdde2;
+}
+
+.requests-table th {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #8cc5a6;
+  font-weight: 600;
+}
+
+.requests-table tr:hover {
+  background-color: rgba(140, 197, 166, 0.1);
+}
+
+/* Hover Dropdown on Request ID */
+.id-hover-wrapper {
+  position: relative;
+}
+
+.hover-container {
+  display: inline-block;
+  position: relative;
+  font-weight: 500;
+  color: #8cc5a6;
+}
+
+.hover-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #101420;
+  color: #8cc5a6;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  border: 1px solid #8cc5a6;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hover-container:hover .hover-dropdown {
+  display: block;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.pending {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+}
+
+.status-badge.in-progress {
+  background-color: rgba(140, 197, 166, 0.2);
+  color: #8cc5a6;
+}
+
+.status-badge.completed {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+}
+
+/* No Requests */
+.no-requests {
+  text-align: center;
+  padding: 3rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #8cc5a6;
+  border-radius: 8px;
+  color: #8cc5a6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .requests-table-wrapper {
+    margin: 0 -1rem;
+    border-radius: 0;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.25rem;
+  }
 }

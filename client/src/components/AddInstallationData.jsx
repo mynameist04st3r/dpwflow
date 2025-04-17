@@ -74,7 +74,7 @@ function AddInstallationData() {
                       }
                     } else {
                       // Add the new building to the existing location
-                      fetch('http://localhost:8000/locations', {
+                      fetch('http://localhost:8000/adminrequests/locations', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
@@ -87,7 +87,7 @@ function AddInstallationData() {
                   .catch((err) => console.error(err));
               } else {
                 // If the military base does not exist for this state, add it
-                fetch('http://localhost:8000/locations', {
+                fetch('http://localhost:8000/adminrequests/locations', {
                   method: 'POST',
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
@@ -100,13 +100,14 @@ function AddInstallationData() {
             .catch((err) => console.error(err));
         } else {
           // If the state does not exist, add it
-          fetch('http://localhost:8000/locations', {
+          fetch('http://localhost:8000/adminrequests/locations', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({state: searchValue, military_base: militaryBase, building_number: buildingNumber}),
           })
             .then((response) => response.json())
             .then((data) => console.log(data))
+            .then.alert(data.message || "priority Order updated.")
             .catch((err) => console.error(err));
         }
       })
@@ -116,6 +117,9 @@ function AddInstallationData() {
   return (
     <div className="installation-data-form-container">
       <form className="add-installation-data-form" onSubmit={handleSubmit}>
+      <header className="home-header">
+        <h1>Installation Data</h1>
+      </header>
         <Table>
           <TableHead>
             <TableRow className="admin-forms-installation-header-row">
