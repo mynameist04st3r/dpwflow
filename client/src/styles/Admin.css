@@ -63,6 +63,7 @@
   padding: 2rem;
   min-height: 60dvh;
   max-height: 100dvh;
+  max-width: 600dvh;
 }
 
 .admin-forms {

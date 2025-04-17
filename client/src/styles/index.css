@@ -5,46 +5,31 @@
 #961e14 Subdued red - font over background color, bottom borders, underlines, errors
 */
 
-/* :root {
-  --background-color: rgba(0, 0, 0, 0.92);
-  --primary-color: #8cc5a6;
-  --secondary-color: #426f4d;
-  --accent-color: #101420;
-  --text-color: #dbdde2;
-  --card-background: #050608;
-  --hover-color: #6da888;
-  --border-color: #5a8f6e;
-} */
-
 :root {
-  --background-color: rgba(0, 0, 0, 0.92);
-  /* max-width: 1280px; */
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /* Color Variables */
   --primary-color: #8cc5a6;
   --secondary-color: #426f4d;
   --accent-color: #101420;
   --text-color: #dbdde2;
-  --card-background: #050608;
   --hover-color: #6da888;
-  /* --border-color: #2cb661; */
   --border-color: #8cc5a6;
-}
+  /* --border-color: #2cb661; */
+  --card-background: #050608;
+  --background-color: rgba(0, 0, 0, 0.92);
+  /* --background-color: #242424; */
 
-:root {
+  /* Typography & UI */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  line-height: 1.5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* System Theme */
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 a {
@@ -63,6 +48,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-image: url("../topomapbackground.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 h1 {
