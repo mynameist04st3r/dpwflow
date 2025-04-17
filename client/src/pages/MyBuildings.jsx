@@ -110,7 +110,7 @@ export default function MyBuildings() {
   return (
     <div className="my-buildings-container">
       <h1>Manage My Buildings</h1>
-
+<div className="buildings-columns">
       <div className="buildings-section">
       <h2 className="panel-heading">Currently Assigned</h2>
         <div className="building-tags">
@@ -130,7 +130,7 @@ export default function MyBuildings() {
                     <>
                       <button onClick={() => handleRemove(b.building_id)}>Remove</button>
                       <button onClick={() => openQrModal(building)} style={{ marginLeft: "0.5rem" }}>
-                        Generate QR
+                        Generate QR Code
                       </button>
                     </>
                   )}
@@ -140,8 +140,11 @@ export default function MyBuildings() {
           )}
         </div>
       </div>
-
+{/* /////////////////////////////// */}
       <div className="buildings-section">
+
+
+
       <h2 className="panel-heading">Assign New Building</h2>
         <div className="assign-form">
           <label htmlFor="stateSelect">State:</label>
@@ -201,13 +204,8 @@ export default function MyBuildings() {
               <button onClick={handleAssign}>Assign ➕</button>
             </>
           )}
-        </div>
-      </div>
 
-      <br />
-      <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
-
-      {qrModalOpen && (
+          {qrModalOpen && (
         <QRCodeModal
           state={qrModalData.state}
           base={qrModalData.base}
@@ -215,7 +213,13 @@ export default function MyBuildings() {
           onClose={closeQrModal}
         />
       )}
+        </div>
+      </div>
+      </div>
+      <br />
+      <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
     </div>
+   
   );
 }
 

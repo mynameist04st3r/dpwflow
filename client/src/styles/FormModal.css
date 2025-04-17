@@ -1,13 +1,3 @@
-:root {
-  --primary-color: #8cc5a6;
-  --secondary-color: #426f4d;
-  --accent-color: #101420;
-  --background-color: #000000a6;
-  --text-color: #dbdde2;
-  --card-background: #050608;
-  --hover-color: #6da888;
-  --border-color: #5a8f6e;
-}
 /* GlowPulse animation for signin and signup forms */
 @keyframes glowPulse {
   0% {

@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --primary-color: #8cc5a6;
   --secondary-color: #426f4d;
   --accent-color: #101420;
@@ -7,7 +7,7 @@
   --card-background: #000000;
   --hover-color: #6da888;
   --border-color: #5a8f6e;
-}
+} */
 
 .user-profile {
   max-width: 800px;
@@ -17,7 +17,7 @@
   border: 1px solid var(--border-color);
   border-radius: 8px;
   color: var(--text-color);
-  min-height: 70vh;
+  min-height: 60vh;
 }
 
 .user-profile h2 {

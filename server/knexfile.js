@@ -19,5 +19,16 @@ module.exports = {
     seeds: {
       directory: './seeds'
     }
-  }
+  },
+
+  test: {
+    client: 'postgres',
+    connection: process.env.DB_CONNECTION_STRING, 
+    migrations: {
+      directory: './migrations',
+    },
+    seeds: {
+      directory: './seeds',
+    },
+  },
 };

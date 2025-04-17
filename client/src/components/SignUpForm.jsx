@@ -2,7 +2,6 @@ import { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/FormModal.css";
 
-
 axios.defaults.withCredentials = true;
 
 function SignUpForm({ setSignUpForm, setSignedIn }) {
@@ -15,8 +14,6 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpError, setSignUpError] = useState(null);
-  const navigate = useNavigate();
-
 
   const formRef = useRef(null);
 
@@ -61,9 +58,6 @@ function SignUpForm({ setSignUpForm, setSignedIn }) {
         // sessionStorage.setItem("userRole", res.data.user.role);  causing issues with not recognizing user role due to string vs number issue.
         sessionStorage.setItem("userRole", String(res.data.user.role)); // fixed issue with not recognizing user role due to string vs number issue.
         window.location.replace("/dashboard");
-
-
-
       } else {
         setSignUpError(res.data.message || "Signup failed.");
       }
