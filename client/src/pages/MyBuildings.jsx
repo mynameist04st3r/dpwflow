@@ -153,7 +153,7 @@ export default function MyBuildings() {
                           onClick={() => openQrModal(building)}
                           style={{ marginLeft: "0.5rem" }}
                         >
-                          Generate QR
+                          Generate QR Code
                         </button>
                       </>
                     )}
@@ -163,7 +163,7 @@ export default function MyBuildings() {
             )}
           </div>
         </div>
-
+        {/* /////////////////////////////// */}
         <div className="buildings-section">
           <h2 className="panel-heading">Assign New Building</h2>
           <div className="assign-form">
@@ -226,20 +226,20 @@ export default function MyBuildings() {
                 <button onClick={handleAssign}>Assign ➕</button>
               </>
             )}
+
+            {qrModalOpen && (
+              <QRCodeModal
+                state={qrModalData.state}
+                base={qrModalData.base}
+                building={qrModalData.building}
+                onClose={closeQrModal}
+              />
+            )}
           </div>
         </div>
       </div>
       <br />
       <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
-
-      {qrModalOpen && (
-        <QRCodeModal
-          state={qrModalData.state}
-          base={qrModalData.base}
-          building={qrModalData.building}
-          onClose={closeQrModal}
-        />
-      )}
     </div>
   );
 }

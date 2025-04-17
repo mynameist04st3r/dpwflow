@@ -92,3 +92,39 @@
   border: 3px solid #8cc5a6;
   border-radius: 8px;
 }
+
+.priority-sorter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1rem;
+}
+
+.priority-card {
+  background-color: #a3d9a5;
+  border: 2px solid #426f4d;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.priority-card:hover {
+  transform: scale(1.02);
+}
+
+.priority-save-button-container {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.priority-save-button-container button {
+  background-color: #2a9d8f;
+  color: white;
+  padding: 0.6rem 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
