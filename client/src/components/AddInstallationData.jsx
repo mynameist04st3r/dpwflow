@@ -118,7 +118,14 @@ function AddInstallationData() {
     <div className="installation-data-form-container">
       <form className="add-installation-data-form" onSubmit={handleSubmit}>
       <header className="home-header">
-        <h1>Installation Data</h1>
+        <div>
+          <h1>Installation Data</h1>
+          <p><b>Instructions for use:</b></p><br/>
+          <p>When you intend to add new installation data, ensure that you type only the correct two letter code for the state that the military base you're adding or editing exists within.</p><br/>
+          <p>As you begin to type in the military base name, look to see if it already exists below, and if it does, just click on the name that is provided. This ensures that we don't have multiple entries of the same installation with different spellings or capitalizations.</p><br/>
+          <p>If you want to add or delete a building from an installation, make sure to fill out the state and military base where that building exists first and then type in the specific building number. If it already exists, when you hit submit, you will be asked if you really want to delete the building. <b>Make sure you know what you're doing before you hit ok!</b></p>
+
+        </div>
       </header>
         <Table>
           <TableHead>
@@ -135,6 +142,7 @@ function AddInstallationData() {
                   value={searchValue}
                   onChange={handleSearchChange}
                   placeholder="Enter state code"
+                  maxLength={2}
                 />
               </TableCell>
             </TableRow>
