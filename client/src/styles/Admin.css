@@ -49,6 +49,12 @@
   border-color: #8cc5a6;
 }
 
+.admin-buttons.selected {
+  background-color: #426f4d;
+  color: #101420;
+  border-color: #426f4d;
+}
+
 .admin-forms-container {
   flex: 1;
   display: flex;
@@ -120,7 +126,7 @@
 
 .priority-save-button-container button {
   background-color: #2a9d8f;
-  color: white;
+  color: #a3d9a5;
   padding: 0.6rem 1rem;
   font-weight: bold;
   border: none;
@@ -140,3 +146,9 @@
   max-width: 45dvh;
   max-height: 67dvh;
 }
+
+/* .big-arrow {
+  font-size: 148px;
+  color: #8cc5a6;
+  font-weight: bold;
+} */

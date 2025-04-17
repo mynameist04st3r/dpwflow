@@ -72,9 +72,9 @@ body {
   transition: background-color 0.2s ease-in-out;
 }
 
-.building-tag button:hover {
+/* .building-tag button:hover {
   background-color: #3d5a46;
-}
+} */
 
 .assign-form {
   display: flex;
@@ -124,7 +124,7 @@ body {
 }
 
 .my-buildings-container button:hover {
-  background-color: #3d5a46;
+  background-color: #6da888;
 }
 
 /* Green bordered section panel */
