@@ -124,7 +124,7 @@ function Admin() {
             )}
           </div> */}
           <div className="admin-forms home-header">
-            {!showForm && <h1>Select Item on on the Left</h1>}
+            {!showForm && <h1>Select Item on the Left</h1>}
 
             {showForm && formType === "priority" && <PrioritySorter />}
             {showForm && formType === "setRoles" && (
