@@ -11,6 +11,8 @@ import MyBuildings from "./pages/MyBuildings";
 import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails";
 import UserProfile from "./pages/UserProfile";
 
+import EasterEgg from "./components/EasterEgg";
+
 //     conflict issue
 // import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
@@ -123,6 +125,7 @@ function App() {
       </Routes>
 
       <NavBar />
+      <EasterEgg />
     </Router>
   );
 }
