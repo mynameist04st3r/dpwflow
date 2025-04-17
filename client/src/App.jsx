@@ -2,19 +2,21 @@
 import HomePage from "./pages/HomePage";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
 import Dashboard from "./pages/Dashboard";
-import MaintenanceTracker from "./pages/MaintenanceTracker";
+// import MaintenanceTracker from "./pages/MaintenanceTracker";
 import MyRequests from "./pages/MyRequests";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import ActiveRequest from "./pages/ActiveRequest";
-import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails"
+import MyBuildings from "./pages/MyBuildings";
+import MaintenanceTrackerDetails from "./pages/MaintenanceTrackerDetails";
+import UserProfile from "./pages/UserProfile";
 
 //     conflict issue
 // import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import './styles/App.css'
-// import './styles/index.css'
+// import './styles/index.css'sessionStorage.setItem(
 
 // Below is good code///////////////
 // import { useState } from "react";
@@ -25,26 +27,53 @@ import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Roles } from "./Roles";
 import { useState, useEffect } from "react";
+// import MyBuildings from "./pages/MyBuildings";
 
 function App() {
-  const [userRole, setUserRole] = useState(Roles.GUEST);
+  // const [userRole, setUserRole] = useState(Roles.GUEST);
+  // useEffect(() => {
+  //   const storedRole = sessionStorage.getItem("userRole");
+  //   if (storedRole !== null) {
+  //     setUserRole(parseInt(storedRole));
+  //   }
+  // }, []);
+
+  const [userRole, setUserRole] = useState(null); // Start as null
+
   useEffect(() => {
-    const storedRole = parseInt(sessionStorage.getItem("userRole"));
-    if (storedRole) setUserRole(storedRole);
+    const storedRole = sessionStorage.getItem("userRole");
+    if (storedRole !== null) {
+      setUserRole(parseInt(storedRole)); // Convert string to number
+    } else {
+      setUserRole(Roles.GUEST); // Fallback if nothing in sessionStorage
+    }
   }, []);
+
+  // Show loading screen while role is being determined
+  if (userRole === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>
       <Routes>
         {/* Protected pages */}
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={
             <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
               <Dashboard />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/maintenance-tracker/:id"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MaintenanceTrackerDetails />
+            </ProtectedRoute>
+          }
+          />
         <Route
           path="/my-requests"
           element={
@@ -53,14 +82,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/maintenance-tracker"
-          element={
-            <ProtectedRoute userRole={userRole} minimumRole={Roles.MANAGER}>
-              <MaintenanceTracker />
-            </ProtectedRoute>
-          }
-        />
+  
         <Route
           path="/admin"
           element={
@@ -70,12 +92,30 @@ function App() {
           }
         />
 
-        {/* Public pages */}
+        <Route
+          path="/user-profile"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-buildings"
+          element={
+            <ProtectedRoute userRole={userRole} minimumRole={Roles.USER}>
+              <MyBuildings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/*    {Public pages}    */}
         <Route path="/contact" element={<Contact />} />
         <Route path="/active-request" element={<ActiveRequest />} />
         <Route path="/maintenance-request" element={<MaintenanceRequest />} />
 
-        {/* Home page (moved to the bottom to avoid hijacking other routes) */}
+        {/*    Home page (moved to the bottom to avoid hijacking other routes)}     */}
         <Route path="/" element={<HomePage />} />
 
         {/* Optional: 404 fallback */}

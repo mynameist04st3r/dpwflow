@@ -70,7 +70,9 @@ export default function MyRequests() {
 
   return (
     <div className="my-requests-container">
-      <h1>My Maintenance Requests</h1>
+      <header className="home-header">
+        <h1>Maintenance Request</h1>
+      </header>
 
       {loading ? (
         <p>Loading requests...</p>

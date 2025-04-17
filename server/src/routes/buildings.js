@@ -66,15 +66,35 @@ router.post('/new-building', async (req, res) => {
   }
 });
 
+// router.get('/get-buildings', async (req, res) => {
+//   try {
+//     const buildings = await knex('buildings').select('*');
+//     res.status(200).json(buildings);
+//   } catch (error) {
+//     console.error('Error in GET /buildings', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
 router.get('/get-buildings', async (req, res) => {
   try {
-    const buildings = await knex('buildings').select('*');
+    const buildings = await knex('buildings')
+      .join('locations', 'buildings.location_id', 'locations.id')
+      .select(
+        'buildings.id',
+        'buildings.building_number',
+        'buildings.location_id',
+        'locations.military_base',
+        'locations.state'
+      );
+
     res.status(200).json(buildings);
   } catch (error) {
-    console.error('Error in GET /buildings', error);
+    console.error('Error in GET /buildings/get-buildings', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 router.get('/get-buildings/id/:building_id', async (req, res) => {
   try {

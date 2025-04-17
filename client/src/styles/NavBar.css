@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  overflow: visible; /* make sure dropdowns are visible */
+}
+
 body {
   padding-top: 80px;
 }
@@ -162,4 +171,29 @@ body {
     margin: 0 auto;
     display: inline-block;
   }
+}
+.signup-button,
+.login-button,
+.logout-button {
+  background-color: #101420;
+  color: #dbdde2;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.signup-button:hover,
+.login-button:hover,
+.logout-button:hover {
+  background: linear-gradient(135deg, #6da888, #06b6d4);
+  font-weight: bolder;
+}
+
+.form-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-button-wrapper {
+  position: relative;
+  display: inline-block;
 }

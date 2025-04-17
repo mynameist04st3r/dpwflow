@@ -53,21 +53,12 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className="action-buttons">
+        <div className="cta-button">
           <button
             className="btn primary"
             onClick={() => navigate("/maintenance-request")}
           >
-            Submit Request
-          </button>
-          <button
-            className="btn primary"
-            onClick={() => navigate("/active-request")}
-          >
-            View Active Requests
-          </button>
-          <button className="btn admin-login" onClick={handleAdminClick}>
-            Admin
+            Submit a Maintenance Request
           </button>
         </div>
       </section>

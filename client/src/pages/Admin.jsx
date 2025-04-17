@@ -1,23 +1,32 @@
 import { useState, useEffect } from 'react';
 import '../styles/Admin.css';
 import NavBar from '../components/NavBar';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import PrioritySorter from '../components/PrioritySorter';
+import AddInstallationData from '../components/AddInstallationData';
+import SetUserRoles from '../components/SetUserRoles'
 
 function Admin() {
-  const [prioritizedRequests, setPrioritizedRequests] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [formType, setFormType] = useState(null);
   useEffect(() => {
-    const fetchPrioritizedRequests = async () => {
-      const response = await fetch('http://localhost:8000/adminrequests/prioritizedRequests');
-      const data = await response.json();
-      setPrioritizedRequests(data.slice(0, 20));
+    const handleClickOutside = (e) => {
+      if (showForm) {
+        const container = document.querySelector('.admin-forms-container');
+        const prioritySorter = document.querySelector('.priority-sorter-form-container');
+        const addInstallationData = document.querySelector('.add-installation-data-form');
+        if (container && e.target !== container && !container.contains(e.target) &&
+            (formType === 'priority' ?
+              (prioritySorter && e.target !== prioritySorter && !prioritySorter.contains(e.target))
+              : (addInstallationData ? (e.target !== addInstallationData && !addInstallationData.contains(e.target)) : true))) {
+          setShowForm(false);
+        }
+      }
     };
-    fetchPrioritizedRequests();
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showForm, formType]);
 
   return (
     <div className="admin-back-div-container">
@@ -25,51 +34,21 @@ function Admin() {
       <div className="admin-container">
         <div className="admin-button-bar">
           <div className="admin-button-container">
-            <button className="admin-buttons" onClick={() => setShowForm(true)}>Prioritize Work Orders</button>
-            <button className="admin-buttons">Set User Rolls</button>
-            <button className="admin-buttons" onClick={() => setShowForm(true)}>Add Installation Data</button>
+            <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('priority');}}>Prioritize Work Orders</button>
+            <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('setRoles');}}>Set User Roles</button>
+            <button className="admin-buttons" onClick={() => {setShowForm(true); setFormType('addInstallation');}}>Add Installation Data</button>
           </div>
         </div>
         <div className="admin-forms-container">
           <div className="admin-forms">
-            {showForm && (
-              <div>
-                <Table>
-                  <TableHead>
-                    <TableRow className="admin-forms-prioritized-header-row">
-                      <TableCell style={{ borderBottom: '2px solid #961e14' }}>Priority</TableCell>
-                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Pending</TableCell>
-                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Accepted</TableCell>
-                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Work Order Description</TableCell>
-                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Date Created</TableCell>
-                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Date Completed</TableCell>
-                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Location ID</TableCell>
-                      <TableCell align="left" style={{ borderBottom: '2px solid #961e14' }}>Building ID</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody className="admin-forms-prioritized-body">
-                    {prioritizedRequests.map((request) => (
-                      <TableRow key={request.id}>
-                        <TableCell component="th" scope="row" style={{ borderBottom: '1px solid #426f4d' }}>{request.priority}</TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.pending ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.accepted ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.work_order_desc}</TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.date_created}</TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.date_completed}</TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.location_id}</TableCell>
-                        <TableCell align="left" style={{ borderBottom: '1px solid #426f4d' }}>{request.building_id}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            )}
+            {showForm && formType === 'priority' && <PrioritySorter />}
+            {showForm && formType === 'setRoles' && (<SetUserRoles currentUser={JSON.parse(sessionStorage.getItem("user"))} />)}
+            {showForm && formType === 'addInstallation' && <AddInstallationData />}
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Admin;
-
