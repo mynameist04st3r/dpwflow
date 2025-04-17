@@ -14,20 +14,70 @@
   border-spacing: 5px;
 }
 
+.priority-sorter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 2rem;
+  max-width: 800px;
+  margin: -30px;
+}
+
+.priority-card {
+  background: linear-gradient(to bottom right, #b4e0b8, #98c9a3);
+  border-left: 6px solid #2a9d8f;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: grab;
+}
+
+.priority-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.priority-card h4 {
+  margin: 0 0 0.6rem 0;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #264653;
+  text-align: center;
+}
+
+.priority-card p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
+}
+
+.priority-card strong {
+  color: #1d3557;
+}
+
 .priority-save-button-container {
-  margin-left: 20px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 5;
 }
 
 .priority-save-button-container button {
-  padding: 10px 20px;
-  font-size: 16px;
+  background-color: #86d49c;
+  border: 2px solid #1a472a;
+  color: #000;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   cursor: pointer;
-  color: #101420;
-  background-color: #8cc5a6;
-  border: 2px solid #961e14;
+  transition: background-color 0.2s ease;
 }
 
 .priority-save-button-container button:hover {
-  background-color: #426f4d;
-  border-color: #961e14;
+  background-color: #6ac689;
 }

@@ -230,11 +230,13 @@ export default function MaintenanceTracker() {
                 <tbody>
                   {formattedRequests.map((request) => (
                     <tr key={request.id}>
-                      <td>
-                        <Link to={`/maintenance-tracker/${request.id}`}>
-                          #{request.id}
-                        </Link>
+                      <td className="id-hover-wrapper">
+                        <div className="hover-container">
+                          <Link to={`/maintenance-tracker/${request.id}`}>#{request.id}</Link>
+                          <div className="hover-dropdown">Click for Details</div>
+                        </div>
                       </td>
+              
                       <td>
                         {new Date(request.created_at).toLocaleDateString()}
                       </td>

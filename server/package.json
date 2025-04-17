@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test jest",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
@@ -19,9 +19,13 @@
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
+    "jest": "^29.7.0",
     "knex": "^3.1.0",
     "nodemon": "^3.1.9",
     "pg": "^8.14.1",
     "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.0"
   }
 }
