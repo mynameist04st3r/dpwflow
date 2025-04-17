@@ -4,8 +4,8 @@
   padding: 2rem;
   text-align: center;
 } */
-:root {
-  --background-color: rgba(0, 0, 0, 0.95);
+/* :root {
+  --background-color: rgba(0, 0, 0, 0.92);
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -13,13 +13,11 @@
   --primary-color: #8cc5a6;
   --secondary-color: #426f4d;
   --accent-color: #101420;
-  /* --background-color: #000000a6; */
-  /* --background-color: rgba(0, 0, 0, 0.9); Less transparent */
   --text-color: #dbdde2;
   --card-background: #050608;
   --hover-color: #6da888;
-  --border-color: #5a8f6e;
-}
+  --border-color: #2cb661;
+} */
 
 .logo {
   height: 6em;
